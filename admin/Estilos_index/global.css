@@ -1,0 +1,756 @@
+/* =====================================================================
+   GLOBAL.CSS
+   Estilos compartidos entre TODOS los módulos del panel (Servicios,
+   Clientes, y los que sigan). Se carga DESPUÉS de header.css y menu.css,
+   y ANTES del css propio de cada módulo (servicios_panel.css,
+   clientes_panel.css), para que el módulo pueda sobreescribir puntualmente
+   si hace falta.
+
+   Orden de carga sugerido en cada <head>:
+     1) header.css
+     2) menu.css
+     3) global.css
+     4) <modulo>_panel.css
+   ===================================================================== */
+
+:root {
+    /* ---------------------------------------------------------------
+       PALETA — Dark mode premium / barbería.
+       Se mantienen los MISMOS NOMBRES de variable que usaba el tema
+       claro original (para no romper ningún módulo), solo cambian
+       los valores. --black ahora es el acento dorado principal:
+       sigue siendo el color de los botones "primarios" de toda la
+       app (Guardar, Agregar, etc.), pero en dorado en vez de negro.
+       --------------------------------------------------------------- */
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+
+    /* Fondos */
+    --bg-page: #0b0b0d;          /* fondo general (body) */
+    --bg-soft: #17171a;          /* fondo "suave" (filtros, cabeceras de tabla, hover) */
+    --bg-white: #141416;         /* tarjetas / paneles / modales ("blanco" del tema oscuro) */
+    --bg-input: #1c1c1f;         /* fondo de inputs y selects */
+    --bg-hover: #1f1f23;         /* hover de filas */
+
+    /* Bordes */
+    --border-color: #2a2a2f;
+    --border-light: #232327;
+
+    /* Sombras (más marcadas, propias de un dashboard oscuro) */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.5);
+    --shadow-modal: 0 25px 60px rgba(0, 0, 0, 0.6), 0 4px 14px rgba(0, 0, 0, 0.4);
+
+    /* Texto */
+    --text-dark: #f1f0ec;        /* texto principal (claro sobre fondo oscuro) */
+    --text-muted: #9a99a2;       /* texto secundario / placeholders */
+
+    /* Acento dorado (acción principal, foco, destacados) */
+    --black: #c8a24a;            /* se conserva el nombre por compatibilidad: ahora es "dorado" */
+    --dorado: #c8a24a;
+    --dorado-claro: #e4c274;
+    --dorado-oscuro: #a9822f;
+    --dorado-texto: #171208;     /* texto oscuro sobre fondo dorado (contraste) */
+    --dorado-bg: rgba(200, 162, 74, 0.14);
+
+    /* Estados (discretos, sobre fondo oscuro) */
+    --verde: #4ade80;
+    --verde-bg: rgba(74, 222, 128, 0.12);
+    --rojo: #f87171;
+    --rojo-bg: rgba(248, 113, 113, 0.12);
+    --azul: #60a5fa;
+    --azul-bg: rgba(96, 165, 250, 0.12);
+    --ambar: #fbbf24;
+    --ambar-bg: rgba(251, 191, 36, 0.12);
+
+    --sidebar-gradient: linear-gradient(180deg, #0a0a0c 0%, #131316 100%);
+    --header-height: 45px;
+    --sidebar-width: 30vh;
+    --sidebar-width-md: 224px;
+
+    --transition: 0.2s ease;
+}
+
+
+/* =====================================================================
+   RESET LIGERO DE LAYOUT
+   ===================================================================== */
+* {
+    box-sizing: border-box;
+    
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-dark);
+    overflow: hidden;
+}
+
+
+/* =====================================================================
+   HEADER (barra superior fija)
+   ===================================================================== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 10001;
+    background: var(--sidebar-gradient);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+#Netro {
+    margin: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+
+/* =====================================================================
+   CONTAINER (layout general debajo del header)
+   ===================================================================== */
+.container {
+    display: flex;
+    min-height: 100vh;
+    padding-top: var(--header-height);
+}
+
+
+/* =====================================================================
+   SIDEBAR (menú lateral fijo)
+   ===================================================================== */
+.sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--header-height));
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--sidebar-gradient);
+    box-shadow: var(--shadow-sm);
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.menu-header img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.menu-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.menu-nav {
+    flex: 1;
+    padding: 12px;
+}
+
+.menu-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-nav li {
+    width: 100%;
+}
+
+.menu-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: var(--radius-md);
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.menu-nav a::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+
+.menu-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    transform: translateX(2px);
+}
+
+.menu-nav a:hover::before {
+    background-color: var(--dorado);
+}
+
+/* Resalta el link de la página activa según la URL actual */
+.menu-nav a[aria-current="page"] {
+    background-color: var(--dorado-bg);
+    color: #ffffff;
+    box-shadow: inset 2px 0 0 var(--dorado);
+}
+
+.menu-nav a[aria-current="page"]::before {
+    background-color: var(--dorado);
+}
+
+
+
+/* =====================================================================
+   PANEL (contenedor principal de cada módulo)
+   ===================================================================== */
+.panel {
+    
+    margin-left: 30vh;
+
+    height: calc(100vh - 45px);
+
+    flex: 1;
+
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+
+    padding: 16px;
+
+    overflow-y: auto;
+
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: var(--sidebar-width-md);
+    }
+
+    .panel {
+        margin-left: 224px;
+        margin-right: 12px;
+        height: auto;
+        min-height: calc(100vh - 101px);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding-top: var(--header-height);
+    }
+
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .menu-header {
+        border-bottom: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 12px 14px;
+        flex-shrink: 0;
+    }
+
+    .menu-header h2 {
+        display: none;
+    }
+
+    .menu-nav {
+        padding: 8px;
+        overflow-x: auto;
+    }
+
+    .menu-nav ul {
+        flex-direction: row;
+        gap: 6px;
+    }
+
+    .menu-nav a {
+        white-space: nowrap;
+    }
+
+    .panel {
+        margin-left: 0;
+        margin-right: 8px;
+        margin-top: 12px;
+        padding: 12px;
+    }
+}
+
+
+/* =====================================================================
+   TITULO DE SECCION + BOTON "+"
+   Usado por: .servicios_header / .categoria_header / .clientes_header
+   ===================================================================== */
+.servicios_header,
+.categoria_header,
+.clientes_header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.categoria_header {
+    margin-top: 20px;
+}
+
+.title_servicios {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.title_servicios h2 {
+    font-size: 30px;
+    margin: 0;
+}
+
+.title_servicios p {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+.btn_add_servicio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    border: 1px solid var(--dorado);
+    cursor: pointer;
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    padding: 8px 14px;
+    border-radius: var(--radius-lg);
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_add_servicio:hover {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_add_servicio:active {
+    transform: scale(0.97);
+}
+
+.btn_add_servicio img {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+    /* Los iconos originales son PNG oscuros; se invierten para leerse
+       bien sobre el nuevo fondo dorado del botón. */
+    filter: brightness(0) saturate(100%);
+}
+
+
+/* =====================================================================
+   AJUSTE DE CONTRASTE DE ÍCONOS PNG HEREDADOS
+   Los .png originales tienen un color fijo pensado para el tema claro.
+   Se corrige por selector de atributo (por archivo), sin duplicar
+   assets ni tocar el HTML/PHP que los referencia.
+   ===================================================================== */
+
+/* Blancos, usados sobre botones dorados (Guardar / Agregar / Categorías):
+   se oscurecen para leerse sobre el nuevo fondo dorado claro. */
+img[src$="mas.png"],
+img[src$="tick.png"],
+img[src$="2_puntos.png"] {
+    filter: brightness(0) saturate(100%);
+}
+
+/* Lápiz oscuro (editar), usado sobre chips ámbar translúcidos oscuros:
+   se aclara para que se distinga sobre el fondo oscuro. */
+img[src$="lapiz.png"],
+img[src$="lapizz.png"] {
+    filter: brightness(0) saturate(100%) invert(72%) sepia(58%) saturate(500%) hue-rotate(2deg) brightness(105%);
+}
+
+
+/* =====================================================================
+   TARJETA CONTENEDORA DE LISTADOS (tabla de servicios / clientes)
+   ===================================================================== */
+.listar_servicios {
+    margin-top: 16px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* =====================================================================
+   MODALES (estructura base)
+   ===================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000000;
+}
+
+.cerrar_modal {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 26px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.cerrar_modal:hover {
+    color: var(--text-dark);
+}
+
+/* Modal chico (ej: agregar/editar categoría) */
+.modal-contenido {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-modal);
+    width: min(440px, 92vw);
+    height: min(500px, 85vh);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow-y: auto;
+}
+
+/* Modal formulario grande (ej: agregar/editar servicio o cliente) */
+.modal-contenido_serv {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-modal);
+    width: min(600px, 92vw);
+    height: 92vh;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 480px) {
+    .modal-contenido {
+        width: 94vw;
+        padding: 16px;
+    }
+}
+
+
+/* =====================================================================
+   MODAL "VER" (detalle de servicio / cliente) — estructura genérica
+   ===================================================================== */
+.modal-contenido_ver {
+    background-color: var(--bg-white);
+    width: 440px;
+    max-width: 90%;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-modal);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    animation: aparecer_modal_ver 0.22s ease-out;
+}
+
+@keyframes aparecer_modal_ver {
+    from {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header con degradado del modal "ver" — usado por
+   .ver_servicio_titulo (Servicios) y .ver_cliente_titulo (Clientes) */
+.ver_servicio_titulo,
+.ver_cliente_titulo {
+    background: linear-gradient(135deg, #0a0a0c 0%, #1a1712 100%);
+    border-bottom: 1px solid var(--dorado-oscuro);
+    padding: 26px 30px 22px;
+    position: relative;
+}
+
+.ver_servicio_titulo h2,
+.ver_cliente_titulo h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.ver_servicio_titulo p,
+.ver_cliente_titulo p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.modal-contenido_ver .cerrar_modal {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.modal-contenido_ver .cerrar_modal:hover {
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+/* Cuerpo: filas label/valor — usado por #ver_servicio_body y #ver_cliente_body */
+.ver_fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.ver_fila:last-of-type {
+    border-bottom: none;
+}
+
+.ver_label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ver_label::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--dorado);
+}
+
+.ver_valor {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: right;
+}
+
+/* Badge de estado dentro del modal "ver" (clase, sin depender del ID) */
+.estado_activo,
+.estado_inactivo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.estado_activo {
+    background-color: var(--verde-bg);
+    color: var(--verde);
+}
+
+.estado_activo::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--verde);
+}
+
+.estado_inactivo {
+    background-color: var(--rojo-bg);
+    color: var(--rojo);
+}
+
+.estado_inactivo::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--rojo);
+}
+
+/* Footer del modal "ver" */
+.ver_servicio_footer,
+.ver_cliente_footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 30px 24px;
+    background-color: var(--bg-soft);
+    border-top: 1px solid var(--border-light);
+}
+
+.ver_servicio_footer .btn_add_ser_delete,
+.ver_cliente_footer .btn_cancelar_cli {
+    padding: 9px 22px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.ver_servicio_footer .btn_add_ser_delete:hover,
+.ver_cliente_footer .btn_cancelar_cli:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =====================================================================
+   BOTONES DE ACCION EN TABLA (ver / editar / eliminar)
+   Usado por: .btn_opciones_servicio_* (Servicios) y .btn_*_cliente (Clientes)
+   ===================================================================== */
+.btn_opciones_servicio_ver,
+.btn_opciones_servicio_editar,
+.btn_opciones_servicio_eliminar,
+.btn_ver_cliente,
+.btn_editar_cliente,
+.btn_eliminar_cliente {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn_opciones_servicio_ver,
+.btn_ver_cliente {
+    background: var(--azul-bg);
+    color: var(--azul);
+    border-color: rgba(96, 165, 250, 0.3);
+}
+
+.btn_opciones_servicio_ver:hover,
+.btn_ver_cliente:hover {
+    background: rgba(96, 165, 250, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_opciones_servicio_editar,
+.btn_editar_cliente {
+    background: var(--ambar-bg);
+    color: var(--ambar);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.btn_opciones_servicio_editar:hover,
+.btn_editar_cliente:hover {
+    background: rgba(251, 191, 36, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_opciones_servicio_eliminar,
+.btn_eliminar_cliente {
+    background: var(--rojo-bg);
+    color: var(--rojo);
+    border-color: rgba(248, 113, 113, 0.3);
+}
+
+.btn_opciones_servicio_eliminar:hover,
+.btn_eliminar_cliente:hover {
+    background: rgba(248, 113, 113, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_opciones_servicio_ver img,
+.btn_opciones_servicio_editar img,
+.btn_opciones_servicio_eliminar img,
+.btn_ver_cliente img,
+.btn_editar_cliente img,
+.btn_eliminar_cliente img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}

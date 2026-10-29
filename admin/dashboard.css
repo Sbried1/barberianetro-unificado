@@ -1,0 +1,512 @@
+/* =====================================================================
+   DASHBOARD.CSS
+   Estilos exclusivos de index.php (Dashboard). No modifica global.css
+   ni el CSS de otros módulos. Reutiliza las variables definidas en
+   global.css (--radius, --shadow, --border-light, --text-dark,
+   --text-muted, --azul, --verde, --ambar, --rojo, --transition) y el
+   mismo acento dorado del resto del sistema: var(--dorado) / var(--dorado-bg).
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   LINK ACTIVO "DASHBOARD" EN EL SIDEBAR
+   global.css solo trae el selector de resaltado activo para
+   href$="servicios.php" y href$="clientes.php". Se agrega acá (sin tocar
+   global.css) el mismo resaltado para index.php, ya que este archivo
+   carga después y no pisa nada del resto de los módulos.
+   --------------------------------------------------------------------- */
+.menu-nav a[href$="index.php"][aria-current="page"] {
+    background-color: var(--dorado-bg);
+    color: #ffffff;
+    box-shadow: inset 2px 0 0 var(--dorado);
+}
+
+.menu-nav a[href$="index.php"][aria-current="page"]::before {
+    background-color: var(--dorado);
+}
+
+/* ---------------------------------------------------------------------
+   HEADER DEL DASHBOARD (título + accesos rápidos)
+   --------------------------------------------------------------------- */
+.dash_top_header {
+    align-items: flex-start;
+}
+
+.dash_accesos {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.dash_btn_accion {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text-dark);
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash_btn_accion:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.dash_btn_accion_primario {
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    border-color: var(--dorado);
+}
+
+.dash_btn_accion_primario:hover {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+}
+
+/* ---------------------------------------------------------------------
+   TARJETAS DE KPI (resumen superior)
+   --------------------------------------------------------------------- */
+.dash_stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.dash_stat_card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.dash_stat_icono {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.dash_stat_icono.morado { background-color: var(--dorado-bg); color: var(--dorado); }
+.dash_stat_icono.verde  { background-color: var(--verde-bg); color: var(--verde); }
+.dash_stat_icono.ambar  { background-color: var(--ambar-bg); color: var(--ambar); }
+.dash_stat_icono.azul   { background-color: var(--azul-bg); color: var(--azul); }
+
+.dash_stat_texto p {
+    margin: 0 0 2px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+
+.dash_stat_texto span {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.dash_stat_texto small {
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   CONTENEDOR GENERICO DE SECCION (separación clara entre bloques)
+   --------------------------------------------------------------------- */
+.dash_card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 22px;
+    margin-bottom: 24px;
+}
+
+.dash_card_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.dash_card_header h3 {
+    margin: 0 0 3px;
+    font-size: 17px;
+    color: var(--text-dark);
+}
+
+.dash_card_header p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.dash_ver_todas {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dorado-claro);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dash_ver_todas:hover {
+    text-decoration: underline;
+}
+
+.dash_vacio {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 28px 10px;
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   RESUMEN DE VENTAS (gráfico de barras, últimos 7 días)
+   --------------------------------------------------------------------- */
+.dash_resumen_totales {
+    display: flex;
+    gap: 24px;
+}
+
+.dash_resumen_totales > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.dash_resumen_valor {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.dash_resumen_totales small {
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+.dash_grafico {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    height: 160px;
+    padding: 10px 6px 0;
+}
+
+.dash_barra_col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 8px;
+}
+
+.dash_barra {
+    width: 100%;
+    max-width: 34px;
+    background: linear-gradient(180deg, var(--dorado-claro) 0%, var(--dorado) 100%);
+    border-radius: 6px 6px 3px 3px;
+    transition: opacity 0.2s ease;
+}
+
+.dash_barra_col:hover .dash_barra {
+    opacity: 0.8;
+}
+
+.dash_barra_label {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+   LAYOUT DE DOS COLUMNAS (secciones separadas, nunca una sola caja)
+   --------------------------------------------------------------------- */
+.dash_dos_columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.dash_dos_columnas .dash_card {
+    margin-bottom: 0;
+}
+
+/* Para que las dos secciones de "dos columnas" también queden separadas
+   entre sí (no solo entre sus dos tarjetas internas). */
+.dash_dos_columnas + .dash_dos_columnas {
+    margin-top: 24px;
+}
+
+/* ---------------------------------------------------------------------
+   LISTA: PROXIMAS RESERVAS / VENTAS RECIENTES
+   --------------------------------------------------------------------- */
+.dash_lista {
+    display: flex;
+    flex-direction: column;
+}
+
+.dash_fila_reserva,
+.dash_fila_venta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.dash_fila_reserva:last-child,
+.dash_fila_venta:last-child {
+    border-bottom: none;
+}
+
+.dash_fila_hora {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 52px;
+}
+
+.dash_fila_hora strong {
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.dash_fila_hora small {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.dash_fila_info {
+    flex: 1;
+    min-width: 0;
+}
+
+.dash_fila_titulo {
+    margin: 0 0 2px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dash_fila_sub {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dash_fila_total {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* Badges de estado de reserva (reutilizan la paleta de global.css) */
+.dash_badge {
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.dash_badge_pendiente  { color: var(--ambar); background: var(--ambar-bg); }
+.dash_badge_confirmada { color: var(--verde); background: var(--verde-bg); }
+.dash_badge_cancelada  { color: var(--rojo);  background: var(--rojo-bg); }
+.dash_badge_completada { color: var(--azul);  background: var(--azul-bg); }
+.dash_badge_otro       { color: var(--text-muted); background: var(--border-light); }
+
+/* ---------------------------------------------------------------------
+   RANKING: SERVICIOS MAS VENDIDOS
+   --------------------------------------------------------------------- */
+.dash_ranking {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.dash_ranking_fila {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dash_ranking_pos {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.dash_ranking_barra_wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.dash_ranking_nombre {
+    margin: 0 0 5px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dash_ranking_barra_fondo {
+    height: 7px;
+    border-radius: 5px;
+    background: var(--bg-soft);
+    overflow: hidden;
+}
+
+.dash_ranking_barra {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--dorado-claro) 0%, var(--dorado) 100%);
+}
+
+.dash_ranking_valor {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 22px;
+    text-align: right;
+}
+
+/* ---------------------------------------------------------------------
+   ESTADO DE RESERVAS
+   --------------------------------------------------------------------- */
+.dash_estados {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.dash_estado_fila {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dash_estado_punto {
+    width: 9px;
+    height: 9px;
+    min-width: 9px;
+    border-radius: 50%;
+}
+
+.dash_estado_nombre {
+    font-size: 13.5px;
+    color: var(--text-dark);
+    min-width: 100px;
+}
+
+.dash_estado_barra_fondo {
+    flex: 1;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--bg-soft);
+    overflow: hidden;
+}
+
+.dash_estado_barra {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.dash_estado_valor {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 20px;
+    text-align: right;
+}
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width: 1200px) {
+    .dash_stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .dash_dos_columnas {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .dash_stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .dash_top_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .dash_card {
+        padding: 16px;
+    }
+
+    .dash_grafico {
+        height: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dash_stats {
+        grid-template-columns: 1fr;
+    }
+
+    .dash_resumen_totales {
+        gap: 14px;
+    }
+
+    .dash_card_header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}

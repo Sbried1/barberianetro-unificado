@@ -1,0 +1,1274 @@
+/* =====================================================================
+   RESERVAS_PANEL.CSS
+   Estilos EXCLUSIVOS del módulo Reservas. El panel, los modales base,
+   el título+botón "+" y la tarjeta contenedora del listado ya viven en
+   global.css (mismas clases que usan Servicios y Clientes).
+
+   Cargar en este orden en reservas.php:
+     header.css -> menu.css -> global.css -> reservas_panel.css
+   ===================================================================== */
+
+
+/* =====================================================================
+   LINK ACTIVO "RESERVAS" EN EL SIDEBAR
+   global.css solo resalta servicios.php y clientes.php; esta regla
+   agrega el mismo resaltado para reservas.php sin tocar global.css.
+   ===================================================================== */
+.menu-nav a[href$="reservas.php"][aria-current="page"] {
+    background-color: var(--dorado-bg);
+    color: #ffffff;
+    box-shadow: inset 2px 0 0 var(--dorado);
+}
+
+.menu-nav a[href$="reservas.php"][aria-current="page"]::before {
+    background-color: var(--dorado);
+}
+
+
+/* =====================================================================
+   ALERTAS (error / éxito) — equivalentes a .alerta_clientes de Clientes
+   ===================================================================== */
+.resv_alerta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.resv_alerta.error {
+    background: var(--rojo-bg);
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    color: var(--rojo);
+}
+
+.resv_alerta.ok {
+    background: var(--verde-bg);
+    border: 1px solid rgba(74, 222, 128, 0.35);
+    color: var(--verde);
+}
+
+.resv_alerta button {
+    background: transparent;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+}
+
+
+/* =====================================================================
+   FILTROS
+   ===================================================================== */
+#resv_filtros {
+    display: flex;
+    align-items: end;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding: 18px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+}
+
+#resv_buscar {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 13px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    transition: 0.3s;
+}
+
+#resv_buscar:focus {
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 4px var(--dorado-bg);
+}
+
+.resv_filtro_fecha {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resv_filtro_fecha label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.resv_filtro_fecha input,
+#resv_filtro_barbero,
+#resv_filtro_estado {
+    padding: 11px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    font-size: 13px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#resv_filtro_barbero,
+#resv_filtro_estado {
+    cursor: pointer;
+}
+
+.resv_filtro_fecha input:focus,
+#resv_filtro_barbero:focus,
+#resv_filtro_estado:focus {
+    border-color: var(--dorado);
+}
+
+#resv_filtro_barbero:hover,
+#resv_filtro_estado:hover {
+    border-color: var(--dorado-oscuro);
+}
+
+
+/* =====================================================================
+   ESTADISTICAS
+   ===================================================================== */
+.resv_stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.resv_stat_card {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.resv_stat_icono {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.resv_stat_icono.morado { background-color: var(--dorado-bg); color: var(--dorado); }
+.resv_stat_icono.verde  { background-color: var(--verde-bg); color: var(--verde); }
+.resv_stat_icono.ambar  { background-color: var(--ambar-bg); color: var(--ambar); }
+.resv_stat_icono.rojo   { background-color: var(--rojo-bg); color: var(--rojo); }
+
+.resv_stat_texto p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.resv_stat_texto span {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+
+/* =====================================================================
+   TABS (Lista / Calendario)
+   ===================================================================== */
+.resv_panel_vistas {
+    margin-top: 16px;
+}
+
+.resv_tabs {
+    display: flex;
+    gap: 6px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0;
+}
+
+.resv_tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.resv_tab:hover {
+    color: var(--text-dark);
+}
+
+.resv_tab.activo {
+    color: var(--dorado);
+    border-bottom-color: var(--dorado);
+}
+
+.resv_vista {
+    margin-top: 16px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* =====================================================================
+   VISTA LISTA (tabla de 8 columnas)
+   ===================================================================== */
+.resv_cabecera_lista {
+    display: grid;
+    grid-template-columns: 0.6fr 1.6fr 1.8fr 1.4fr 1.1fr 0.8fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    height: 54px;
+    padding: 0 18px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border-light);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.resv_fila {
+    display: grid;
+    grid-template-columns: 0.6fr 1.6fr 1.8fr 1.4fr 1.1fr 0.8fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    min-height: 68px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.2s ease;
+    font-size: 13px;
+}
+
+.resv_fila:hover {
+    background: var(--bg-soft);
+}
+
+.resv_fila p {
+    margin: 0;
+}
+
+.resv_fila .resv_id {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.resv_fila .resv_cliente_nombre {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.resv_fila .resv_servicio_texto {
+    color: var(--text-dark);
+}
+
+
+/* =====================================================================
+   BADGE DE ESTADO
+   ===================================================================== */
+.resv_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.resv_badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.resv_badge.pendiente {
+    background-color: var(--ambar-bg);
+    color: var(--ambar);
+}
+
+.resv_badge.pendiente::before {
+    background-color: var(--ambar);
+}
+
+.resv_badge.confirmada {
+    background-color: var(--verde-bg);
+    color: var(--verde);
+}
+
+.resv_badge.confirmada::before {
+    background-color: var(--verde);
+}
+
+.resv_badge.cancelada {
+    background-color: var(--rojo-bg);
+    color: var(--rojo);
+}
+
+.resv_badge.cancelada::before {
+    background-color: var(--rojo);
+}
+
+.resv_badge.completada {
+    background-color: var(--azul-bg);
+    color: var(--azul);
+}
+
+.resv_badge.completada::before {
+    background-color: var(--azul);
+}
+
+
+/* =====================================================================
+   ACCIONES DE FILA (ver / editar / eliminar)
+   ===================================================================== */
+.resv_acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn_ver_reserva,
+.btn_editar_reserva,
+.btn_eliminar_reserva,
+.btn_confirmar_reserva,
+.btn_cancelar_reserva {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    background: none;
+}
+
+.btn_ver_reserva {
+    background: var(--azul-bg);
+    color: var(--azul);
+    border-color: rgba(96, 165, 250, 0.3);
+}
+
+.btn_ver_reserva:hover {
+    background: rgba(96, 165, 250, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_editar_reserva {
+    background: var(--ambar-bg);
+    color: var(--ambar);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.btn_editar_reserva:hover {
+    background: rgba(251, 191, 36, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_eliminar_reserva {
+    background: var(--rojo-bg);
+    color: var(--rojo);
+    border-color: rgba(248, 113, 113, 0.3);
+}
+
+.btn_eliminar_reserva:hover {
+    background: rgba(248, 113, 113, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_confirmar_reserva {
+    background: var(--verde-bg);
+    color: var(--verde);
+    border-color: rgba(74, 222, 128, 0.3);
+}
+
+.btn_confirmar_reserva:hover {
+    background: rgba(74, 222, 128, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_cancelar_reserva {
+    background: var(--bg-soft);
+    color: var(--text-muted);
+    border-color: var(--border-color);
+}
+
+.btn_cancelar_reserva:hover {
+    color: var(--rojo);
+    transform: translateY(-2px);
+}
+
+.btn_ver_reserva img,
+.btn_editar_reserva img,
+.btn_eliminar_reserva img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+
+/* =====================================================================
+   ESTADO VACIO Y PAGINACION (vista lista)
+   ===================================================================== */
+.resv_vacio {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.resv_vacio_icono {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--dorado-bg);
+    color: var(--dorado);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+}
+
+.resv_vacio_titulo {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 6px;
+}
+
+.resv_vacio_texto {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+}
+
+.resv_paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-top: 1px solid var(--border-light);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.resv_paginacion_botones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resv_paginacion_botones button {
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.resv_paginacion_botones button:hover:not(:disabled) {
+    background: var(--bg-soft);
+}
+
+.resv_paginacion_botones button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.resv_paginacion_botones span {
+    padding: 7px 12px;
+    border-radius: var(--radius-md);
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    font-weight: 600;
+}
+
+
+/* =====================================================================
+   VISTA CALENDARIO
+   ===================================================================== */
+.resv_cal_toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 18px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.resv_cal_nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resv_cal_nav button,
+.resv_cal_modo {
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.resv_cal_nav button:hover,
+.resv_cal_modo:hover {
+    background: var(--bg-soft);
+}
+
+#cal_titulo {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: capitalize;
+}
+
+.resv_cal_modos {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-soft);
+    padding: 3px;
+    border-radius: var(--radius-md);
+}
+
+.resv_cal_modo {
+    border: none;
+    background: transparent;
+}
+
+.resv_cal_modo.activo {
+    background: var(--dorado);
+    color: var(--dorado-texto);
+}
+
+/* ---- Grilla mensual ---- */
+.resv_cal_grid_dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.resv_cal_grid_dias span {
+    padding: 10px 0;
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.resv_cal_grid_mes {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.resv_cal_celda {
+    min-height: 108px;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resv_cal_celda:nth-child(7n) {
+    border-right: none;
+}
+
+.resv_cal_celda.otro_mes {
+    background: var(--bg-soft);
+}
+
+.resv_cal_celda.otro_mes .resv_cal_numero {
+    color: var(--text-muted);
+}
+
+.resv_cal_celda.hoy {
+    background: var(--dorado-bg);
+}
+
+.resv_cal_numero {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.resv_cal_celda.hoy .resv_cal_numero {
+    color: var(--dorado-claro);
+}
+
+.resv_cal_evento {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: var(--bg-soft);
+    transition: transform 0.15s ease;
+}
+
+.resv_cal_evento:hover {
+    transform: translateX(1px);
+}
+
+.resv_cal_evento i.punto {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.resv_cal_evento.confirmada { background: var(--verde-bg); }
+.resv_cal_evento.pendiente  { background: var(--ambar-bg); }
+.resv_cal_evento.cancelada  { background: var(--rojo-bg); }
+.resv_cal_evento.completada { background: var(--azul-bg); }
+
+.punto.confirmada { background: var(--verde); }
+.punto.pendiente  { background: var(--ambar); }
+.punto.cancelada  { background: var(--rojo); }
+.punto.completada { background: var(--azul); }
+
+.resv_cal_mas {
+    font-size: 11px;
+    color: var(--dorado-claro);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ---- Vista semana / día (formato agenda) ---- */
+.resv_cal_agenda {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resv_cal_agenda_dia {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.resv_cal_agenda_dia_titulo {
+    background: var(--bg-soft);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: capitalize;
+}
+
+.resv_cal_agenda_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.resv_cal_agenda_item:hover {
+    background: var(--bg-soft);
+}
+
+.resv_cal_agenda_hora {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 52px;
+}
+
+.resv_cal_agenda_info {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-dark);
+}
+
+.resv_cal_agenda_info small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.resv_cal_agenda_vacio {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ---- Leyenda ---- */
+.resv_cal_leyenda {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border-light);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.resv_cal_leyenda span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.resv_cal_leyenda .punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.resv_cal_ayuda {
+    margin-left: auto;
+}
+
+
+/* =====================================================================
+   FORMULARIO (modal nueva / editar reserva)
+   ===================================================================== */
+#resv_caja_form {
+    flex: 1;
+}
+
+#resv_caja_form p {
+    color: var(--text-dark);
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+#form_reserva,
+#form_editar_reserva {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.resv_input,
+.resv_select {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resv_input:focus,
+.resv_select:focus {
+    outline: none;
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 3px var(--dorado-bg);
+}
+
+.resv_input::placeholder {
+    color: var(--text-muted);
+}
+
+.fila_doble {
+    display: flex;
+    gap: 16px;
+}
+
+.fila_doble > div {
+    flex: 1;
+}
+
+.botones_modal_cli {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.btn_guardar_cli {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    border: 1px solid var(--dorado);
+    cursor: pointer;
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    padding: 5px 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 90px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_guardar_cli:hover {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_guardar_cli:active {
+    transform: scale(0.97);
+}
+
+.btn_guardar_cli img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
+
+.btn_cancelar_cli {
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    cursor: pointer;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    width: 90px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_cancelar_cli:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_cancelar_cli:active {
+    transform: scale(0.97);
+}
+
+.btn_cancelar_cli img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+}
+
+.resv_servicios_check {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 4px 4px 4px 0;
+    margin-bottom: 16px;
+}
+
+.resv_servicio_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: normal;
+    background: var(--bg-input);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.resv_servicio_item:hover {
+    border-color: var(--dorado-oscuro);
+    background: var(--bg-hover);
+}
+
+.resv_servicio_item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: var(--dorado);
+}
+
+.resv_servicio_nombre {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-dark);
+}
+
+.resv_servicio_nombre small {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.resv_servicio_precio {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+
+/* =====================================================================
+   MODAL "NUEVA RESERVA" — flujo visual (barbero > servicios > fecha >
+   horarios reales > resumen). Solo aplica a #modal_reserva; el modal
+   "Editar reserva" sigue con el formulario simple de siempre.
+   ===================================================================== */
+.modal_reserva_contenido {
+    width: min(680px, 94vw);
+}
+
+.resv_paso {
+    padding-top: 14px;
+    margin-top: 4px;
+    border-top: 1px solid var(--border-light);
+}
+
+.resv_paso:first-child {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: none;
+}
+
+.resv_paso_titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resv_paso_num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--dorado-bg);
+    color: var(--dorado);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* ---- Leyenda de estados ---- */
+.resv_horarios_leyenda {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.resv_horarios_leyenda span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.resv_punto_leyenda {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.resv_punto_leyenda.disponible  { background: var(--verde); }
+.resv_punto_leyenda.ocupado     { background: var(--rojo); }
+.resv_punto_leyenda.seleccionado { background: var(--dorado); }
+.resv_punto_leyenda.pasado      { background: var(--text-muted); }
+
+/* ---- Grilla de horarios ---- */
+.resv_horarios_grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px;
+    padding: 14px;
+    min-height: 56px;
+    max-height: 220px;
+    overflow-y: auto;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+}
+
+.resv_horario_slot {
+    min-width: 68px;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background: var(--bg-white);
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.resv_horario_slot.disponible {
+    border-color: rgba(74, 222, 128, 0.35);
+    background: var(--verde-bg);
+    color: var(--verde);
+}
+
+.resv_horario_slot.disponible:hover {
+    transform: translateY(-2px);
+    border-color: var(--verde);
+}
+
+.resv_horario_slot.ocupado {
+    border-color: rgba(248, 113, 113, 0.2);
+    background: rgba(248, 113, 113, 0.06);
+    color: var(--rojo);
+    opacity: 0.55;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.resv_horario_slot.pasado {
+    color: var(--text-muted);
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.resv_horario_slot.seleccionado {
+    background: var(--dorado);
+    border-color: var(--dorado);
+    color: var(--dorado-texto);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.resv_horarios_mensaje {
+    width: 100%;
+    margin: 0;
+    padding: 8px 4px;
+    font-size: 13px;
+    font-weight: normal;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.resv_horarios_mensaje.error {
+    color: var(--rojo);
+}
+
+/* ---- Resumen de la reserva ---- */
+.resv_resumen {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: var(--dorado-bg);
+    border: 1px solid rgba(200, 162, 74, 0.35);
+    border-radius: var(--radius-md);
+}
+
+.resv_resumen_titulo {
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--dorado-claro);
+}
+
+.resv_resumen_fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-dark);
+}
+
+.resv_resumen_fila span {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.resv_resumen_fila strong {
+    text-align: right;
+    max-width: 60%;
+}
+
+.resv_resumen_total {
+    padding-top: 8px;
+    margin-top: 4px;
+    border-top: 1px solid rgba(200, 162, 74, 0.35);
+    font-size: 15px;
+}
+
+.resv_resumen_total strong {
+    color: var(--dorado-claro);
+}
+
+
+/* =====================================================================
+   MODAL "VER RESERVA" — específico del módulo
+   Estructura y colores base viven en global.css
+   ===================================================================== */
+#ver_resv_id::before {
+    content: "#";
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+#ver_reserva_body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 30px 6px;
+}
+
+#ver_resv_servicios {
+    text-align: right;
+    max-width: 220px;
+}
+
+
+/* =====================================================================
+   RESPONSIVE (propio de Reservas)
+   ===================================================================== */
+@media (max-width: 1024px) {
+    .resv_cabecera_lista {
+        display: none;
+    }
+
+    .resv_fila {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 14px 18px;
+    }
+
+    .resv_fila .resv_id {
+        display: none;
+    }
+
+    .resv_acciones {
+        justify-content: flex-start;
+        margin-top: 8px;
+    }
+
+    .resv_cal_celda {
+        min-height: 84px;
+    }
+}
+
+@media (max-width: 768px) {
+    #resv_filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .resv_cal_toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .resv_cal_nav,
+    .resv_cal_modos {
+        justify-content: center;
+    }
+
+    #cal_titulo {
+        text-align: center;
+    }
+
+    .resv_cal_evento span.resv_cal_evento_texto {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .fila_doble {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .resv_paginacion {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .resv_horario_slot {
+        min-width: 56px;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .resv_horarios_leyenda {
+        gap: 10px;
+        font-size: 11px;
+    }
+
+    .resv_resumen_fila {
+        flex-wrap: wrap;
+    }
+
+    .resv_resumen_fila strong {
+        max-width: 100%;
+        text-align: left;
+    }
+}

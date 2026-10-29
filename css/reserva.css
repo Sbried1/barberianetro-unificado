@@ -1,0 +1,478 @@
+main{
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+.panel-reserva{
+    width: 100%;
+    max-width: 1100px;
+    background: #10161f;
+    border: 1px solid #2a3441;
+    border-radius: 20px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.4);
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 25px 25px;
+    overflow: hidden;
+}
+.reserva-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    padding: 2.5rem;
+    margin: 0;
+    border: none;
+}
+.reserva-columna{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.reserva-columna:nth-child(2){
+    animation-delay: 0.15s;
+}
+@media (prefers-reduced-motion: reduce){
+    .reserva-columna{
+        animation: none;
+    }
+}
+.reserva-encabezado{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.reserva-icono{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #1c2735;
+    border: 1px solid #2a3441;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+.reserva-encabezado h1{
+    font-size: 1.5rem;
+    color: #f1f5f9;
+    margin: 0;
+}
+.reserva-encabezado p{
+    margin: 0.15rem 0 0;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
+.reserva-separador{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #60a5fa;
+    margin: 0.5rem 0;
+}
+.reserva-separador span{
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #2a3441, transparent);
+}
+.reserva-subtitulo{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #60a5fa;
+    font-weight: bold;
+    margin: 0.5rem 0 0;
+}
+.campo-formulario{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
+.campo-formulario input{
+    background: #1c2735;
+    border: 1px solid #2a3441;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: #f1f5f9;
+    font-size: 1rem;
+    font-family: inherit;
+}
+.campo-formulario input::placeholder{
+    color: #64748b;
+}
+.campo-formulario input:focus{
+    outline: none;
+    border-color: #60a5fa;
+}
+.reserva-aviso{
+    color: #8b98ab;
+    font-size: 0.9rem;
+    margin: 0;
+}
+.mini-tarjetas-grid{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    overflow: scroll;
+    height: 180px;
+}
+.mini-tarjeta-barbero{
+    width: 100px;
+    min-height: 156px;
+    padding: 0.6rem;
+    border-radius: 10px;
+    border: 1px solid #2a3441;
+    background: #1c2735;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color ease-out 0.15s, transform ease-out 0.15s;
+}
+.mini-tarjeta-barbero:hover{
+    transform: translateY(-2px);
+}
+.mini-tarjeta-barbero.seleccionado{
+    border-color: #60a5fa;
+    background: #1e2b3d;
+}
+.mini-tarjeta-barbero img{
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.4rem;
+}
+.mini-tarjeta-nombre{
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #f1f5f9;
+    line-height: 1.2;
+}
+.mini-tarjeta-especialidad{
+    margin: 0.15rem 0 0;
+    font-size: 0.7rem;
+    color: gold;
+}
+/* Acordeón de servicios */
+.acordeon-servicios{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.categoria-servicio{
+    position: relative;
+    border: 1px solid #2a3441;
+    border-radius: 12px;
+    background: #1c2735;
+}
+/* Puntito azul a la izquierda: indica que hay un servicio elegido en esta categoría */
+.categoria-servicio::before{
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 25px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #60a5fa;
+    box-shadow: 0 0 8px #60a5fa99;
+    transform: translateY(-50%) scale(0);
+    transition: transform ease-out 0.2s;
+}
+.categoria-servicio.con-seleccion::before{
+    transform: translateY(-50%) scale(1);
+}
+.categoria-header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #60a5fa;
+    font-size: 1.1rem;
+    text-align: left;
+}
+.categoria-textos{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.categoria-titulo{
+    color: #f1f5f9;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+.categoria-desc{
+    color: #8b98ab;
+    font-size: 0.78rem;
+}
+.categoria-caret{
+    font-size: 0.9rem;
+    transition: transform ease-out 0.2s;
+}
+.categoria-servicio.abierta .categoria-caret{
+    transform: rotate(180deg);
+}
+.categoria-lista-envoltorio{
+    display: grid;
+    grid-template-rows: minmax(0, 0fr);
+    overflow: hidden;
+    transition: grid-template-rows 0.3s ease;
+}
+.categoria-servicio.abierta .categoria-lista-envoltorio{
+    grid-template-rows: minmax(0, 1fr);
+}
+.categoria-lista{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    overflow: hidden;
+    min-height: 0;
+    padding: 0 1rem 1rem;
+}
+.tarjeta-servicio{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #2a3441;
+    border-radius: 10px;
+    background: #131b26;
+    cursor: pointer;
+    transition: border-color ease-out 0.15s, background ease-out 0.15s;
+}
+.tarjeta-servicio:hover{
+    border-color: #3d4a5c;
+}
+.tarjeta-servicio input[type="radio"]{
+    display: none;
+}
+.tarjeta-servicio-info{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+.tarjeta-servicio-nombre{
+    color: #f1f5f9;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.tarjeta-servicio-desc{
+    color: #8b98ab;
+    font-size: 0.78rem;
+}
+.tarjeta-servicio-datos{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+    color: #cbd5e1;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+.tarjeta-servicio-datos span{
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.tarjeta-servicio-radio{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #3d4a5c;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color ease-out 0.15s;
+}
+.tarjeta-servicio-radio::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #60a5fa;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform ease-out 0.15s;
+}
+.tarjeta-servicio input[type="radio"]:checked ~ .tarjeta-servicio-radio{
+    border-color: #60a5fa;
+}
+.tarjeta-servicio input[type="radio"]:checked ~ .tarjeta-servicio-radio::after{
+    transform: translate(-50%, -50%) scale(1);
+}
+.reserva-seccion-barbero{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.boton-reservar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #356bff, #60a5fa);
+    color: white;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform ease-out 0.15s;
+}
+.boton-reservar:hover{
+    transform: scale(1.02);
+}
+.reserva-nota{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0;
+    color: #8b98ab;
+    font-size: 0.8rem;
+}
+.reserva-error{
+    margin: 1.5rem 2.5rem 0;
+    padding: 0.9rem;
+    border-radius: 8px;
+    background: #5b2323;
+    color: #fecaca;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Calendario */
+.calendario{
+    background: #1c2735;
+    border: 1px solid #2a3441;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+.calendario-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.calendario-header span{
+    font-weight: bold;
+    color: #f1f5f9;
+}
+.calendario-header button{
+    background: none;
+    border: none;
+    color: #60a5fa;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background ease-out 0.15s;
+}
+.calendario-header button:hover:not(:disabled){
+    background: #2a3441;
+}
+.calendario-header button:disabled{
+    color: #3d4a5c;
+    cursor: not-allowed;
+}
+.calendario-dias-semana{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #8b98ab;
+    margin-bottom: 0.5rem;
+}
+.calendario-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.35rem;
+}
+.calendario-dia{
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background ease-out 0.15s;
+}
+.calendario-dia:hover:not(.fuera):not(.deshabilitado){
+    background: #2a3441;
+}
+.calendario-dia.fuera{
+    color: #3d4a5c;
+    cursor: default;
+}
+.calendario-dia.deshabilitado{
+    color: #3d4a5c;
+    cursor: not-allowed;
+}
+.calendario-dia.hoy{
+    border: 1px solid #60a5fa;
+}
+.calendario-dia.seleccionado{
+    background: #3b82f6;
+    color: white;
+    font-weight: bold;
+}
+
+/* Horarios */
+.horarios-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+}
+.horario-slot{
+    padding: 0.7rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #2a3441;
+    background: #1c2735;
+    color: #f1f5f9;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background ease-out 0.15s, border-color ease-out 0.15s;
+}
+.horario-slot:hover:not(.ocupado){
+    border-color: #60a5fa;
+}
+.horario-slot.seleccionado{
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+.horario-slot.ocupado{
+    background: #1a1f28;
+    color: #4b5563;
+    border-color: #2a3441;
+    cursor: not-allowed;
+}
+
+.reserva-abajo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    border-top: 1px solid #2a3441;
+    color: #8b98ab;
+    font-size: 0.9rem;
+}

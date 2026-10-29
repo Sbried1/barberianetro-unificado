@@ -1,0 +1,790 @@
+/* =====================================================================
+   BARBEROS_PANEL.CSS
+   Estilos EXCLUSIVOS del módulo Barberos. El panel, los modales base,
+   el título+botón "+" y la tarjeta contenedora del listado ya viven en
+   global.css (mismas clases que usan Servicios, Clientes y Reservas).
+
+   Cargar en este orden en barberos.php:
+     header.css -> menu.css -> global.css -> barberos_panel.css
+   ===================================================================== */
+
+
+/* =====================================================================
+   LINK ACTIVO "BARBEROS" EN EL SIDEBAR
+   global.css solo resalta servicios.php y clientes.php; esta regla
+   agrega el mismo resaltado para barberos.php sin tocar global.css.
+   ===================================================================== */
+.menu-nav a[href$="barberos.php"][aria-current="page"] {
+    background-color: var(--dorado-bg);
+    color: #ffffff;
+    box-shadow: inset 2px 0 0 var(--dorado);
+}
+
+.menu-nav a[href$="barberos.php"][aria-current="page"]::before {
+    background-color: var(--dorado);
+}
+
+
+/* =====================================================================
+   ALERTAS (error / éxito)
+   ===================================================================== */
+.barb_alerta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.barb_alerta.error {
+    background: var(--rojo-bg);
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    color: var(--rojo);
+}
+
+.barb_alerta.ok {
+    background: var(--verde-bg);
+    border: 1px solid rgba(74, 222, 128, 0.35);
+    color: var(--verde);
+}
+
+.barb_alerta button {
+    background: transparent;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+}
+
+
+/* =====================================================================
+   ESTADISTICAS
+   ===================================================================== */
+.barb_stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.barb_stat_card {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.barb_stat_icono {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.barb_stat_icono.morado { background-color: var(--dorado-bg); color: var(--dorado); }
+.barb_stat_icono.verde  { background-color: var(--verde-bg); color: var(--verde); }
+.barb_stat_icono.ambar  { background-color: var(--ambar-bg); color: var(--ambar); }
+.barb_stat_icono.rojo   { background-color: var(--rojo-bg); color: var(--rojo); }
+
+.barb_stat_texto p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.barb_stat_texto span {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+
+/* =====================================================================
+   FILTROS
+   ===================================================================== */
+#barb_filtros {
+    display: flex;
+    align-items: end;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding: 18px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+}
+
+#barb_buscar {
+    flex: 1;
+    min-width: 220px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 13px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    transition: 0.3s;
+}
+
+#barb_buscar:focus {
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 4px var(--dorado-bg);
+}
+
+.barb_filtro_campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.barb_filtro_campo label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.barb_filtro_campo select {
+    padding: 11px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.barb_filtro_campo select:hover {
+    border-color: var(--dorado-oscuro);
+}
+
+.barb_filtro_campo select:focus {
+    border-color: var(--dorado);
+}
+
+.barb_btn_limpiar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-input);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: 0.2s;
+}
+
+.barb_btn_limpiar:hover {
+    background: var(--bg-soft);
+}
+
+
+/* =====================================================================
+   LISTADO DE BARBEROS (tabla de 6 columnas)
+   ===================================================================== */
+.barb_panel_lista {
+    margin-top: 16px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.barb_cabecera_lista {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.3fr 1.8fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    height: 54px;
+    padding: 0 18px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border-light);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.barb_fila {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.3fr 1.8fr 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+    min-height: 72px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.2s ease;
+    font-size: 13px;
+}
+
+.barb_fila:hover {
+    background: var(--bg-soft);
+}
+
+.barb_fila p {
+    margin: 0;
+}
+
+.barb_nombre_col {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.barb_avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: var(--dorado-bg);
+    color: var(--dorado);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.barb_nombre_col .nombre_completo {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.barb_calificacion {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dark);
+}
+
+.barb_calificacion .estrella {
+    color: #f5a623;
+}
+
+.barb_calificacion.sin_calificar {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 12px;
+}
+
+
+/* =====================================================================
+   BADGE DE ESTADO
+   ===================================================================== */
+.barb_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.barb_badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.barb_badge.activo {
+    background-color: var(--verde-bg);
+    color: var(--verde);
+}
+
+.barb_badge.activo::before {
+    background-color: var(--verde);
+}
+
+.barb_badge.inactivo {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+}
+
+.barb_badge.inactivo::before {
+    background-color: var(--text-muted);
+}
+
+
+/* =====================================================================
+   ACCIONES DE FILA (ver / editar / eliminar)
+   ===================================================================== */
+.barb_acciones {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn_ver_barbero,
+.btn_editar_barbero,
+.btn_eliminar_barbero {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    background: none;
+}
+
+.btn_ver_barbero {
+    background: var(--azul-bg);
+    color: var(--azul);
+    border-color: rgba(96, 165, 250, 0.3);
+}
+
+.btn_ver_barbero:hover {
+    background: rgba(96, 165, 250, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_editar_barbero {
+    background: var(--ambar-bg);
+    color: var(--ambar);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.btn_editar_barbero:hover {
+    background: rgba(251, 191, 36, 0.22);
+    transform: translateY(-2px);
+}
+
+.btn_eliminar_barbero {
+    background: var(--rojo-bg);
+    color: var(--rojo);
+    border-color: rgba(248, 113, 113, 0.3);
+}
+
+.btn_eliminar_barbero:hover {
+    background: rgba(248, 113, 113, 0.22);
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================================
+   ESTADO VACIO Y PAGINACION
+   ===================================================================== */
+.barb_vacio {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.barb_vacio_icono {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--dorado-bg);
+    color: var(--dorado);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+}
+
+.barb_vacio_titulo {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 6px;
+}
+
+.barb_vacio_texto {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+}
+
+.barb_paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-top: 1px solid var(--border-light);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.barb_paginacion_botones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.barb_paginacion_botones button {
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.barb_paginacion_botones button:hover:not(:disabled) {
+    background: var(--bg-soft);
+}
+
+.barb_paginacion_botones button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.barb_paginacion_botones span {
+    padding: 7px 12px;
+    border-radius: var(--radius-md);
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    font-weight: 600;
+}
+
+
+/* =====================================================================
+   FORMULARIO (modal nuevo / editar barbero)
+   ===================================================================== */
+#barb_caja_form {
+    flex: 1;
+}
+
+#barb_caja_form p {
+    color: var(--text-dark);
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+#form_barbero,
+#form_editar_barbero {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.barb_input,
+.barb_select {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.barb_input:focus,
+.barb_select:focus {
+    outline: none;
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 3px var(--dorado-bg);
+}
+
+.barb_input::placeholder {
+    color: var(--text-muted);
+}
+
+
+/* =====================================================================
+   CARGA DE IMAGEN (drag & drop + explorador + vista previa)
+   Usado en los modales de "Nuevo barbero" y "Editar barbero".
+   ===================================================================== */
+.barb_input_file {
+    display: none;
+}
+
+.barb_drop_zona {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-input);
+    cursor: pointer;
+    margin-bottom: 8px;
+    padding: 16px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.barb_drop_zona:hover {
+    border-color: var(--dorado-oscuro);
+    background: var(--bg-hover);
+}
+
+.barb_drop_zona.barb_drop_activo {
+    border-color: var(--dorado);
+    background: var(--dorado-bg);
+}
+
+.barb_drop_vacio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.barb_drop_icono {
+    font-size: 26px;
+}
+
+/* Se usa mayor especificidad (#barb_caja_form + clase) para ganarle a la
+   regla general "#barb_caja_form p" (negrita/negro) definida más arriba. */
+#barb_caja_form .barb_drop_texto {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-dark);
+}
+
+#barb_caja_form .barb_drop_ayuda {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.barb_drop_link {
+    color: var(--dorado-claro);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.barb_drop_preview {
+    display: none;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.barb_drop_preview img {
+    max-width: 100%;
+    max-height: 160px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.barb_quitar_imagen {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-white);
+    color: var(--rojo);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.barb_quitar_imagen:hover {
+    background: var(--rojo-bg);
+}
+
+.barb_imagen_error {
+    display: none;
+    margin: 0 0 16px;
+    font-size: 12px;
+    color: var(--rojo);
+    min-height: 14px;
+}
+
+
+/* =====================================================================
+   fila_doble / botones de modal
+   (en Clientes viven en clientes_panel.css; se replican acá porque ese
+   archivo no se carga en este módulo — no se duplica nada de global.css)
+   ===================================================================== */
+.fila_doble {
+    display: flex;
+    gap: 16px;
+}
+
+.fila_doble > div {
+    flex: 1;
+}
+
+.botones_modal_cli {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.btn_guardar_cli {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    border: 1px solid var(--dorado);
+    cursor: pointer;
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    padding: 5px 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 90px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_guardar_cli:hover {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_guardar_cli:active {
+    transform: scale(0.97);
+}
+
+.btn_guardar_cli img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
+
+.btn_cancelar_cli {
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    cursor: pointer;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    width: 90px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_cancelar_cli:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_cancelar_cli:active {
+    transform: scale(0.97);
+}
+
+.btn_cancelar_cli img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+}
+
+
+/* =====================================================================
+   MODAL "VER BARBERO" — específico del módulo
+   Estructura y colores base viven en global.css
+   ===================================================================== */
+#ver_barb_id::before {
+    content: "#";
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+#ver_barbero_body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 30px 6px;
+}
+
+
+/* =====================================================================
+   RESPONSIVE (propio de Barberos)
+   ===================================================================== */
+@media (max-width: 1024px) {
+    .barb_cabecera_lista {
+        display: none;
+    }
+
+    .barb_fila {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 14px 18px;
+    }
+
+    .barb_acciones {
+        justify-content: flex-start;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    #barb_filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .barb_btn_limpiar {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .fila_doble {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .btn_guardar_cli,
+    .btn_cancelar_cli {
+        flex: 1;
+        width: auto;
+    }
+
+    .barb_paginacion {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+}

@@ -1,0 +1,417 @@
+html{
+    scroll-behavior: smooth;
+}
+#hero{
+    position: relative;
+    background: #2a3441;
+    height: calc(100vh - 60px);
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: 
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.2) 1px,
+            transparent 1px
+        );
+    background-size: 25px 25px;
+    overflow: hidden;
+}
+#hero::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, #aed2ff, transparent);
+    pointer-events: none;
+    mix-blend-mode:overlay;
+}
+#hero h1{
+    font-size: 3rem;
+    color: #f1f5f9;
+    text-shadow: 0px 0px 5px black;
+    margin-bottom: 0.75rem;
+    z-index: 1;
+}
+#hero h2{
+    font-size: 1.5rem;
+    color: #60a5fa;
+    text-shadow: 0px 0px 5px black;
+    margin-bottom: 1.5rem;
+    z-index: 1;
+}
+
+.botonhero{
+    height: 50px;
+    width: 150px;
+    font-size: 1.25rem;
+    background: #0c121c;
+    color: #60a5fa;
+    font-weight: bold;
+    border: 1.5px solid #60a5fa;
+    border-radius: 5px;
+    user-select: none;
+    transition: transform ease-in 0.2s;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.botonhero:hover{
+    background: white;
+    box-shadow: 0px 0px 10px white;
+    border: none;
+    color: black;
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: transform ease-out 0.2s;
+}
+.botonhero:active{
+    background: white;
+    color: black;
+    transform: scale(0.9);
+    transition: none;
+}
+
+#about{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+    border-bottom: 1px solid #2a3441;
+}
+#about h2{
+    font-size: 3rem;
+    margin: 0;
+    margin-bottom: 2rem;
+    text-shadow: 0px 5px 10px #60a5fa77;
+}
+#grid-about{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.separador{
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, #576c86, transparent);
+}
+.fila{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 2rem;
+    align-items: center;
+    height: auto;
+    width: 100%;
+}
+.fila-inv{
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: center;
+    height: auto;
+    width: 100%;
+}
+.texto{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: right;
+}
+.texto_menos_espacio{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+.texto-inv{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+}
+.imagen-p{
+    background: url(../resources/images/landscape-placeholder.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    aspect-ratio: 1;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+#ubicacion{
+    width: 100%;
+    margin: 3rem auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.ubicacion-tarjeta{
+
+    width: 50%;
+    display: flex;
+    gap: 2rem;
+    border-radius: 16px;
+    background: linear-gradient(to right, transparent, #0f1620, transparent);
+    padding: 2rem;
+}
+
+.ubicacion-info{
+    display: flex;
+    gap: 1.25rem;
+    flex: 1;
+    min-width: 260px;
+}
+.ubicacion-textos{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.ubicacion-etiqueta{
+    margin: 0;
+    color: #60a5fa;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+.ubicacion-titulo{
+    margin: 0.4rem 0 0.8rem;
+    color: #f1f5f9;
+    font-size: 2.2rem;
+}
+.ubicacion-desc{
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+.ubicacion-boton{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    padding: 0.9rem 1.6rem;
+    border: 1px solid #60a5fa;
+    border-radius: 10px;
+    color: #60a5fa;
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-decoration: none;
+    transition: background ease-out 0.15s, color ease-out 0.15s;
+}
+.ubicacion-boton:hover{
+    background: #60a5fa;
+    color: #0f1620;
+}
+.ubicacion-mapa{
+    flex: 1;
+    min-width: 260px;
+    min-height: 220px;
+    border-radius: 14px;
+    background:
+        repeating-linear-gradient(45deg, #90b4e4 0, #90b4e4 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(-45deg, #90b4e4 0, #90b4e4 1px, transparent 1px, transparent 40px),
+        #dae3ee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: filter ease-out 0.15s;
+}
+.ubicacion-mapa:hover{
+    filter: brightness(1.15);
+}
+.ubicacion-mapa i{
+    color: #db4646;
+    font-size: 3.5rem;
+}
+.ubicacion-mapa span{
+    color: #1c2633;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+@media (max-width: 720px){
+    .ubicacion-tarjeta{
+        flex-direction: column;
+    }
+}
+.destacado{
+    color: #60a5fa;
+    font-weight: bold;
+    position: relative;
+    background: linear-gradient(to right, #356bff, #e0eeff);
+    background-clip: text;
+}
+
+.flecha{
+    animation: anim_flecha 1s ease infinite;
+}
+
+.banner-exito, .banner-error{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+    transition: opacity ease-out 0.4s;
+}
+.banner-exito{
+    background: #14532d;
+    color: #bbf7d0;
+}
+.banner-error{
+    background: #5b2323;
+    color: #fecaca;
+}
+
+@keyframes anim_flecha{
+    0%{
+        transform: translateY(10px);
+    }
+    50%{
+        transform: translateY(0px);
+    }
+    100%{
+        transform: translateY(10px);
+    }
+}
+
+@keyframes brillo-ubicacion{
+    0%, 100%{
+        box-shadow: 0 0 0px 0px #60a5fa00;
+    }
+    50%{
+        box-shadow: 0 0 16px 4px #60a5fa99;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    #hero, #about, #team{
+        animation: none;
+    }
+}
+
+/* --- Sección equipo: tarjetas tipo figurita --- */
+#team{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+}
+#team h2{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-shadow: 0px 5px 10px #60a5fa77;
+}
+.equipo-grid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+.tarjeta-barbero{
+    width: 280px;
+    border-radius: 14px;
+    background: #0f1620;
+    border: 1px solid #2a3441;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transition: transform ease-out 0.2s, border-color ease-out 0.2s;
+}
+.tarjeta-barbero:hover{
+    transform: translateY(-4px);
+    border-color: #60a5fa;
+}
+.tarjeta-barbero-foto{
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+.tarjeta-barbero-foto img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.tarjeta-barbero-info{
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+.tarjeta-barbero-nombre{
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #f1f5f9;
+}
+.tarjeta-barbero-puesto{
+    margin: 0.15rem 0 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #60a5fa;
+}
+.tarjeta-barbero-info .separador{
+    margin-bottom: 1rem;
+}
+.tarjeta-barbero-datos{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.tarjeta-barbero-datos p{
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    white-space: nowrap;
+}
+.tarjeta-barbero-datos i{
+    color: #60a5fa;
+    font-size: 1.1rem;
+}
+.especialidad{
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    justify-content: left;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+    border: 1px solid rgba(255, 166, 0, 0.8);
+    background: linear-gradient(to right, rgba(255, 217, 0, 0.05), rgba(255, 145, 0, 0.05));
+    border-radius: 5px;
+    width: fit-content;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.25rem;
+}
+.especialidad p{
+    margin: 0;
+    color: gold;
+    font-weight: bold;
+}
+.especialidad_icon{
+    color: gold;
+}

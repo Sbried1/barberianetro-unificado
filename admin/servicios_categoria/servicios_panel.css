@@ -1,0 +1,703 @@
+/* =====================================================================
+   SERVICIOS_PANEL.CSS
+   Estilos EXCLUSIVOS del módulo Servicios. Todo lo compartido con otros
+   módulos (panel, modales base, título+botón, tarjeta de listado,
+   botones de acción, modal "ver") vive ahora en global.css.
+
+   Cargar en este orden en servicios.php:
+     header.css -> menu.css -> global.css -> servicios_panel.css
+   ===================================================================== */
+
+
+/* =====================================================================
+   ESTADISTICAS (mismo patrón visual que clientes_panel.css)
+   ===================================================================== */
+.cuadro_stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.stat_card {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat_icono {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.stat_icono.morado { background-color: var(--dorado-bg); color: var(--dorado); }
+.stat_icono.verde   { background-color: var(--verde-bg); color: var(--verde); }
+.stat_icono.gris    { background-color: rgba(255, 255, 255, 0.06); color: var(--text-muted); }
+
+.stat_texto p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.stat_texto span {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+
+/* =====================================================================
+   NAVEGACION (buscador + filtro categoría)
+   ===================================================================== */
+#navegacion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 18px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+}
+
+#buscar_servicio {
+    flex: 1;
+    max-width: 400px;
+    min-width: 160px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 13px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    transition: 0.3s;
+}
+
+#buscar_servicio:focus {
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 4px var(--dorado-bg);
+}
+
+#categoria {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    cursor: pointer;
+    font-size: 13px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#categoria:hover {
+    border-color: var(--dorado-oscuro);
+}
+
+#categoria:focus {
+    border-color: var(--dorado);
+}
+
+#btn_derecha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#btn_abrir_ventana_categoria {
+    margin-left: auto;
+}
+
+
+/* =====================================================================
+   MODAL CATEGORIAS (listado, formulario agregar/editar categoria)
+   ===================================================================== */
+.categorias_listadas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 8px;
+    margin-bottom: 3px;
+}
+
+#lista_categorias {
+    height: 280px;
+    margin-top: 16px;
+    border-radius: 5px;
+    padding: 8px;
+    overflow-y: auto;
+}
+
+#form_categoria {
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px;
+    display: none;
+    flex-direction: column;
+    font-size: 17px;
+}
+
+.negrita {
+    font-weight: 500;
+}
+
+#sub_titulo_cat {
+    font-size: 12px;
+}
+
+#titulo_agregar_cat {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+#div_input_botones {
+    display: flex;
+    flex-direction: column;
+}
+
+.btns_cat_aniadir_eliminar {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.btns_cat_aniadir_eliminar button {
+    margin-top: 8px;
+}
+
+.input_editar {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 8px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    outline: none;
+    font-size: 13px;
+}
+
+.form_editar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.input_agregar_caegoria {
+    flex: 1;
+    min-width: 0;
+    margin-top: 8px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    outline: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+#boton_eli_cat,
+.boton_edi_cat {
+    padding: 3px 5px;
+    background: none;
+    border-radius: 6px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+#boton_eli_cat {
+    border-color: #ff0000;
+}
+
+.boton_edi_cat {
+    border-color: #838383;
+}
+
+#boton_eli_cat:hover,
+.boton_edi_cat:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#boton_eli_cat:active,
+.boton_edi_cat:active {
+    transform: scale(0.97);
+}
+
+#boton_eli_cat img,
+.boton_edi_cat img {
+    width: 18px;
+    height: 22px;
+}
+
+#boton_derecha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.btn_add_cat_ok,
+.btn_add_cat_ok_edi {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    border: 1px solid var(--dorado);
+    cursor: pointer;
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    padding: 5px 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_add_cat_ok {
+    width: 90px;
+}
+
+.btn_add_cat_ok_edi {
+    width: 46px;
+}
+
+.btn_add_cat_ok:hover,
+.btn_add_cat_ok_edi:hover {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_add_cat_ok:active,
+.btn_add_cat_ok_edi:active {
+    transform: scale(0.97);
+}
+
+.btn_add_cat_ok img,
+.btn_add_cat_ok_edi img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
+
+.btn_add_cat_delete,
+.btn_add_cat_delete_edi {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    cursor: pointer;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_add_cat_delete {
+    width: 90px;
+}
+
+.btn_add_cat_delete_edi {
+    width: 46px;
+}
+
+.btn_add_cat_delete p,
+.btn_add_cat_delete_edi p {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn_add_cat_delete:hover,
+.btn_add_cat_delete_edi:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_add_cat_delete:active,
+.btn_add_cat_delete_edi:active {
+    transform: scale(0.97);
+}
+
+.btn_add_cat_delete img,
+.btn_add_cat_delete_edi img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+}
+
+.alerta_error_categoria {
+    background: var(--rojo-bg);
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    color: var(--rojo);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cerrar_alerta {
+    align-self: flex-end;
+    background: var(--rojo);
+    color: #1a0d0d;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+
+/* =====================================================================
+   MODAL SERVICIO (formulario agregar/editar servicio)
+   ===================================================================== */
+#caja_form_serv {
+    flex: 1;
+}
+
+#caja_form_serv p {
+    color: var(--text-dark);
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+#form_servicio {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.input_form_serv {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-dark);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input_form_serv:focus {
+    outline: none;
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 3px var(--dorado-bg);
+}
+
+.input_form_serv::placeholder {
+    color: var(--text-muted);
+}
+
+#precio_duracion_estestadp {
+    display: flex;
+    flex-direction: column;
+}
+
+.select_from_servi {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-dark);
+}
+
+#pre_dur_esta {
+    display: flex;
+    gap: 50px;
+}
+
+#titlespreduresta {
+    display: flex;
+    justify-content: center;
+}
+
+.caja_de_texto {
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 16px;
+}
+
+#colum {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn_add_ser_ok {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    border: 1px solid var(--dorado);
+    cursor: pointer;
+    background: var(--dorado);
+    color: var(--dorado-texto);
+    padding: 5px 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 90px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_add_ser_ok:hover {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_add_ser_ok:active {
+    transform: scale(0.97);
+}
+
+.btn_add_ser_ok img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
+
+.btn_add_ser_delete {
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    height: 36px;
+    cursor: pointer;
+    background: var(--bg-input);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    width: 90px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn_add_ser_delete:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn_add_ser_delete:active {
+    transform: scale(0.97);
+}
+
+.btn_add_ser_delete img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+}
+
+
+/* =====================================================================
+   LISTADO DE SERVICIOS (tabla de 7 columnas)
+   ===================================================================== */
+.cabecera {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr 1fr 1fr 0.5fr 0.3fr;
+    align-items: center;
+    height: 54px;
+    padding: 0 18px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border-light);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.id_ser_listar {
+    font-size: 13px;
+}
+
+.fila {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    min-height: 72px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.2s ease;
+}
+
+.fila:hover {
+    background: var(--bg-soft);
+}
+
+.cabecera p,
+.fila p {
+    margin: 0;
+}
+
+.nombre_ser_listar {
+    font-size: 13px;
+    font-weight: 450;
+    color: var(--text-dark);
+}
+
+.categoria_ser_listar {
+    width: fit-content;
+    padding: 6px 12px;
+    background: var(--dorado-bg);
+    color: var(--dorado-claro);
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.precio_ser_listar {
+    font-weight: 600;
+    color: var(--verde);
+}
+
+.contenedor_opciones_servicio {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+
+/* =====================================================================
+   MODAL "VER SERVICIO" — detalles específicos de servicio
+   Estructura y colores base (.modal-contenido_ver, .ver_fila, .ver_label,
+   .ver_valor, .estado_activo/.estado_inactivo) viven en global.css.
+   Acá solo lo que es propio de este modal: la caja de descripción y
+   detalles puntuales de un par de campos (id, precio).
+   ===================================================================== */
+#ver_id::before {
+    content: "#";
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+#ver_precio {
+    color: var(--verde);
+}
+
+#ver_descripcion_box {
+    margin: 16px 0 22px;
+    background-color: var(--bg-soft);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+#ver_descripcion_box p.ver_label {
+    margin: 0 0 8px;
+}
+
+#ver_descripcion_box p.ver_label::before {
+    display: none;
+}
+
+#ver_descripcion {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+#ver_servicio_body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 30px 6px;
+}
+
+
+/* =====================================================================
+   RESPONSIVE (propio de Servicios)
+   ===================================================================== */
+@media (max-width: 768px) {
+    #navegacion {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #buscar_servicio {
+        max-width: 100%;
+    }
+
+    #categoria {
+        width: 100%;
+    }
+
+    #btn_derecha {
+        width: 100%;
+    }
+
+    #btn_abrir_ventana_categoria {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .servicios_header,
+    .categoria_header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn_add_servicio {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+    }
+
+    #boton_derecha {
+        width: 100%;
+    }
+
+    .btn_add_cat_ok,
+    .btn_add_cat_delete,
+    .btn_add_cat_ok_edi,
+    .btn_add_cat_delete_edi {
+        flex: 1;
+        width: auto;
+        margin-left: 0;
+    }
+
+    .form_editar {
+        width: 100%;
+    }
+
+    .input_editar {
+        width: 100%;
+    }
+}

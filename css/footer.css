@@ -1,0 +1,163 @@
+footer{
+    background: #0d131d;
+    border-top: 1px solid #2a3441;
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.08) 1px,
+            transparent 1px
+        );
+    background-size: 25px 25px;
+}
+@media (prefers-reduced-motion: reduce){
+    footer{
+        animation: none;
+    }
+}
+.footer-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2.5rem;
+    padding: 3rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.footer-titulo{
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #f1f5f9;
+}
+.footer-subtitulo{
+    margin: 0.25rem 0 1rem;
+    color: #60a5fa;
+    font-weight: bold;
+}
+.footer-descripcion{
+    margin: 0 0 1.25rem;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+.footer-redes{
+    display: flex;
+    gap: 0.75rem;
+}
+.footer-redes a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #2a3441;
+    color: #60a5fa;
+    font-size: 1.25rem;
+    text-decoration: none;
+    transition: background ease-out 0.2s;
+}
+.footer-redes a:hover{
+    background: #374355;
+}
+.footer-titulo-columna{
+    margin: 0 0 1.1rem;
+    color: #60a5fa;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.footer-columna{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.footer-columna p{
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+}
+.footer-columna > p:first-child{
+    margin-bottom: 0.35rem;
+}
+.footer-columna i{
+    color: #60a5fa;
+    font-size: 1.1rem;
+}
+.footer-columna a{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color ease-out 0.2s;
+}
+.footer-columna a i{
+    margin-left: auto;
+}
+.footer-columna a:hover{
+    color: #60a5fa;
+}
+.footer-horario-fila{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.footer-horario-fila i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #2a3441;
+    flex-shrink: 0;
+}
+.footer-horario-fila-simple{
+    padding-left: calc(36px + 0.75rem);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+.footer-horario-dia{
+    margin: 0;
+    color: #f1f5f9;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+.footer-horario-hora{
+    margin: 0;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+}
+.footer-abajo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2a3441;
+    padding: 1.25rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.footer-abajo p{
+    margin: 0;
+    color: #8b98ab;
+    font-size: 0.85rem;
+}
+.footer-arriba{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #60a5fa;
+    color: #60a5fa;
+    text-decoration: none;
+    transition: background ease-out 0.2s;
+}
+.footer-arriba:hover{
+    background: #2a3441;
+}

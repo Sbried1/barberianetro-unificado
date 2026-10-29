@@ -1,0 +1,9 @@
+# Archivos que no se sirven por HTTP (mismas reglas que el Dockerfile,
+# para que en XAMPP quede igual de protegido).
+<FilesMatch "(?i)\.(sql|txt|md|log|bak|yml|yaml|env|ini|conf|sh)$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(\..*|Dockerfile)$">
+    Require all denied
+</FilesMatch>

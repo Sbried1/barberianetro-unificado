@@ -1,0 +1,394 @@
+body{
+    min-height: 100%;
+}
+main {
+    background: #111a29;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 61px);
+    min-height: calc(100dvh - 61px);
+}
+
+/* ---------- Contenedor principal ---------- */
+.contenedor-perfil {
+    background: transparent;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    /* El fondo ocupa todo el ancho, pero el contenido se centra y no pasa de ~1100px */
+    padding: 0 max(1rem, calc((100% - 1100px) / 2)) 1rem;
+}
+.contenedor-perfil h2{
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #60a5fa;
+}
+
+/* ---------- Cabecera con nombre ---------- */
+.contenedor-nombre{
+    width: 100%;
+    font-size: clamp(1rem, 0.9rem + 0.6vw, 1.25rem);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    border-bottom: 1px solid #3e4e69;
+}
+.contenedor-nombre i{
+    font-size: 1.5rem;
+}
+.contenedor-nombre p{
+    overflow-wrap: anywhere;
+}
+.contenedor-nombre a{
+    margin-left: auto;
+    text-decoration: none;
+}
+.logout{
+    height: 30px;
+    width: 30px;
+    background: #cc31311f;
+    border: 1px solid #cc3131;
+    border-radius: 5px;
+    color: #cc3131;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logout i{
+    font-size: 1.15rem;
+}
+.logout:hover{
+    cursor: pointer;
+    filter: brightness(1.5);
+}
+
+/* ---------- Reservas ---------- */
+.contenedor-reservas{
+    display: grid;
+    /* Tantas columnas como entren: entre 220px y 320px cada una, siempre centradas */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 320px));
+    justify-content: center;
+    align-items: start;
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+.contenedor-reservas a{
+    text-decoration: none;
+}
+.tarjeta-reserva{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    width: 100%;
+    aspect-ratio: 1 / 1; /* si el contenido es más alto, la tarjeta crece en vez de cortarse */
+
+    /* permite usar cqw (unidades relativas al ancho de la tarjeta) */
+    container-type: inline-size;
+
+    background-image: url(../resources/images/papel-amarillo.png);
+    background-size: cover; 
+    background-repeat: no-repeat;
+    transition: transform 0.2s ease;
+}
+.tarjeta-reserva:hover{
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+.tarjeta-reserva span{
+    font-weight: bold;
+}
+.tarjeta-reserva-header{
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+.papel-pin{
+    background-image: url(../resources/images/pin-pressed.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    width: clamp(36px, 18cqw, 50px);
+    height: clamp(36px, 18cqw, 50px);
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0;
+}
+.papel-pin:hover{
+    background-image: url(../resources/images/pin-hover.png);
+}
+/* Pin de las tarjetas del historial: solo decorativo, no cancela nada. */
+.papel-pin.fijo{
+    cursor: default;
+}
+.papel-pin.fijo:hover{
+    background-image: url(../resources/images/pin-pressed.png);
+}
+.reserva-datos h2{
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1rem, 7cqw, 1.3rem);
+    margin: 0;
+}
+.reserva-datos{
+    justify-self: flex-start;
+    gap: 0;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    font-family: cursive;
+    font-size: clamp(0.85rem, 5.5cqw, 1.05rem);
+    text-align: center;
+    overflow-wrap: anywhere;
+    padding: 0 0.75rem 2rem;
+    width: 100%;
+}
+.servicios{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 85%;
+}
+.tarjeta-reserva i{
+    font-size: 2rem;
+}
+.tarjeta-reserva p{
+    margin: 0;
+}
+
+/* Tarjeta "nueva reserva" con el mismo tamaño que las demás */
+.tarjeta-reserva-nuevo{
+    box-sizing: border-box;
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 370px;
+    width: 100%;
+
+    border: 2px dashed #a39a48;
+    color: #a3a148;
+    border-radius: 10px;
+}
+.tarjeta-reserva-nuevo:hover{
+    filter: brightness(1.5);
+    background-color: #a39d4813;
+}
+/* ---------- Datos personales ---------- */
+.contenedor-datos{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+}
+.tarjeta{
+    background-color: #0b1422;
+    border: 1px solid #3e4e69;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1rem;
+
+    /* En pantallas anchas quedan lado a lado; en celulares ocupan todo el ancho */
+    flex: 1 1 220px;
+    min-width: 0;
+    overflow-wrap: anywhere; /* correos largos no rompen el diseño */
+}
+.categoria-dato{
+    color: #97acd1;
+    font-size: 0.75rem;
+    margin: 0;
+    margin-bottom: 0.25rem;
+}
+.nombreapellido{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.nombreapellido p{
+    margin: 0;
+}
+#contenedor-boton{
+    margin-top: 1.25rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+#contenedor-boton button{
+    background: transparent;
+    border-radius: 5px;
+    border: none;
+    color: #9cb8e9;
+    padding: 0.5rem 0;
+}
+#contenedor-boton button:hover{
+    filter: brightness(1.25);
+    cursor: pointer;
+}
+#h2-reservas,
+#h2-historial{
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #3e4e69;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ---------- Ajustes por dispositivo ---------- */
+
+/* Pantallas táctiles: botones más fáciles de tocar */
+@media (pointer: coarse) {
+    .logout{
+        height: 40px;
+        width: 40px;
+    }
+}
+
+/* Celulares chicos */
+@media (max-width: 480px) {
+    .tarjeta{
+        padding: 0.75rem;
+    }
+    .contenedor-reservas{
+        gap: 0.75rem;
+    }
+}
+
+/* Respetar a quienes desactivan las animaciones */
+@media (prefers-reduced-motion: reduce) {
+    .contenedor-perfil{
+        animation: none;
+    }
+}
+
+.formulario-datos{
+    width: 100%;
+}
+
+.div-datos{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+.contenedor-password{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    box-sizing: border-box;
+    min-width: 0;
+    gap: 0.5rem;
+}
+.input-formulario{
+    flex: 1;
+    box-sizing: border-box;
+    min-width: 0;
+}
+.input-password{
+    width: 100%;
+}
+.input-comun{
+    height: 40px;
+    box-sizing: border-box;
+    background: #0b1422;
+    border: 1px solid #3e4e69;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 5px;
+    color: #cbd5e1;
+    outline: none;
+}
+.input-comun:focus{
+    border: 1px solid #60a5fa;
+}
+.separador-vertical{
+    align-self: stretch;
+    background: #3e4e6936;
+    width: 1px;
+}
+.div-boton{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+}
+.boton-formulario{
+    width: 200px;
+    height: 45px;
+    border: 1px solid #60a5fa;
+    border-radius: 5px;
+    background: #60a5fa1a;
+    color: #60a5fa;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px
+}
+.boton-formulario i{
+    margin: 0;
+    font-size: 1.25rem;
+}
+.boton-formulario:hover{
+    border: 1px solid #a7ceff;
+    background: #60a5fa2c;
+    color: #a7ceff;
+    cursor: pointer;
+}
+.boton-cancelar{
+    width: 200px;
+    height: 45px;
+    border: 1px solid #cc3131;
+    border-radius: 5px;
+    background: #cc31311f;
+    color: #cc3131;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-decoration: none;
+}
+.boton-cancelar:hover{
+    filter: brightness(1.5);
+    cursor: pointer;
+}
+.boton-cancelar i{
+    margin: 0;
+    font-size: 1.25rem;
+}

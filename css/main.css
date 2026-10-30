@@ -1,19 +1,21 @@
 html{
     scroll-behavior: smooth;
 }
+
+/* ============ HERO ============ */
 #hero{
     position: relative;
     background: #2a3441;
-    height: calc(100vh - 60px);
-    padding-bottom: 1rem;
-    padding-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px); /* móviles: ignora la barra del navegador */
+    padding: 2rem 1rem;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-image: 
+    text-align: center;
+    background-image:
         radial-gradient(
             circle,
             rgba(255,255,255,0.2) 1px,
@@ -28,17 +30,17 @@ html{
     inset: 0;
     background: radial-gradient(circle, #aed2ff, transparent);
     pointer-events: none;
-    mix-blend-mode:overlay;
+    mix-blend-mode: overlay;
 }
 #hero h1{
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
     color: #f1f5f9;
     text-shadow: 0px 0px 5px black;
     margin-bottom: 0.75rem;
     z-index: 1;
 }
 #hero h2{
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
     color: #60a5fa;
     text-shadow: 0px 0px 5px black;
     margin-bottom: 1.5rem;
@@ -47,8 +49,10 @@ html{
 
 .botonhero{
     height: 50px;
-    width: 150px;
-    font-size: 1.25rem;
+    min-width: 150px;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
     background: #0c121c;
     color: #60a5fa;
     font-weight: bold;
@@ -62,16 +66,6 @@ html{
     justify-content: center;
     text-decoration: none;
 }
-
-.botonhero:hover{
-    background: white;
-    box-shadow: 0px 0px 10px white;
-    border: none;
-    color: black;
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: transform ease-out 0.2s;
-}
 .botonhero:active{
     background: white;
     color: black;
@@ -79,8 +73,10 @@ html{
     transition: none;
 }
 
+/* ============ ABOUT ============ */
 #about{
     margin-top: 2rem;
+    padding: 0 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,24 +85,22 @@ html{
     border-bottom: 1px solid #2a3441;
 }
 #about h2{
-    font-size: 3rem;
-    margin: 0;
-    margin-bottom: 2rem;
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin: 0 0 2rem;
+    text-align: center;
     text-shadow: 0px 5px 10px #60a5fa77;
 }
 #grid-about{
     display: flex;
     flex-direction: column;
-    font-size: 1.5rem;
+    font-size: clamp(1.05rem, 2.2vw, 1.5rem);
     gap: 3rem;
     justify-content: center;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    box-sizing: border-box;
+    padding: 2rem clamp(0.5rem, 3vw, 2rem);
 }
 .separador{
     height: 1px;
@@ -115,7 +109,7 @@ html{
 }
 .fila{
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 40%);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 40%);
     gap: 2rem;
     align-items: center;
     height: auto;
@@ -123,7 +117,7 @@ html{
 }
 .fila-inv{
     display: grid;
-    grid-template-columns: minmax(300px, 40%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
     gap: 2rem;
     align-items: center;
     height: auto;
@@ -147,21 +141,25 @@ html{
     text-align: left;
 }
 .imagen-p{
-    background-size:cover;
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     width: 100%;
     aspect-ratio: 1;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
+/* background-image (no el shorthand "background") para no pisar background-size: cover */
 #img1{
-    background: url(../resources/images/img-inicio-1.webp);
+    background-image: url(../resources/images/img-inicio-1.webp);
 }
 #img2{
-    background: url(../resources/images/img-inicio-1.webp);
+    background-image: url(../resources/images/img-inicio-1.webp);
 }
 #img3{
-    background: url(../resources/images/img-inicio-1.webp);
+    background-image: url(../resources/images/img-inicio-1.webp);
 }
+
+/* ============ UBICACIÓN ============ */
 #ubicacion{
     width: 100%;
     margin: 3rem auto;
@@ -172,20 +170,20 @@ html{
     box-sizing: border-box;
 }
 .ubicacion-tarjeta{
-
-    width: 50%;
+    width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
     display: flex;
     gap: 2rem;
     border-radius: 16px;
     background: linear-gradient(to right, transparent, #0f1620, transparent);
-    padding: 2rem;
+    padding: clamp(1rem, 3vw, 2rem);
 }
-
 .ubicacion-info{
     display: flex;
     gap: 1.25rem;
     flex: 1;
-    min-width: 260px;
+    min-width: 0;
 }
 .ubicacion-textos{
     display: flex;
@@ -195,7 +193,7 @@ html{
 .ubicacion-etiqueta{
     margin: 0;
     color: #60a5fa;
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
     font-weight: bold;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -203,11 +201,11 @@ html{
 .ubicacion-titulo{
     margin: 0.4rem 0 0.8rem;
     color: #f1f5f9;
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
 }
 .ubicacion-desc{
     margin: 0 0 1.5rem;
-    font-size: 1.5rem;
+    font-size: clamp(1.05rem, 2.5vw, 1.5rem);
     line-height: 1.5;
 }
 .ubicacion-boton{
@@ -220,17 +218,13 @@ html{
     border-radius: 10px;
     color: #60a5fa;
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
     text-decoration: none;
     transition: background ease-out 0.15s, color ease-out 0.15s;
 }
-.ubicacion-boton:hover{
-    background: #60a5fa;
-    color: #0f1620;
-}
 .ubicacion-mapa{
     flex: 1;
-    min-width: 260px;
+    min-width: 0;
     min-height: 220px;
     border-radius: 14px;
     background:
@@ -245,23 +239,18 @@ html{
     text-decoration: none;
     transition: filter ease-out 0.15s;
 }
-.ubicacion-mapa:hover{
-    filter: brightness(1.15);
-}
 .ubicacion-mapa i{
     color: #db4646;
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
 }
 .ubicacion-mapa span{
     color: #1c2633;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    text-align: center;
+    padding: 0 0.5rem;
 }
-@media (max-width: 720px){
-    .ubicacion-tarjeta{
-        flex-direction: column;
-    }
-}
+
 .destacado{
     color: #60a5fa;
     font-weight: bold;
@@ -274,6 +263,7 @@ html{
     animation: anim_flecha 1s ease infinite;
 }
 
+/* ============ BANNERS ============ */
 .banner-exito, .banner-error{
     display: flex;
     align-items: center;
@@ -314,13 +304,7 @@ html{
     }
 }
 
-@media (prefers-reduced-motion: reduce){
-    #hero, #about, #team{
-        animation: none;
-    }
-}
-
-/* --- Sección equipo: tarjetas tipo figurita --- */
+/* ============ EQUIPO ============ */
 #team{
     display: flex;
     flex-direction: column;
@@ -328,8 +312,9 @@ html{
     padding: 2rem 1rem 4rem;
 }
 #team h2{
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
     margin-bottom: 2rem;
+    text-align: center;
     text-shadow: 0px 5px 10px #60a5fa77;
 }
 .equipo-grid{
@@ -337,19 +322,18 @@ html{
     flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
 }
 .tarjeta-barbero{
     width: 280px;
+    max-width: 100%;
     border-radius: 14px;
     background: #0f1620;
     border: 1px solid #2a3441;
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
     overflow: hidden;
     transition: transform ease-out 0.2s, border-color ease-out 0.2s;
-}
-.tarjeta-barbero:hover{
-    transform: translateY(-4px);
-    border-color: #60a5fa;
 }
 .tarjeta-barbero-foto{
     aspect-ratio: 4 / 3;
@@ -391,16 +375,16 @@ html{
     gap: 0.6rem;
     font-size: 0.95rem;
     color: #cbd5e1;
-    white-space: nowrap;
+    overflow-wrap: anywhere; /* antes nowrap: desbordaba en pantallas angostas */
 }
 .tarjeta-barbero-datos i{
     color: #60a5fa;
     font-size: 1.1rem;
+    flex-shrink: 0;
 }
 .especialidad{
     display: flex;
     flex-direction: row;
-    padding: 0;
     justify-content: left;
     align-items: center;
     gap: 0.25rem;
@@ -409,10 +393,8 @@ html{
     background: linear-gradient(to right, rgba(255, 217, 0, 0.05), rgba(255, 145, 0, 0.05));
     border-radius: 5px;
     width: fit-content;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-bottom: 0.25rem;
-    padding-top: 0.25rem;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem;
 }
 .especialidad p{
     margin: 0;
@@ -422,14 +404,136 @@ html{
 .especialidad_icon{
     color: gold;
 }
+
+/* ============ HOVER: solo en dispositivos con mouse ============ */
+@media (hover: hover){
+    .botonhero:hover{
+        background: white;
+        box-shadow: 0px 0px 10px white;
+        border: none;
+        color: black;
+        cursor: pointer;
+        transform: scale(1.05);
+        transition: transform ease-out 0.2s;
+    }
+    .ubicacion-boton:hover{
+        background: #60a5fa;
+        color: #0f1620;
+    }
+    .ubicacion-mapa:hover{
+        filter: brightness(1.15);
+    }
+    .tarjeta-barbero:hover{
+        transform: translateY(-4px);
+        border-color: #60a5fa;
+    }
+}
+
+/* ============ RESPONSIVE ============ */
+
+/* Pantallas muy grandes (2K / 4K) */
+@media (min-width: 1600px){
+    html{
+        font-size: 18px;
+    }
+}
+
+/* Laptops chicas / tablets horizontales */
+@media (max-width: 1024px){
+    .fila{
+        grid-template-columns: minmax(0, 1fr) minmax(0, 45%);
+        gap: 1.5rem;
+    }
+    .fila-inv{
+        grid-template-columns: minmax(0, 45%) minmax(0, 1fr);
+        gap: 1.5rem;
+    }
+    #grid-about{
+        gap: 2rem;
+    }
+}
+
+/* Tablets verticales y celulares grandes */
 @media (max-width: 720px){
+    #about{
+        margin-top: 1rem;
+    }
     .fila, .fila-inv{
         grid-template-columns: 1fr;
     }
     .fila-inv .imagen-p{
         order: -1;
     }
-    .texto, .texto-inv{
-    text-align: center;
+    .texto, .texto-inv, .texto_menos_espacio{
+        text-align: center;
+    }
+    .imagen-p{
+        max-width: 480px;
+        margin: 0 auto;
+    }
+    .ubicacion-tarjeta{
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .ubicacion-info{
+        flex-direction: column;
+        align-items: center;
+    }
+    .ubicacion-textos{
+        align-items: center;
+        text-align: center;
+    }
+    .ubicacion-boton{
+        align-self: center;
+    }
+    .ubicacion-mapa{
+        min-height: 180px;
+        flex: none;
+    }
+    .equipo-grid{
+        gap: 1.5rem;
+    }
+}
+
+/* Celulares chicos */
+@media (max-width: 480px){
+    #hero{
+        padding: 1.5rem 0.75rem;
+    }
+    #grid-about{
+        padding: 1rem 0.25rem;
+    }
+    .tarjeta-barbero{
+        width: 100%;
+        max-width: 340px;
+    }
+    .tarjeta-barbero-info{
+        padding: 1rem 1.1rem 1.25rem;
+    }
+    .ubicacion-boton{
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+}
+
+/* Celulares en horizontal (poca altura) */
+@media (max-height: 500px) and (orientation: landscape){
+    #hero{
+        min-height: auto;
+        padding: 2.5rem 1rem;
+    }
+}
+
+/* Accesibilidad: sin animaciones si el usuario lo pide */
+@media (prefers-reduced-motion: reduce){
+    html{
+        scroll-behavior: auto;
+    }
+    .flecha{
+        animation: none;
+    }
+    .botonhero, .tarjeta-barbero, .ubicacion-boton, .ubicacion-mapa{
+        transition: none;
     }
 }

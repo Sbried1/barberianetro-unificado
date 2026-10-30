@@ -4,12 +4,16 @@
     background: #0c121c;
     border-bottom: 1px solid #2a3441;
     top: 0;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    /* safe-area: respeta el notch en celulares en horizontal */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    box-sizing: border-box;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
+    gap: 0.75rem;
     margin: 0;
-    height: 60px;
+    height: 60px; /* se mantiene en 60px: otras secciones usan calc(100vh - 60px) */
     z-index: 2;
 }
 
@@ -29,6 +33,10 @@
     flex-direction: row;
     align-items: center;
     gap: 1rem;
+    min-width: 0;          /* permite que el título se achique en vez de empujar los botones */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 #Titulo::before{
     content: "";
@@ -39,12 +47,15 @@
     background-size: contain;
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
     position: relative;
 }
 
 .contenedor_botones{
     display: flex;
+    align-items: center;
     gap: 1rem;
+    flex-shrink: 0;
 }
 
 .boton{
@@ -58,10 +69,7 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-}
-.boton:hover{
-    cursor: pointer;
-    color: #60a5fa;
+    white-space: nowrap;
 }
 .perfil{
     display: flex;
@@ -71,7 +79,81 @@
     font-size: 2rem;
     color: #cbd5e1;
 }
-.perfil:hover{
-    cursor: pointer;
+
+/* Hover solo con mouse (en táctil queda "pegado" tras tocar) */
+@media (hover: hover){
+    .boton:hover{
+        cursor: pointer;
+        color: #60a5fa;
+    }
+    .perfil:hover{
+        cursor: pointer;
+        color: #60a5fa;
+    }
+}
+.boton:focus-visible, .perfil:focus-visible{
     color: #60a5fa;
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ============ RESPONSIVE ============ */
+
+/* Tablets */
+@media (max-width: 768px){
+    #Titulo{
+        font-size: 1.3rem;
+        gap: 0.75rem;
+    }
+    .contenedor_botones{
+        gap: 0.75rem;
+    }
+}
+
+/* Celulares */
+@media (max-width: 600px){
+    .header{
+        padding-left: max(0.75rem, env(safe-area-inset-left));
+        padding-right: max(0.75rem, env(safe-area-inset-right));
+        gap: 0.5rem;
+    }
+    #Titulo{
+        font-size: 1.1rem;
+        gap: 0.5rem;
+    }
+    #Titulo::before{
+        width: 34px;
+        height: 34px;
+    }
+    .contenedor_botones{
+        gap: 0.25rem;
+    }
+    /* área táctil de 44px sin cambiar la altura del header */
+    .boton{
+        font-size: 0.9rem;
+        min-height: 44px;
+        padding: 0 0.5rem;
+    }
+    .perfil{
+        font-size: 1.75rem;
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* Celulares chicos: queda solo el logo para que los botones tengan lugar */
+@media (max-width: 420px){
+    #Titulo{
+        font-size: 0; /* oculta el texto; el logo (::before) tiene tamaño fijo */
+        gap: 0;
+    }
+    #Titulo::before{
+        width: 45px;
+        height: 45px;
+    }
+    .boton{
+        font-size: 0.85rem;
+        padding: 0 0.4rem;
+    }
 }

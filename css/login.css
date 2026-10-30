@@ -3,9 +3,15 @@ main{
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
+    padding: 1rem;
+    box-sizing: border-box;
 }
 body{
-    overflow: hidden;
+    /* antes: overflow: hidden. En celulares (teclado abierto, pantallas bajas)
+       el formulario quedaba cortado sin poder hacer scroll */
+    overflow-x: hidden;
+    overflow-y: auto;
     font-size: 16px;
     font-family: 'Plus Jakarta Sans';
 }
@@ -23,7 +29,8 @@ body{
     z-index: -1;
     position: absolute;
     background-image: url(../resources/images/fondo.jpg);
-    background-size: 100%;
+    background-size: cover; /* antes 100%: en vertical dejaba huecos */
+    background-position: center;
     filter: blur(5px) saturate(0);
 }
 #fondo::before{
@@ -33,7 +40,7 @@ body{
     z-index: 0;
     position: absolute;
     background: linear-gradient(to bottom, #60a5fa, transparent);
-    mix-blend-mode:screen;
+    mix-blend-mode: screen;
     opacity: 80%;
 }
 .caja_login{
@@ -43,6 +50,9 @@ body{
     align-items: center;
     flex-direction: column;
     width: 30%;
+    min-width: min(340px, 100%);
+    max-width: 480px;
+    box-sizing: border-box;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 20px 20px 20px #4e6183;
@@ -66,14 +76,12 @@ body{
     justify-content: center;
 }
 .body_login form{
-    padding-top: 1rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
+    padding: 1rem clamp(1.25rem, 10%, 2.5rem) 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    width: calc(80% - 2rem);
+    width: 100%;
     box-sizing: border-box;
     gap: 0.75rem;
 }
@@ -104,9 +112,11 @@ body{
     border: 1px solid red;
     outline: none;
     background: #1c2735;
+    box-sizing: border-box;
 }
 .mensaje-error{
     color: red;
+    overflow-wrap: anywhere;
 }
 .entrada:focus{
     border: 1px solid #60a5fa;
@@ -124,28 +134,21 @@ body{
     font-size: 0.9rem;
     transition: background-color 0.15s ease;
 }
-.boton_login:hover{
-    transition: background-color 0.15s ease;
-    background: white;
-    color: black;
-    cursor: pointer;
-}
 #enlaces{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
     flex-direction: row;
     margin-bottom: 1rem;
     width: 100%;
+    text-align: center;
 }
 #enlaces a{
     font-size: 0.75rem;
     color: #60a5fa;
     text-decoration: none;
-}
-#enlaces a:hover{
-    text-decoration: underline;
 }
 .requerido{
     color: red;
@@ -154,7 +157,72 @@ body{
     color: gold;
     background: #0c121c;
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    overflow-wrap: anywhere;
 }
 .boton_restablecer_passwd{
     margin-bottom: 1rem;
+}
+
+/* Hover solo con mouse (en táctil queda "pegado" tras tocar) */
+@media (hover: hover){
+    .boton_login:hover{
+        transition: background-color 0.15s ease;
+        background: white;
+        color: black;
+        cursor: pointer;
+    }
+    #enlaces a:hover{
+        text-decoration: underline;
+    }
+}
+
+/* Tablets */
+@media (max-width: 900px){
+    .caja_login{
+        width: 55%;
+    }
+}
+
+/* Celulares */
+@media (max-width: 600px){
+    main{
+        align-items: flex-start; /* evita que el panel se corte arriba cuando sale el teclado */
+        padding: 1rem 0.75rem 2rem;
+    }
+    .caja_login{
+        width: 100%;
+        min-width: 0;
+        max-width: 440px;
+        margin: auto;
+        border-radius: 16px;
+        box-shadow: 8px 8px 16px #4e6183;
+    }
+    .body_login form{
+        padding: 1.25rem 1.25rem 0;
+        gap: 0.9rem;
+    }
+    /* 16px evita el zoom automático de iOS al enfocar un campo */
+    .entrada, .entrada.error{
+        font-size: 1rem;
+        height: 44px;
+    }
+    .boton_login{
+        height: 46px;
+        font-size: 1rem;
+    }
+    #enlaces a{
+        font-size: 0.9rem;
+        padding: 0.4rem 0.25rem; /* área táctil más cómoda */
+    }
+}
+
+/* Celulares en horizontal (poca altura) */
+@media (max-height: 500px) and (orientation: landscape){
+    main{
+        align-items: flex-start;
+        padding-top: 0.5rem;
+    }
+    .caja_login{
+        margin: 0 auto;
+    }
 }

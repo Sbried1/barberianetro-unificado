@@ -61,11 +61,11 @@ if (!$resultado) {
                     <div class="texto">
                         <p>En nuestro local, cada corte es mucho más que un simple servicio: es una <span class="destacado">experiencia</span> pensada para que salgas con un estilo que refleje tu personalidad.</p>
                     </div>
-                    <div class="imagen-p"></div>
+                    <div class="imagen-p" id="img1"></div>
                 </div>
                 <div class="separador"></div>
                 <div class="fila-inv">
-                    <div class="imagen-p"></div>
+                    <div class="imagen-p" id="img2"></div>
                     <div class="texto-inv">
                         <p>Contamos con un equipo de profesionales que acumula más de <span class="destacado">10 años de experiencia</span> en el rubro, perfeccionando cada técnica y manteniéndose al día con las últimas tendencias en barbería y peluquería.</p>
                     </div>
@@ -75,7 +75,7 @@ if (!$resultado) {
                     <div class="texto">
                         <p>Realizamos <span class="destacado">cortes de todo tipo y para todos los estilos</span>, desde los clásicos y elegantes hasta los más modernos y personalizados.</p>
                     </div>
-                    <div class="imagen-p"></div>
+                    <div class="imagen-p" id="img3"></div>
                 </div>
                 <div class="separador"></div>
             </div>

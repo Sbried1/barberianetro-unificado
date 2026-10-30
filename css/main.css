@@ -115,7 +115,7 @@ html{
 }
 .fila{
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 40%);
     gap: 2rem;
     align-items: center;
     height: auto;
@@ -123,7 +123,7 @@ html{
 }
 .fila-inv{
     display: grid;
-    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-columns: minmax(300px, 40%) minmax(0, 1fr);
     gap: 2rem;
     align-items: center;
     height: auto;
@@ -147,13 +147,20 @@ html{
     text-align: left;
 }
 .imagen-p{
-    background: url(../resources/images/landscape-placeholder.svg);
-    background-size: cover;
+    background-size:cover;
     background-repeat: no-repeat;
-    background-position: center;
     width: 100%;
     aspect-ratio: 1;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+#img1{
+    background: url(../resources/images/img-inicio-1.webp);
+}
+#img2{
+    background: url(../resources/images/img-inicio-1.webp);
+}
+#img3{
+    background: url(../resources/images/img-inicio-1.webp);
 }
 #ubicacion{
     width: 100%;
@@ -414,4 +421,15 @@ html{
 }
 .especialidad_icon{
     color: gold;
+}
+@media (max-width: 720px){
+    .fila, .fila-inv{
+        grid-template-columns: 1fr;
+    }
+    .fila-inv .imagen-p{
+        order: -1;
+    }
+    .texto, .texto-inv{
+    text-align: center;
+    }
 }

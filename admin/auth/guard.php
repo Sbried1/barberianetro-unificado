@@ -139,16 +139,28 @@ function auth_requerir(string $modulo, string $tipo = 'pagina'): array
 }
 
 // Dibuja el ítem "Cerrar sesión" del menú lateral con el mismo marcado que los
-// demás ítems (<li><a>). El enlace envía un formulario POST con token CSRF; si
-// el navegador no ejecuta JavaScript, el enlace abre una pantalla de
-// confirmación que hace lo mismo.
+// demás ítems (<li><a>). El enlace pide confirmación (panel_ui.js) y envía un
+// formulario POST con token CSRF; si el navegador no ejecuta JavaScript, el
+// enlace abre una pantalla de confirmación que hace lo mismo.
+// También carga los componentes compartidos, porque todas las páginas con
+// menú pasan por acá y los scripts de cada módulo van después del menú.
 function auth_render_logout_item(): void
 {
     $accion = auth_e(auth_url('auth/logout.php'));
+    echo '<link rel="stylesheet" href="' . auth_e(auth_url_versionada('Estilos_index/panel_ui.css')) . "\">\n";
+    echo '<script src="' . auth_e(auth_url_versionada('panel_ui.js')) . "\"></script>\n";
     echo "<li>\n";
     echo '    <form id="auth_form_logout" action="' . $accion . '" method="post" style="display:none">' . auth_csrf_campo() . "</form>\n";
-    echo '    <a href="' . $accion . '" onclick="document.getElementById(\'auth_form_logout\').submit(); return false;">' . "\n";
+    echo '    <a href="' . $accion . '" data-panel-logout="auth_form_logout">' . "\n";
     echo "        Cerrar sesión\n";
     echo "    </a>\n";
     echo "</li>\n";
+}
+
+// URL de un recurso estático con su fecha de modificación, para que el
+// navegador no siga usando una copia vieja después de un cambio.
+function auth_url_versionada(string $ruta): string
+{
+    $fecha = @filemtime(__DIR__ . '/../' . $ruta);
+    return auth_url($ruta) . '?v=' . (int) $fecha;
 }

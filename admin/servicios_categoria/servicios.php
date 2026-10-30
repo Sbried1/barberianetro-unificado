@@ -4,6 +4,7 @@ require_once __DIR__ . '/../auth/guard.php';
 auth_requerir('servicios');
 
 include("../conexion.php");
+require_once __DIR__ . "/servicios_funciones.php";
 
 // =====================================================
 // CONSULTAS SQL
@@ -209,7 +210,11 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
 
                     <div id="boton_derecha">
 
-                        <form action="eliminar_categoria.php" method="POST">
+                        <form
+                            action="eliminar_categoria.php"
+                            method="POST"
+                            data-confirmar-titulo="¿Eliminar la categoría?"
+                            data-confirmar="Vas a eliminar la categoría «<?php echo htmlspecialchars($categoria["nombre"]); ?>». Los servicios que la usan quedarán sin categoría.">
 
                             <input
                                 type="hidden"
@@ -218,8 +223,7 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
 
                             <button
                                 type="submit"
-                                id="boton_eli_cat"
-                                onclick="return confirm('¿Eliminar esta categoría? Los servicios que la usan quedarán sin categoría.')">
+                                id="boton_eli_cat">
 
                                 <img src="../img/cruzroja.png" alt="">
 
@@ -269,16 +273,21 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
 
         </div>
 
-        <form action="gurdar_servicio.php" method="POST" id="form_servicio">
+        <form action="gurdar_servicio.php" method="POST" id="form_servicio" class="form_servicio_ajax">
             <div id="caja_form_serv">
-                    <p>Nombre del servicio</p>
-                    <input 
+                    <p class="panel_alerta_form" role="alert" hidden></p>
+                    <div class="panel_campo_cabecera">
+                        <p>Nombre del servicio</p>
+                        <span class="panel_contador" data-contador="nuevo_nombre"></span>
+                    </div>
+                    <input
                         type="text"
                         placeholder="Ej: Corte clasico"
                         name="nombre"
+                        id="nuevo_nombre"
                         class="input_form_serv"
                         required
-                        maxlength="150"
+                        maxlength="<?php echo SERVICIO_NOMBRE_MAXIMO; ?>"
                     >
                     <p>Categoria</p>
                     <input
@@ -333,13 +342,18 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
                                     </div>
                             </div>
                     
-                    <p>Descripcion</p>
+                    <div class="panel_campo_cabecera">
+                        <p>Descripción (opcional)</p>
+                        <span class="panel_contador" data-contador="nueva_descripcion"></span>
+                    </div>
                     <div id="colum">
                             <textarea
                                 name="descripcion"
+                                id="nueva_descripcion"
                                 placeholder="Ej: Corte clásico con tijera y máquina."
                                 class="caja_de_texto"
-                                maxlength="200"
+                                rows="5"
+                                maxlength="<?php echo SERVICIO_DESCRIPCION_MAXIMO; ?>"
                             ></textarea>
                         
                         <div class="btns_cat_aniadir_eliminar">
@@ -436,7 +450,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="<?php echo auth_e(auth_url('configuracion/configuracion.php')); ?>">
                             Configuración
                         </a>
                     </li>
@@ -479,17 +493,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             // el valor que llega por la URL solo se usa para elegir el mensaje,
             // nunca se imprime. Los errores de categorías llegan con
             // ?modal=categorias y se muestran dentro de ese modal.
-            $mensajes_error_servicio = [
-                "nombre_invalido"      => "El nombre del servicio es obligatorio y no puede superar los 150 caracteres.",
-                "categoria_invalida"   => "La categoría es obligatoria y no puede superar los 100 caracteres.",
-                "precio_invalido"      => "El precio debe ser un número entero mayor a 0, sin puntos, comas ni símbolos (por ejemplo: 350).",
-                "duracion_invalida"    => "La duración no es válida. Usá un formato como 30 min, 1h 30min, 1:30 o 90.",
-                "descripcion_invalida" => "La descripción no puede superar los 255 caracteres.",
-                "servicio_invalido"    => "El servicio indicado no es válido.",
-                "no_existe"            => "El servicio indicado no existe (puede haber sido eliminado).",
-                "restriccion"          => "No se puede eliminar este servicio porque tiene reservas o ventas asociadas.",
-                "bd"                   => "No se pudo completar la operación por un error del sistema. Intentá nuevamente."
-            ];
+            $mensajes_error_servicio = servicio_mensajes_error();
             $mensajes_ok_servicio = [
                 "agregado"    => "Servicio agregado correctamente.",
                 "actualizado" => "Servicio actualizado correctamente.",
@@ -642,7 +646,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                             </button>
 
-                            <form action="eliminar_servicio.php" method="POST">
+                            <form
+                                action="eliminar_servicio.php"
+                                method="POST"
+                                data-confirmar-titulo="¿Eliminar el servicio?"
+                                data-confirmar="Vas a eliminar «<?php echo htmlspecialchars($servicio['nombre']); ?>». Esta acción no se puede deshacer. Si tiene reservas o ventas asociadas, no se eliminará.">
 
                                 <input
                                     type="hidden"
@@ -651,8 +659,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                                 <button
                                     type="submit"
-                                    class="btn_opciones_servicio_eliminar"
-                                    onclick="return confirm('¿Querés eliminar este servicio?')">
+                                    class="btn_opciones_servicio_eliminar">
 
                                     <img src="../img/basura.png">
 
@@ -692,7 +699,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
         </div>
 
-        <form action="actualizar_servicio.php" method="POST" id="form_editar_servicio">
+        <form action="actualizar_servicio.php" method="POST" id="form_editar_servicio" class="form_servicio_ajax">
 
             <input
                 type="hidden"
@@ -701,14 +708,19 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
             <div id="caja_form_serv">
 
-                <p>Nombre del servicio</p>
+                <p class="panel_alerta_form" role="alert" hidden></p>
+
+                <div class="panel_campo_cabecera">
+                    <p>Nombre del servicio</p>
+                    <span class="panel_contador" data-contador="editar_nombre"></span>
+                </div>
 
                 <input
                     type="text"
                     name="nombre"
                     id="editar_nombre"
                     class="input_form_serv"
-                    maxlength="150"
+                    maxlength="<?php echo SERVICIO_NOMBRE_MAXIMO; ?>"
                     required>
 
                 <p>Categoría</p>
@@ -766,14 +778,19 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                 </div>
 
-                <p>Descripción</p>
+                <div class="panel_campo_cabecera">
+                    <p>Descripción (opcional)</p>
+                    <span class="panel_contador" data-contador="editar_descripcion"></span>
+                </div>
 
                 <div id="colum">
 
                     <textarea
                         name="descripcion"
                         id="editar_descripcion"
-                        class="caja_de_texto"></textarea>
+                        class="caja_de_texto"
+                        rows="5"
+                        maxlength="<?php echo SERVICIO_DESCRIPCION_MAXIMO; ?>"></textarea>
 
                     <div class="btns_cat_aniadir_eliminar">
 
@@ -1017,11 +1034,100 @@ btnCerrarVerServicio.addEventListener("click", function () {
         document.getElementById("editar_descripcion").value =
             boton.dataset.descripcion;
 
+        // Los valores se cargaron por código: el contador no se entera solo.
+        ["editar_nombre", "editar_descripcion"].forEach(function (id) {
+            document.getElementById(id).dispatchEvent(new Event("input"));
+        });
+
+        limpiarErrorServicio(document.getElementById("form_editar_servicio"));
+
         document.getElementById(
             "modal_editar_servicio"
         ).style.display = "flex";
 
     }
+
+
+    // Alta y edición se envían con fetch: si el servidor rechaza los datos
+    // (por ejemplo, un nombre duplicado) el error aparece en el modal y no se
+    // pierde lo escrito. Sin JavaScript, el formulario se envía normalmente.
+    function limpiarErrorServicio(form) {
+
+        const alerta = form.querySelector(".panel_alerta_form");
+
+        alerta.textContent = "";
+        alerta.hidden = true;
+
+    }
+
+
+    function mostrarErrorServicio(form, mensaje) {
+
+        const alerta = form.querySelector(".panel_alerta_form");
+
+        alerta.textContent = mensaje;
+        alerta.hidden = false;
+
+        alerta.scrollIntoView({ block: "center" });
+
+    }
+
+
+    document.querySelectorAll(".form_servicio_ajax").forEach(function (form) {
+
+        form.addEventListener("submit", function (e) {
+
+            e.preventDefault();
+
+            if (form.dataset.enviando) {
+                return;
+            }
+
+            const boton = form.querySelector('button[type="submit"]');
+
+            form.dataset.enviando = "1";
+            PanelUI.cargando(boton, true);
+            limpiarErrorServicio(form);
+
+            fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: { "X-Panel-Ajax": "1" }
+            })
+                .then(function (respuesta) {
+
+                    if (respuesta.status === 401) {
+                        window.location.reload();
+                        return new Promise(function () {});
+                    }
+
+                    return respuesta.json();
+
+                })
+                .then(function (datos) {
+
+                    // Éxito: la página se recarga con el aviso y el botón sigue ocupado.
+                    if (datos.ok) {
+                        window.location.href = datos.destino;
+                        return;
+                    }
+
+                    mostrarErrorServicio(form, datos.mensaje || "No se pudo guardar el servicio. Intentá nuevamente.");
+                    delete form.dataset.enviando;
+                    PanelUI.cargando(boton, false);
+
+                })
+                .catch(function () {
+
+                    mostrarErrorServicio(form, "No se pudo comprobar si el servicio se guardó. Recargá la página y revisá el listado antes de reintentar.");
+                    delete form.dataset.enviando;
+                    PanelUI.cargando(boton, false);
+
+                });
+
+        });
+
+    });
 
 
     botonesOpcionesServicio.forEach(function (boton) {

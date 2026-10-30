@@ -19,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $id_cliente = isset($_POST["id_cliente"]) ? trim((string) $_POST["id_cliente"]) : "";
 $id_cliente = ctype_digit($id_cliente) ? (int) $id_cliente : 0;
 $id_barbero = isset($_POST["id_barbero"]) ? (int) $_POST["id_barbero"] : 0;
-$fecha      = isset($_POST["fecha"]) ? trim($_POST["fecha"]) : "";
-$hora       = isset($_POST["hora"]) ? trim($_POST["hora"]) : "";
-$email      = isset($_POST["email"]) ? trim($_POST["email"]) : "";
+$fecha      = isset($_POST["fecha"]) && is_string($_POST["fecha"]) ? trim($_POST["fecha"]) : "";
+$hora       = isset($_POST["hora"]) && is_string($_POST["hora"]) ? trim($_POST["hora"]) : "";
+$email      = isset($_POST["email"]) && is_string($_POST["email"]) ? trim($_POST["email"]) : "";
 $servicios  = isset($_POST["servicios"]) && is_array($_POST["servicios"]) ? $_POST["servicios"] : [];
 
 // =====================================================
@@ -34,6 +34,16 @@ if ($id_cliente <= 0 || $id_barbero <= 0 || $fecha === "" || $hora === "" || emp
 
 if (!validar_fecha_reserva($fecha) || !validar_hora_reserva($hora)) {
     header("Location: reservas.php?error=invalido");
+    exit;
+}
+
+if (turno_ya_paso($fecha, $hora)) {
+    header("Location: reservas.php?error=pasado");
+    exit;
+}
+
+if ($fecha > resv_fecha_limite_admin($conexion)) {
+    header("Location: reservas.php?error=horizonte");
     exit;
 }
 
@@ -75,13 +85,8 @@ if (empty($servicios_validos)) {
 // interpretado por parsear_duracion_a_minutos ya que es texto libre).
 $duracion_minutos = duracion_total_servicios_ids($conexion, $servicios_validos);
 
-// Mismas reglas que la grilla: no se reserva un horario que ya pasó ni un
-// turno que empiece antes de la apertura o termine después del cierre.
-if (turno_ya_paso($fecha, $hora)) {
-    header("Location: reservas.php?error=pasado");
-    exit;
-}
-
+// Misma regla que la grilla: el turno no puede empezar antes de la apertura
+// ni terminar después del cierre.
 if (!turno_dentro_de_horario($hora, $duracion_minutos)) {
     header("Location: reservas.php?error=fuera_horario");
     exit;

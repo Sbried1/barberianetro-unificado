@@ -496,25 +496,16 @@
     // =====================================================
     function eliminarBarbero(barbero) {
 
-        const confirmacion = confirm(
-            `¿Querés eliminar a ${barbero.nombre} ${barbero.apellido}? Esta acción no se puede deshacer.`
-        );
-
-        if (!confirmacion) return;
-
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "eliminar_barbero.php";
-        form.style.display = "none";
-
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "id_barbero";
-        input.value = barbero.id_barbero;
-
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
+        PanelUI.confirmar({
+            titulo: "¿Eliminar al barbero?",
+            mensaje: `Vas a eliminar a ${barbero.nombre} ${barbero.apellido}. Esta acción no se puede deshacer.`,
+            textoConfirmar: "Eliminar",
+            textoCargando: "Eliminando...",
+            peligro: true,
+            alConfirmar: function () {
+                PanelUI.enviarPost("eliminar_barbero.php", { id_barbero: barbero.id_barbero });
+            }
+        });
     }
 
     // =====================================================

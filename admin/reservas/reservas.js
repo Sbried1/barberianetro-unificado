@@ -28,6 +28,57 @@
         return reserva.estado === "pendiente" || reserva.estado === "confirmada";
     }
 
+    // ---------- REGLAS DE FECHA (vienen del servidor) ----------
+    // El servidor vuelve a comprobar todo: esto solo avisa antes de enviar.
+    const REGLAS = JSON.parse(document.getElementById("reglas_reserva").textContent);
+    const cargaPagina = Date.now();
+
+    // Fecha y hora actuales del negocio: la hora del servidor al cargar la
+    // página, más el tiempo transcurrido desde entonces.
+    function ahoraNegocio() {
+        const [fecha, hora] = REGLAS.ahora.split("T");
+        return new Date(fechaLocal(fecha, hora).getTime() + (Date.now() - cargaPagina));
+    }
+
+    // Devuelve el error de una fecha (y hora, si se indica), o "" si es válida.
+    function errorDeTurno(fecha, hora) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+            return "Indicá una fecha válida.";
+        }
+        if (fecha < aYMD(ahoraNegocio())) {
+            return "La fecha ya pasó. Elegí una fecha desde hoy en adelante.";
+        }
+        if (fecha > REGLAS.limite) {
+            return `Solo se puede agendar hasta ${REGLAS.dias_maximo} días hacia adelante (hasta el ${formatoFechaCorta(REGLAS.limite)}).`;
+        }
+        if (fechaLocal(fecha).getDay() === REGLAS.dia_cerrado) {
+            return "Los domingos la barbería está cerrada. Elegí otro día.";
+        }
+        if (hora !== undefined) {
+            if (!/^\d{2}:\d{2}/.test(hora)) {
+                return "Indicá una hora válida.";
+            }
+            if (fechaLocal(fecha, hora) <= ahoraNegocio()) {
+                return "Ese horario ya pasó. Elegí una hora futura.";
+            }
+            if (hora < REGLAS.apertura || hora >= REGLAS.cierre) {
+                return `El horario de atención es de ${REGLAS.apertura} a ${REGLAS.cierre}.`;
+            }
+        }
+        return "";
+    }
+
+    function mostrarErrorForm(elemento, mensaje) {
+        elemento.textContent = mensaje;
+        elemento.hidden = mensaje === "";
+        if (mensaje !== "") elemento.scrollIntoView({ block: "center" });
+    }
+
+    // Una reserva activa cuyo horario ya pasó: quedó sin venta ni cancelación.
+    function turnoSinCerrar(reserva) {
+        return esReservaActiva(reserva) && fechaLocal(reserva.fecha, reserva.hora) <= ahoraNegocio();
+    }
+
     // ---------- ESTADO DE LA UI ----------
     let filtrados = datosOriginales.slice();
     let paginaActual = 1;
@@ -215,13 +266,20 @@
         const colEstado = document.createElement("div");
         colEstado.appendChild(crearBadgeEstado(reserva.estado));
 
+        if (turnoSinCerrar(reserva)) {
+            const aviso = document.createElement("small");
+            aviso.className = "resv_turno_pasado";
+            aviso.textContent = "Turno pasado: registrá la venta o cancelala";
+            colEstado.appendChild(aviso);
+        }
+
         const colAcciones = document.createElement("div");
         colAcciones.className = "resv_acciones";
 
         colAcciones.appendChild(crearBotonAccion("btn_ver_reserva", "👁", "Ver", function () { abrirVerReserva(reserva); }));
 
         if (reserva.estado === "pendiente") {
-            colAcciones.appendChild(crearBotonAccion("btn_confirmar_reserva", "✓", "Confirmar", function () { cambiarEstadoReserva(reserva, "confirmar"); }));
+            colAcciones.appendChild(crearBotonAccion("btn_confirmar_reserva", "✓", "Confirmar reserva (no la completa)", function () { cambiarEstadoReserva(reserva, "confirmar"); }));
         }
 
         if (esReservaActiva(reserva)) {
@@ -555,6 +613,8 @@
     const horariosGrid = document.getElementById("resv_horarios_grid");
     const inputHoraNueva = document.getElementById("resv_nueva_hora");
     const resumenBox = document.getElementById("resv_resumen");
+    const errorNueva = document.getElementById("resv_nueva_error");
+    const errorEditar = document.getElementById("resv_editar_error");
 
     const MENSAJE_HORARIOS_INICIAL = "Elegí barbero, al menos un servicio y una fecha para ver los horarios disponibles.";
 
@@ -592,6 +652,17 @@
         inputHoraNueva.value = "";
         resumenBox.style.display = "none";
 
+        // Invalida cualquier consulta en curso: ya no corresponde a estos datos.
+        const idPeticion = ++horariosRequestId;
+
+        if (fecha) {
+            const errorFecha = errorDeTurno(fecha);
+            if (errorFecha) {
+                mensajeHorarios(errorFecha, true);
+                return;
+            }
+        }
+
         if (!idBarbero || !fecha || idsServicios.length === 0) {
             mensajeHorarios(MENSAJE_HORARIOS_INICIAL, false);
             return;
@@ -599,7 +670,6 @@
 
         mensajeHorarios("Buscando horarios disponibles...", false);
 
-        const idPeticion = ++horariosRequestId;
         const params = new URLSearchParams({
             id_barbero: idBarbero,
             fecha: fecha,
@@ -621,7 +691,12 @@
     function renderizarHorarios(data) {
 
         if (!data || !data.ok) {
-            mensajeHorarios("No se pudieron calcular los horarios disponibles.", true);
+            const mensajes = {
+                fecha_pasada: "La fecha ya pasó. Elegí una fecha desde hoy en adelante.",
+                fecha_horizonte: `Solo se puede agendar hasta ${REGLAS.dias_maximo} días hacia adelante (hasta el ${formatoFechaCorta(REGLAS.limite)}).`,
+                dia_cerrado: "Los domingos la barbería está cerrada. Elegí otro día."
+            };
+            mensajeHorarios((data && mensajes[data.error]) || "No se pudieron calcular los horarios disponibles.", true);
             return;
         }
 
@@ -707,7 +782,11 @@
 
     function abrirNuevaReserva() {
         formReserva.reset();
-        if (inputFechaNueva) inputFechaNueva.min = aYMD(new Date());
+        inputFechaNueva.min = aYMD(ahoraNegocio());
+        inputFechaNueva.max = REGLAS.limite;
+        document.getElementById("resv_nueva_fecha_ayuda").textContent =
+            `Desde hoy hasta el ${formatoFechaCorta(REGLAS.limite)} (${REGLAS.dias_maximo} días). Los domingos está cerrado.`;
+        mostrarErrorForm(errorNueva, "");
         resetearPasoHorarios();
         modalReserva.style.display = "flex";
     }
@@ -726,15 +805,20 @@
     formReserva.addEventListener("submit", function (e) {
 
         const marcados = formReserva.querySelectorAll('input[name="servicios[]"]:checked');
+        let error = "";
+
         if (marcados.length === 0) {
-            e.preventDefault();
-            alert("Seleccioná al menos un servicio para la reserva.");
-            return;
+            error = "Seleccioná al menos un servicio para la reserva.";
+        } else if (!inputHoraNueva.value) {
+            error = "Seleccioná un horario disponible antes de guardar.";
+        } else {
+            error = errorDeTurno(inputFechaNueva.value, inputHoraNueva.value);
         }
 
-        if (!inputHoraNueva.value) {
+        mostrarErrorForm(errorNueva, error);
+
+        if (error) {
             e.preventDefault();
-            alert("Seleccioná un horario disponible antes de guardar.");
         }
     });
 
@@ -745,8 +829,20 @@
     const cerrarModalEditarReserva = document.getElementById("cerrar_modal_editar_reserva");
     const cancelarEditarReserva = document.getElementById("cancelar_editar_reserva");
     const formEditarReserva = document.getElementById("form_editar_reserva");
+    let reservaEnEdicion = null;
 
     function abrirEditarReserva(reserva) {
+
+        reservaEnEdicion = reserva;
+        mostrarErrorForm(errorEditar, "");
+        document.getElementById("resv_editar_aviso_confirmada").hidden = reserva.estado !== "confirmada";
+
+        // Los límites admiten la fecha actual de la reserva, aunque ya haya
+        // pasado: se puede editar el resto de los datos sin moverla.
+        const inputFechaEditar = document.getElementById("editar_resv_fecha");
+        const hoy = aYMD(ahoraNegocio());
+        inputFechaEditar.min = reserva.fecha < hoy ? reserva.fecha : hoy;
+        inputFechaEditar.max = reserva.fecha > REGLAS.limite ? reserva.fecha : REGLAS.limite;
 
         document.getElementById("editar_resv_id").value = reserva.id_reserva;
         document.getElementById("editar_resv_cliente").value = reserva.id_cliente;
@@ -772,9 +868,22 @@
 
     formEditarReserva.addEventListener("submit", function (e) {
         const marcados = formEditarReserva.querySelectorAll('input[name="servicios[]"]:checked');
+        const fecha = document.getElementById("editar_resv_fecha").value;
+        const hora = document.getElementById("editar_resv_hora").value;
+        const mueveTurno = !reservaEnEdicion || fecha !== reservaEnEdicion.fecha || hora.slice(0, 5) !== reservaEnEdicion.hora;
+
+        let error = "";
+
         if (marcados.length === 0) {
+            error = "Seleccioná al menos un servicio para la reserva.";
+        } else if (mueveTurno) {
+            error = errorDeTurno(fecha, hora);
+        }
+
+        mostrarErrorForm(errorEditar, error);
+
+        if (error) {
             e.preventDefault();
-            alert("Seleccioná al menos un servicio para la reserva.");
         }
     });
 
@@ -815,27 +924,31 @@
     // =====================================================
     function cambiarEstadoReserva(reserva, accion) {
 
-        const pregunta = accion === "confirmar"
-            ? `¿Confirmar la reserva de ${reserva.cliente} del ${formatoFechaCorta(reserva.fecha)} a las ${reserva.hora}?`
-            : `¿Cancelar la reserva de ${reserva.cliente} del ${formatoFechaCorta(reserva.fecha)} a las ${reserva.hora}? Quedará en el historial como cancelada.`;
+        if (accion === "confirmar") {
+            PanelUI.confirmar({
+                titulo: "¿Confirmar la reserva?",
+                mensaje: `Reserva de ${reserva.cliente} del ${formatoFechaCorta(reserva.fecha)} a las ${reserva.hora}. El turno sigue por atender: pasa a Completada recién cuando se registre la venta.`,
+                textoCancelar: "Volver",
+                textoConfirmar: "Confirmar reserva",
+                textoCargando: "Confirmando...",
+                alConfirmar: function () {
+                    PanelUI.enviarPost("estado_reserva.php", { id_reserva: reserva.id_reserva, accion: accion });
+                }
+            });
+            return;
+        }
 
-        if (!confirm(pregunta)) return;
-
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "estado_reserva.php";
-        form.style.display = "none";
-
-        [["id_reserva", reserva.id_reserva], ["accion", accion]].forEach(function (par) {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = par[0];
-            input.value = par[1];
-            form.appendChild(input);
+        PanelUI.confirmar({
+            titulo: "¿Cancelar la reserva?",
+            mensaje: `Reserva de ${reserva.cliente} del ${formatoFechaCorta(reserva.fecha)} a las ${reserva.hora}. Quedará en el historial como cancelada y el horario se liberará.`,
+            textoCancelar: "Volver",
+            textoConfirmar: "Cancelar reserva",
+            textoCargando: "Cancelando...",
+            peligro: true,
+            alConfirmar: function () {
+                PanelUI.enviarPost("estado_reserva.php", { id_reserva: reserva.id_reserva, accion: accion });
+            }
         });
-
-        document.body.appendChild(form);
-        form.submit();
     }
 
     // =====================================================
@@ -843,25 +956,16 @@
     // =====================================================
     function eliminarReserva(reserva) {
 
-        const confirmacion = confirm(
-            `¿Querés eliminar la reserva de ${reserva.cliente} del ${formatoFechaCorta(reserva.fecha)} a las ${reserva.hora}?`
-        );
-
-        if (!confirmacion) return;
-
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "eliminar_reserva.php";
-        form.style.display = "none";
-
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "id_reserva";
-        input.value = reserva.id_reserva;
-
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
+        PanelUI.confirmar({
+            titulo: "¿Eliminar la reserva?",
+            mensaje: `Vas a eliminar la reserva de ${reserva.cliente} del ${formatoFechaCorta(reserva.fecha)} a las ${reserva.hora}. Esta acción no se puede deshacer.`,
+            textoConfirmar: "Eliminar",
+            textoCargando: "Eliminando...",
+            peligro: true,
+            alConfirmar: function () {
+                PanelUI.enviarPost("eliminar_reserva.php", { id_reserva: reserva.id_reserva });
+            }
+        });
     }
 
     // =====================================================

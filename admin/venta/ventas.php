@@ -297,7 +297,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="<?php echo auth_e(auth_url('configuracion/configuracion.php')); ?>">
                             Configuración
                         </a>
                     </li>
@@ -540,7 +540,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                         <div class="vta_form_botones">
                             <button type="submit" class="vta_btn_confirmar" id="vta_btn_confirmar">
                                 <img src="../img/tick.png" alt="">
-                                Confirmar venta
+                                Registrar venta
                             </button>
                             <button type="button" class="vta_btn_limpiar" id="vta_btn_limpiar">Limpiar</button>
                         </div>

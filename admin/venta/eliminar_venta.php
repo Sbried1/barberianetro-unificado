@@ -2,9 +2,11 @@
 /**
  * eliminar_venta.php
  *
- * Si la fila eliminada era la última venta de una reserva, la reserva
- * vuelve a "confirmada" (el turno se había atendido, pero ya no tiene
- * venta) y puede volver a venderse. Todo ocurre en una transacción.
+ * Una venta con varios servicios son varias filas con el mismo id_reserva: la
+ * reserva sigue completada mientras le quede alguna. Al eliminar la última,
+ * vuelve a "pendiente" y puede volver a venderse. Solo cambia el estado, y solo
+ * si estaba completada. No se usa "confirmada": la base no guarda si alguien la
+ * había confirmado antes. Todo ocurre en una transacción.
  */
 
 require_once __DIR__ . '/../auth/guard.php';
@@ -76,7 +78,7 @@ try {
         mysqli_stmt_close($consulta_restantes);
 
         if ($restantes === 0) {
-            $sql_reabrir = "UPDATE reserva SET estado = 'confirmada' WHERE id_reserva = ? AND estado = 'completada'";
+            $sql_reabrir = "UPDATE reserva SET estado = 'pendiente' WHERE id_reserva = ? AND estado = 'completada'";
             $consulta_reabrir = venta_preparar($conexion, $sql_reabrir);
             mysqli_stmt_bind_param($consulta_reabrir, "i", $id_reserva);
             venta_ejecutar($consulta_reabrir);

@@ -1,0 +1,171 @@
+/* =====================================================================
+   PANEL_UI.CSS
+   Componentes compartidos del panel (ver panel_ui.js): modal de
+   confirmación, botones con estado de carga, contadores de caracteres
+   y mensajes de error dentro de los formularios.
+   ===================================================================== */
+
+.panel_modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000001; /* por encima de .modal: puede abrirse sobre otro modal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.panel_modal[hidden] {
+    display: none;
+}
+
+.panel_modal_caja {
+    width: min(420px, 100%);
+    padding: 22px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--dorado);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-modal);
+}
+
+.panel_modal.peligro .panel_modal_caja {
+    border-top-color: var(--rojo);
+}
+
+.panel_modal_caja h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+.panel_modal_caja p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+
+.panel_modal_botones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.panel_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dorado-texto);
+    background: var(--dorado);
+    border: 1px solid var(--dorado);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+}
+
+.panel_btn:hover:not(:disabled) {
+    background: var(--dorado-claro);
+    border-color: var(--dorado-claro);
+}
+
+.panel_btn:focus-visible {
+    outline: 2px solid var(--dorado-claro);
+    outline-offset: 2px;
+}
+
+.panel_btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.panel_btn_sec {
+    color: var(--text-dark);
+    background: transparent;
+    border-color: var(--border-color);
+}
+
+.panel_btn_sec:hover:not(:disabled) {
+    background: var(--bg-hover);
+    border-color: var(--border-color);
+}
+
+.panel_btn_peligro {
+    color: #1a0707;
+    background: var(--rojo);
+    border-color: var(--rojo);
+}
+
+.panel_btn_peligro:hover:not(:disabled) {
+    background: #fca5a5;
+    border-color: #fca5a5;
+}
+
+/* Estado de carga de cualquier botón del panel */
+button.cargando {
+    cursor: progress;
+    opacity: 0.8;
+}
+
+button.cargando::before {
+    content: "";
+    display: inline-block;
+    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+    margin-right: 6px;
+    vertical-align: -2px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: panel_girar 0.7s linear infinite;
+}
+
+@keyframes panel_girar {
+    to { transform: rotate(360deg); }
+}
+
+/* Etiqueta de un campo con su límite y contador */
+.panel_campo_cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 12px;
+    margin-bottom: 16px;
+}
+
+.panel_campo_cabecera p {
+    margin: 0 !important;
+}
+
+.panel_contador {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.panel_contador.limite {
+    font-weight: 600;
+    color: var(--ambar);
+}
+
+/* Error dentro de un formulario o un modal */
+.panel_alerta_form {
+    margin: 0 0 14px !important;
+    padding: 10px 12px;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.4;
+    color: var(--rojo) !important;
+    background: var(--rojo-bg);
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    border-radius: var(--radius-md);
+}

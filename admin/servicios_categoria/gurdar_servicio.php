@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../auth/guard.php';
-auth_requerir('servicios');
+auth_requerir('servicios', isset($_SERVER["HTTP_X_PANEL_AJAX"]) ? 'json' : 'pagina');
 
 include("../conexion.php");
 require_once __DIR__ . "/servicios_funciones.php";
@@ -46,6 +46,14 @@ $datos = $validacion["datos"];
 $errno = 0;
 
 try {
+
+    if (!servicio_bloquear_nombres($conexion)) {
+        volver_a_servicios("error=bd");
+    }
+
+    if (servicio_nombre_existe($conexion, $datos["nombre"])) {
+        volver_a_servicios("error=nombre_duplicado");
+    }
 
     $sql = "INSERT INTO servicio (categoria, nombre, duracion, descripcion, precio) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexion, $sql);

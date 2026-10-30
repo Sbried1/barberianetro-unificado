@@ -375,7 +375,7 @@
 
         if (ayudaReserva) {
             ayudaReserva.textContent = bloqueado
-                ? "Venta vinculada a la reserva #" + reservaSeleccionada.id_reserva + ". Al confirmarla, la reserva pasa a completada. Para cambiar los datos, elegí Venta directa."
+                ? "Venta vinculada a la reserva #" + reservaSeleccionada.id_reserva + ". Al registrarla, la reserva pasa a Completada. Para cambiar los datos, elegí Venta directa."
                 : TEXTO_AYUDA_DIRECTA;
         }
     }
@@ -406,7 +406,7 @@
         if (serviciosUnicos.length === 0 || conPrecioInvalido || !reserva.id_cliente) {
             selectorReserva.value = "";
             vaciarDatosVenta();
-            alert(serviciosUnicos.length === 0
+            PanelUI.avisar(serviciosUnicos.length === 0
                 ? "La reserva #" + reserva.id_reserva + " no tiene servicios asociados: no se puede vender desde la reserva."
                 : "La reserva #" + reserva.id_reserva + " tiene servicios sin un precio entero válido. Corregí el precio en Servicios antes de venderla.");
             return;
@@ -479,25 +479,25 @@
 
             if (!inputIdClienteHidden.value) {
                 e.preventDefault();
-                alert("Seleccioná un cliente antes de confirmar la venta (es obligatorio).");
+                PanelUI.avisar("Seleccioná un cliente antes de registrar la venta (es obligatorio).");
                 return;
             }
 
             if (!selectBarbero.value) {
                 e.preventDefault();
-                alert("Seleccioná un barbero antes de confirmar la venta.");
+                PanelUI.avisar("Seleccioná un barbero antes de registrar la venta.");
                 return;
             }
 
             if (carrito.length === 0) {
                 e.preventDefault();
-                alert("Agregá al menos un servicio antes de confirmar la venta.");
+                PanelUI.avisar("Agregá al menos un servicio antes de registrar la venta.");
                 return;
             }
 
             if (reservaSeleccionada && selectorReserva.value !== String(reservaSeleccionada.id_reserva)) {
                 e.preventDefault();
-                alert("La reserva seleccionada cambió. Volvé a elegirla antes de confirmar la venta.");
+                PanelUI.avisar("La reserva seleccionada cambió. Volvé a elegirla antes de registrar la venta.");
                 return;
             }
 
@@ -705,25 +705,16 @@
     // ELIMINAR VENTA
     // =====================================================
     function eliminarVenta(venta) {
-        const confirmacion = confirm(
-            "¿Seguro que querés eliminar la venta #V-" + String(venta.id_venta).padStart(6, "0") + " de " + venta.cliente + "?"
-        );
-
-        if (!confirmacion) return;
-
-        const formEliminar = document.createElement("form");
-        formEliminar.method = "POST";
-        formEliminar.action = "eliminar_venta.php";
-        formEliminar.style.display = "none";
-
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "id_venta";
-        input.value = venta.id_venta;
-
-        formEliminar.appendChild(input);
-        document.body.appendChild(formEliminar);
-        formEliminar.submit();
+        PanelUI.confirmar({
+            titulo: "¿Eliminar la venta?",
+            mensaje: "Vas a eliminar la venta #V-" + String(venta.id_venta).padStart(6, "0") + " de " + venta.cliente + ". Esta acción no se puede deshacer.",
+            textoConfirmar: "Eliminar",
+            textoCargando: "Eliminando...",
+            peligro: true,
+            alConfirmar: function () {
+                PanelUI.enviarPost("eliminar_venta.php", { id_venta: venta.id_venta });
+            }
+        });
     }
 
     // =====================================================

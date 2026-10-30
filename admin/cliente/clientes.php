@@ -108,7 +108,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="<?php echo auth_e(auth_url('configuracion/configuracion.php')); ?>">
                             Configuración
                         </a>
                     </li>
@@ -270,13 +270,16 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                 <img src="../img/lapiz.png" alt="Editar">
                             </button>
 
-                            <form action="eliminar_cliente.php" method="POST" style="display:contents;">
+                            <form
+                                action="eliminar_cliente.php"
+                                method="POST"
+                                style="display:contents;"
+                                data-confirmar-titulo="¿Eliminar al cliente?"
+                                data-confirmar="Vas a eliminar a <?php echo esc($nombre_completo); ?>. Esta acción no se puede deshacer.">
                                 <input type="hidden" name="id_cliente" value="<?php echo (int) $cliente['id_cliente']; ?>">
                                 <button
                                     type="submit"
-                                    class="btn_accion_cliente btn_eliminar_cliente"
-                                    data-nombre="<?php echo esc($nombre_completo); ?>"
-                                    onclick="return confirmarEliminarCliente(this)">
+                                    class="btn_accion_cliente btn_eliminar_cliente">
                                     <img src="../img/basura.png" alt="Eliminar">
                                 </button>
                             </form>
@@ -520,13 +523,6 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
         cerrarModalVerCliente.addEventListener("click", cerrarVerCliente);
         cerrarVerClienteBtn.addEventListener("click", cerrarVerCliente);
-
-        // ---------- CONFIRMAR ELIMINACION ----------
-        // El nombre se lee desde data-nombre (ya escapado por PHP), así no hay
-        // que armar un string JavaScript dentro del atributo onclick.
-        function confirmarEliminarCliente(boton) {
-            return confirm("¿Querés eliminar a " + boton.dataset.nombre + "?");
-        }
 
         // ---------- CERRAR MODALES CLICKEANDO AFUERA ----------
         window.addEventListener("click", function (e) {

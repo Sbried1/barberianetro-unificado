@@ -325,7 +325,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="<?php echo auth_e(auth_url('configuracion/configuracion.php')); ?>">
                             Configuración
                         </a>
                     </li>

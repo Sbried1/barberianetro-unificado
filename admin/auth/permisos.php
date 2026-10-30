@@ -14,7 +14,8 @@
  *   - Barbero: ningún módulo administrativo (Barberos y Ventas son
  *     exclusivos del gerente; Dashboard, Clientes, Servicios y Reservas
  *     tampoco se pueden dar en solo lectura sin modificar su lógica).
- *     Después de iniciar sesión, el barbero llega a auth/inicio.php.
+ *     Solo puede ver y confirmar SUS reservas ("mis_reservas"). Después de
+ *     iniciar sesión, llega a auth/inicio.php.
  *
  * Para habilitar un módulo a otro rol en el futuro, se agrega el rol a la
  * lista del módulo. Un módulo que NO figura en la matriz se deniega siempre
@@ -44,6 +45,8 @@ const AUTH_PERMISOS = [
     'clientes'  => [AUTH_ROL_GERENTE],
     'barberos'  => [AUTH_ROL_GERENTE],
     'ventas'    => [AUTH_ROL_GERENTE],
+    'configuracion' => [AUTH_ROL_GERENTE],
+    'mis_reservas'  => [AUTH_ROL_BARBERO],
 ];
 
 // ¿Puede este rol entrar a este módulo? Un módulo desconocido se deniega.

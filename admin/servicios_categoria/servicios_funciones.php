@@ -18,9 +18,53 @@
 // Mismo tope que ya tiene el campo "Precio" del formulario (max="999999").
 define("SERVICIO_PRECIO_MAXIMO", 999999);
 
+// Límites de texto. Entran en los varchar de la tabla (150 y 255): son más
+// cortos para que nombres y descripciones se lean bien en listados y modales.
+define("SERVICIO_NOMBRE_MAXIMO", 80);
+define("SERVICIO_DESCRIPCION_MAXIMO", 250);
+
+// Textos de cada código de error. Los usa servicios.php (recarga completa)
+// y la respuesta JSON de los formularios enviados con JavaScript.
+function servicio_mensajes_error() {
+    return array(
+        "nombre_invalido"      => "El nombre del servicio es obligatorio y no puede superar los " . SERVICIO_NOMBRE_MAXIMO . " caracteres.",
+        "nombre_duplicado"     => "Ya existe un servicio con ese nombre. Elegí otro nombre o editá el servicio existente.",
+        "categoria_invalida"   => "La categoría es obligatoria y no puede superar los 100 caracteres.",
+        "precio_invalido"      => "El precio debe ser un número entero mayor a 0, sin puntos, comas ni símbolos (por ejemplo: 350).",
+        "duracion_invalida"    => "La duración no es válida. Usá un formato como 30 min, 1h 30min, 1:30 o 90.",
+        "descripcion_invalida" => "La descripción no puede superar los " . SERVICIO_DESCRIPCION_MAXIMO . " caracteres.",
+        "servicio_invalido"    => "El servicio indicado no es válido.",
+        "no_existe"            => "El servicio indicado no existe (puede haber sido eliminado).",
+        "restriccion"          => "No se puede eliminar este servicio porque tiene reservas o ventas asociadas.",
+        "bd"                   => "No se pudo completar la operación por un error del sistema. Intentá nuevamente."
+    );
+}
+
+// ¿El formulario se envió con JavaScript (fetch) y espera JSON?
+function servicio_es_ajax() {
+    return isset($_SERVER["HTTP_X_PANEL_AJAX"]);
+}
+
 // Redirige a servicios.php con un parámetro de resultado
-// (?error=... o ?ok=...) y termina el script.
+// (?error=... o ?ok=...) y termina el script. Si el formulario se envió con
+// JavaScript responde JSON, para mostrar el error sin perder lo escrito.
 function volver_a_servicios($parametro) {
+
+    if (servicio_es_ajax()) {
+        $es_error = strpos($parametro, "error=") === 0;
+        $codigo = $es_error ? substr($parametro, 6) : "";
+        $mensajes = servicio_mensajes_error();
+
+        header("Content-Type: application/json; charset=utf-8");
+        echo json_encode(array(
+            "ok" => !$es_error,
+            "error" => $es_error ? $codigo : null,
+            "mensaje" => $es_error ? ($mensajes[$codigo] ?? $mensajes["bd"]) : null,
+            "destino" => $es_error ? null : "servicios.php?" . $parametro
+        ), JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
     header("Location: servicios.php?" . $parametro);
     exit();
 }
@@ -30,6 +74,46 @@ function volver_a_servicios($parametro) {
 function servicio_post_texto($clave) {
     $valor = $_POST[$clave] ?? "";
     return is_string($valor) ? trim($valor) : "";
+}
+
+// Nombre tal como se guarda: sin espacios al principio ni al final, y con
+// los espacios repetidos colapsados. Devuelve null si la codificación es inválida.
+function servicio_normalizar_nombre($nombre) {
+    $limpio = preg_replace('/[\s\p{Z}]+/u', ' ', (string) $nombre);
+    return $limpio === null ? null : trim($limpio);
+}
+
+// El navegador envía los saltos de línea como \r\n, pero el contador y el
+// maxlength del textarea los cuentan como un solo carácter.
+function servicio_normalizar_descripcion($descripcion) {
+    return trim(str_replace(array("\r\n", "\r"), "\n", (string) $descripcion));
+}
+
+// ¿Dos nombres son el mismo, sin distinguir mayúsculas ni espacios?
+function servicio_mismo_nombre($a, $b) {
+    return mb_strtolower((string) servicio_normalizar_nombre($a), "UTF-8") === mb_strtolower((string) servicio_normalizar_nombre($b), "UTF-8");
+}
+
+// Serializa la comprobación de duplicados y el guardado siguiente: si el
+// formulario llega dos veces a la vez, el segundo pedido espera al primero y
+// ve el servicio que ya guardó. MySQL libera el bloqueo al cerrar la conexión.
+// No se usa un índice UNIQUE porque hoy hay duplicados y la migración fallaría.
+function servicio_bloquear_nombres($conexion) {
+    $resultado = mysqli_query($conexion, "SELECT GET_LOCK('netro_servicio_nombre', 5) AS obtenido");
+    return $resultado && (int) mysqli_fetch_assoc($resultado)["obtenido"] === 1;
+}
+
+// ¿Hay OTRO servicio con ese nombre? Compara sin mayúsculas ni espacios en los
+// extremos; la intercalación de la columna (utf8mb4_general_ci) además ignora
+// los acentos, así "Corte clasico" también choca con "Corte clásico".
+function servicio_nombre_existe($conexion, $nombre, $id_excluir = 0) {
+    $sql = "SELECT id_servicio FROM servicio WHERE LOWER(TRIM(nombre)) = LOWER(TRIM(?)) AND id_servicio <> ? LIMIT 1";
+    $stmt = mysqli_prepare($conexion, $sql);
+    mysqli_stmt_bind_param($stmt, "si", $nombre, $id_excluir);
+    mysqli_stmt_execute($stmt);
+    $existe = mysqli_num_rows(mysqli_stmt_get_result($stmt)) > 0;
+    mysqli_stmt_close($stmt);
+    return $existe;
 }
 
 // Lee un id positivo enviado por POST. Devuelve el entero o false.
@@ -111,10 +195,24 @@ function servicio_duracion_a_minutos($texto) {
 //   array("error" => "codigo_de_error", "datos" => null)   si algo falla
 //   array("error" => null, "datos" => array(...))          si todo está bien
 // Los códigos son los que servicios.php ya sabe mostrar.
+//
+// $actual (solo en edición) es la fila guardada. Un nombre o descripción
+// anterior a estos límites sigue siendo válido mientras no se cambie, para
+// poder editar otros campos sin que el sistema obligue a recortar el texto.
 // -----------------------------------------------------
-function servicio_validar_datos($nombre, $categoria, $precio, $duracion, $descripcion) {
+function servicio_validar_datos($nombre, $categoria, $precio, $duracion, $descripcion, $actual = null) {
 
-    if ($nombre === "" || mb_strlen($nombre) > 150) {
+    $nombre = servicio_normalizar_nombre($nombre);
+    $descripcion = servicio_normalizar_descripcion($descripcion);
+
+    if ($nombre === null || !mb_check_encoding($descripcion, "UTF-8")) {
+        return array("error" => "nombre_invalido", "datos" => null);
+    }
+
+    $nombre_sin_cambios = $actual !== null && servicio_mismo_nombre($nombre, $actual["nombre"]);
+    $descripcion_sin_cambios = $actual !== null && $descripcion === servicio_normalizar_descripcion($actual["descripcion"] ?? "");
+
+    if ($nombre === "" || (mb_strlen($nombre) > SERVICIO_NOMBRE_MAXIMO && !$nombre_sin_cambios)) {
         return array("error" => "nombre_invalido", "datos" => null);
     }
 
@@ -140,7 +238,7 @@ function servicio_validar_datos($nombre, $categoria, $precio, $duracion, $descri
         return array("error" => "duracion_invalida", "datos" => null);
     }
 
-    if (mb_strlen($descripcion) > 255) {
+    if (mb_strlen($descripcion) > SERVICIO_DESCRIPCION_MAXIMO && !$descripcion_sin_cambios) {
         return array("error" => "descripcion_invalida", "datos" => null);
     }
 

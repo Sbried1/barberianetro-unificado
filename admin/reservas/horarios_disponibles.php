@@ -22,6 +22,8 @@
  *                     "motivo": null | "pasado" | "ocupado", "choca_con": "10:00–11:00" | null }, ... ],
  *     "ocupados": [ "10:00–11:00", ... ]   turnos ya tomados por ese barbero ese día
  *   }
+ * Una fecha que no se puede agendar responde "ok": false y "error":
+ * "fecha_pasada", "fecha_horizonte" o "dia_cerrado".
  */
 
 require_once __DIR__ . '/../auth/guard.php';
@@ -40,8 +42,8 @@ $respuesta = [
 ];
 
 $id_barbero = isset($_GET["id_barbero"]) ? (int) $_GET["id_barbero"] : 0;
-$fecha      = isset($_GET["fecha"]) ? trim($_GET["fecha"]) : "";
-$servicios_raw = isset($_GET["servicios"]) ? trim($_GET["servicios"]) : "";
+$fecha      = isset($_GET["fecha"]) && is_string($_GET["fecha"]) ? trim($_GET["fecha"]) : "";
+$servicios_raw = isset($_GET["servicios"]) && is_string($_GET["servicios"]) ? trim($_GET["servicios"]) : "";
 
 $id_reserva_excluir = isset($_GET["id_reserva"]) ? (int) $_GET["id_reserva"] : 0;
 if ($id_reserva_excluir <= 0) {
@@ -56,6 +58,21 @@ if ($id_barbero <= 0 || $fecha === "" || $servicios_raw === "") {
 
 if (!validar_fecha_reserva($fecha)) {
     $respuesta["error"] = "fecha_invalida";
+    echo json_encode($respuesta);
+    exit;
+}
+
+$error_fecha = null;
+if ($fecha < date("Y-m-d")) {
+    $error_fecha = "fecha_pasada";
+} elseif ($fecha > resv_fecha_limite_admin($conexion)) {
+    $error_fecha = "fecha_horizonte";
+} elseif (es_dia_cerrado($fecha)) {
+    $error_fecha = "dia_cerrado";
+}
+
+if ($error_fecha !== null) {
+    $respuesta["error"] = $error_fecha;
     echo json_encode($respuesta);
     exit;
 }

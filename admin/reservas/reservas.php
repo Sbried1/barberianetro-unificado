@@ -114,6 +114,19 @@ $json_reservas = json_encode(
     JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
 );
 
+// Reglas de fecha para las validaciones del navegador. La hora sale del
+// servidor: la del equipo del administrador podría estar mal o en otra zona.
+$dias_maximos_reserva = resv_dias_maximos_admin($conexion);
+$json_reglas_reserva = json_encode([
+    "ahora"       => date("Y-m-d\TH:i"),
+    "hoy"         => date("Y-m-d"),
+    "limite"      => resv_fecha_limite_admin($conexion),
+    "dias_maximo" => $dias_maximos_reserva,
+    "apertura"    => RESV_HORA_APERTURA,
+    "cierre"      => RESV_HORA_CIERRE,
+    "dia_cerrado" => RESV_DIA_CERRADO % 7, // date("N") usa 7 para el domingo; JavaScript, 0
+], JSON_HEX_TAG);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -191,7 +204,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="<?php echo auth_e(auth_url('configuracion/configuracion.php')); ?>">
                             Configuración
                         </a>
                     </li>
@@ -248,6 +261,13 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <?php if (isset($_GET["error"]) && $_GET["error"] == "pasado") { ?>
                 <div class="resv_alerta error" id="alerta_php">
                     <p>❌ Ese horario ya pasó. Elegí una fecha y hora futuras.</p>
+                    <button onclick="this.parentElement.style.display='none'">Aceptar</button>
+                </div>
+            <?php } ?>
+
+            <?php if (isset($_GET["error"]) && $_GET["error"] == "horizonte") { ?>
+                <div class="resv_alerta error" id="alerta_php">
+                    <p>❌ Solo se puede agendar hasta <?php echo (int) $dias_maximos_reserva; ?> días hacia adelante (hasta el <?php echo htmlspecialchars(date("d/m/Y", strtotime(resv_fecha_limite_admin($conexion)))); ?>). El límite se cambia en Configuración.</p>
                     <button onclick="this.parentElement.style.display='none'">Aceptar</button>
                 </div>
             <?php } ?>
@@ -311,6 +331,13 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <?php if (isset($_GET["ok"]) && $_GET["ok"] == "actualizado") { ?>
                 <div class="resv_alerta ok" id="alerta_php">
                     <p>✅ Reserva actualizada correctamente.</p>
+                    <button onclick="this.parentElement.style.display='none'">Aceptar</button>
+                </div>
+            <?php } ?>
+
+            <?php if (isset($_GET["ok"]) && $_GET["ok"] == "actualizado_pendiente") { ?>
+                <div class="resv_alerta ok" id="alerta_php">
+                    <p>✅ Reserva actualizada. Como cambió la fecha, la hora o el barbero, volvió a Pendiente y hay que confirmarla de nuevo.</p>
                     <button onclick="this.parentElement.style.display='none'">Aceptar</button>
                 </div>
             <?php } ?>
@@ -491,6 +518,8 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <form action="guardar_reserva.php" method="POST" id="form_reserva">
                 <div id="resv_caja_form" class="resv_form_reserva">
 
+                    <p class="panel_alerta_form" id="resv_nueva_error" role="alert" hidden></p>
+
                     <div class="resv_paso">
                         <p class="resv_paso_titulo">Cliente</p>
                         <select name="id_cliente" class="resv_select" required>
@@ -538,6 +567,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     <div class="resv_paso">
                         <p class="resv_paso_titulo"><span class="resv_paso_num">3</span> Fecha</p>
                         <input type="date" name="fecha" class="resv_input" id="resv_nueva_fecha" required>
+                        <p class="resv_fecha_ayuda" id="resv_nueva_fecha_ayuda"></p>
                     </div>
 
                     <div class="resv_paso">
@@ -624,6 +654,9 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 <input type="hidden" name="id_reserva" id="editar_resv_id">
 
                 <div id="resv_caja_form">
+
+                    <p class="panel_alerta_form" id="resv_editar_error" role="alert" hidden></p>
+                    <p class="resv_fecha_ayuda" id="resv_editar_aviso_confirmada" hidden>Esta reserva está confirmada. Si cambiás la fecha, la hora o el barbero, volverá a Pendiente.</p>
 
                     <p>Cliente</p>
                     <select name="id_cliente" id="editar_resv_cliente" class="resv_select" required>
@@ -759,6 +792,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
     <!-- Datos de reservas (con joins ya resueltos) para la lista y el calendario -->
     <script id="datos_reservas" type="application/json"><?php echo $json_reservas; ?></script>
+    <script id="reglas_reserva" type="application/json"><?php echo $json_reglas_reserva; ?></script>
 
     <script src="reservas.js"></script>
 

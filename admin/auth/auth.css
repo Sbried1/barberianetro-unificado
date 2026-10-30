@@ -9,7 +9,9 @@
 :root {
     --radius-sm: 8px;
     --radius-md: 10px;
+    --radius-lg: 14px;
     --radius-xl: 18px;
+    --shadow-modal: 0 25px 60px rgba(0, 0, 0, 0.6);
 
     --bg-page: #0b0b0d;
     --bg-white: #141416;
@@ -202,4 +204,57 @@
 
 .auth_form_inline {
     margin: 0;
+}
+
+/* Reservas del barbero (auth/inicio.php) */
+.barb_reservas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.barb_reserva {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.barb_reserva_datos {
+    display: flex;
+    flex: 1 1 180px;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    font-size: 14px;
+    color: var(--text-dark);
+    overflow-wrap: anywhere;
+}
+
+.barb_reserva_datos small {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.barb_reserva .auth_form_inline {
+    margin: 0;
+}
+
+.barb_reserva .auth_btn {
+    width: auto;
+    margin: 0;
+    padding: 8px 14px;
+}
+
+.barb_reserva_estado {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--verde);
 }

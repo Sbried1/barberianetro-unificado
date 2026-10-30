@@ -11,16 +11,15 @@
 
 // Valida que una fecha tenga formato real (YYYY-MM-DD) y sea una fecha válida.
 function validar_fecha_reserva($fecha) {
-    $partes = explode("-", $fecha);
-    if (count($partes) !== 3) {
+    if (!is_string($fecha) || !preg_match('/^(\d{4})-(\d{2})-(\d{2})\z/', $fecha, $partes)) {
         return false;
     }
-    return checkdate((int) $partes[1], (int) $partes[2], (int) $partes[0]);
+    return checkdate((int) $partes[2], (int) $partes[3], (int) $partes[1]);
 }
 
 // Valida que una hora tenga formato HH:MM o HH:MM:SS válido.
 function validar_hora_reserva($hora) {
-    if (preg_match('/^([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?$/', $hora)) {
+    if (is_string($hora) && preg_match('/^([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?\z/', $hora)) {
         return true;
     }
     return false;
@@ -245,6 +244,32 @@ function turno_dentro_de_horario($hora, $duracion_minutos) {
 function turno_ya_paso($fecha, $hora) {
     $momento = DateTime::createFromFormat("Y-m-d H:i", $fecha . " " . substr($hora, 0, 5));
     return $momento === false || $momento <= new DateTime();
+}
+
+// Cuántos días hacia adelante se puede agendar desde el panel. Se edita en
+// Configuración (tabla "configuracion"); si la migración todavía no se
+// ejecutó, rige el valor por defecto. La web de clientes tiene su propio
+// límite (RESERVA_DIAS_ADELANTE, en sections/comun.php).
+define("RESV_DIAS_ADMIN_DEFECTO", 60);
+define("RESV_DIAS_ADMIN_MINIMO", 1);
+define("RESV_DIAS_ADMIN_MAXIMO", 365);
+
+function resv_dias_maximos_admin($conexion) {
+    try {
+        $resultado = mysqli_query($conexion, "SELECT valor FROM configuracion WHERE clave = 'reserva_dias_admin' LIMIT 1");
+        $fila = $resultado ? mysqli_fetch_assoc($resultado) : null;
+    } catch (Throwable $e) {
+        $fila = null;
+    }
+
+    $dias = $fila ? filter_var($fila["valor"], FILTER_VALIDATE_INT, ["options" => ["min_range" => RESV_DIAS_ADMIN_MINIMO, "max_range" => RESV_DIAS_ADMIN_MAXIMO]]) : false;
+
+    return $dias !== false ? $dias : RESV_DIAS_ADMIN_DEFECTO;
+}
+
+// Última fecha que se puede agendar desde el panel ("AAAA-MM-DD").
+function resv_fecha_limite_admin($conexion) {
+    return date("Y-m-d", strtotime("+" . resv_dias_maximos_admin($conexion) . " days"));
 }
 
 // ¿Ese día la barbería está cerrada? (fecha "AAAA-MM-DD")

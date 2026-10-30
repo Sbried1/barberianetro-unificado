@@ -1,0 +1,138 @@
+/* =====================================================================
+   CONFIGURACION.CSS
+   Estilos exclusivos de la sección Configuración.
+   ===================================================================== */
+
+.config_grilla {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .config_grilla {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.config_tarjeta {
+    padding: 20px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+}
+
+.config_tarjeta_ancha {
+    grid-column: 1 / -1;
+}
+
+.config_tarjeta h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.config_texto {
+    margin: 0 0 16px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-muted);
+}
+
+.config_label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.config_input {
+    display: block;
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.config_input:focus {
+    outline: none;
+    border-color: var(--dorado);
+    box-shadow: 0 0 0 3px var(--dorado-bg);
+}
+
+.config_ayuda {
+    margin: -8px 0 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.config_alerta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    font-size: 14px;
+    border: 1px solid;
+    border-radius: var(--radius-md);
+}
+
+.config_alerta[hidden] {
+    display: none;
+}
+
+.config_alerta p {
+    margin: 0;
+}
+
+.config_alerta.error {
+    color: var(--rojo);
+    background: var(--rojo-bg);
+    border-color: rgba(248, 113, 113, 0.35);
+}
+
+.config_alerta.ok {
+    color: var(--verde);
+    background: var(--verde-bg);
+    border-color: rgba(74, 222, 128, 0.35);
+}
+
+.config_alerta button {
+    padding: 6px 12px;
+    font-weight: 600;
+    color: var(--dorado-texto);
+    background: currentColor;
+    border: 0;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.config_alerta.error button { background: var(--rojo); }
+.config_alerta.ok button { background: var(--verde); }
+
+.config_reglas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+    gap: 12px;
+    margin: 0;
+}
+
+.config_reglas dt {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.config_reglas dd {
+    margin: 2px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}

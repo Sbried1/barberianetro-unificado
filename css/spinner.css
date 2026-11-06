@@ -1,0 +1,43 @@
+.spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top-color: black;
+    border-radius: 50%;
+    animation: girar 0.6s linear infinite;
+}
+
+#boton_continuar.loading{
+    cursor: not-allowed;
+}
+.btn_texto{
+    display: block;
+}
+#boton_continuar.exito .btn_texto{
+    display: none;
+}
+#boton_continuar.exito i{
+    display: block;
+}
+#boton_continuar.loading .btn_texto{
+    display: none;
+}
+#boton_continuar i{
+    display: none;
+}
+#boton_continuar.loading i{
+    display: none;
+}
+#boton_continuar.loading .spinner{
+    display: block;
+}
+.boton_login.loading:hover{
+    background-color: #60a5fa;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}

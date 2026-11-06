@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/comun.php';
+session_check();
 
 $error = $_GET["error"] ?? "";
 $error_password = ($error === "password");
@@ -22,6 +23,7 @@ $mensajes_error = [
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/body.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/spinner.css">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +69,10 @@ $mensajes_error = [
                         <p class="mensaje-error">Las contraseñas no coinciden</p>
                     <?php endif; ?>
 
-                    <button type="submit" class="boton_login">Continuar</button>
+                    <button type="submit" class="boton_login" id="boton_continuar">
+                        <span class="btn_texto">Registrarse</span>
+                        <span class="spinner"></span>
+                    </button>
                     <div id="enlaces">
                         <a href="login.php">¿Ya tienes una cuenta? Iniciar Sesión</a>
                     </div>
@@ -76,4 +81,11 @@ $mensajes_error = [
         </div>
     </main>
 </body>
+<script>
+    document.querySelector("form").addEventListener("submit", function () {
+        const boton = this.querySelector('button[type="submit"]');
+        boton.classList.add("loading");
+        boton.disabled = true;
+    });
+</script>
 </html>

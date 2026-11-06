@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . '/comun.php';
 require_once __DIR__ . '/../mailer.php';
+session_check();
 
 $mensaje = '';
+$exito = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_valido()) {
     $mensaje = 'El formulario venció. Volvé a intentarlo.';
@@ -50,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_valido()) {
     }
 
     // Mismo mensaje exista o no el correo
-    $mensaje = 'Si el correo está registrado, recibirás un enlace en unos minutos.';
+    $mensaje = 'Si el correo está registrado, recibirás un enlace a la brevedad.';
+    $exito = true;
 }
 ?>
 
@@ -63,8 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_valido()) {
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/body.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/spinner.css">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -92,7 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_valido()) {
                     <?php if($mensaje):?>
                         <p class="msg"><i class="ph ph-envelope-simple"></i> <?= htmlspecialchars($mensaje) ?></p>
                     <?php endif; ?>
-                    <button type="submit" class="boton_login">Continuar</button>
+                    <button type="submit" class="boton_login <?= $exito ? 'exito' : '' ?>" id="boton_continuar">
+                        <span class="btn_texto">Continuar</span>
+                        <i class="ph-bold ph-check"></i>
+                        <span class="spinner"></span>
+                    </button>
                     <div id="enlaces">
                         <a href="register.php">Registrarse</a>
                         <a href="login.php">¿Ya tienes una cuenta? Iniciar Sesión</a>
@@ -102,4 +111,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrf_valido()) {
         </div>
     </main>
 </body>
+<script>
+    document.querySelector("form").addEventListener("submit", function () {
+        const boton = this.querySelector('button[type="submit"]');
+        boton.classList.add("loading");
+        boton.disabled = true;
+    });
+</script>
 </html>

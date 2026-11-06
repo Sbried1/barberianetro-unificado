@@ -142,3 +142,9 @@ function requerir_cliente() {
         exit;
     }
 }
+function session_check() {
+    if (isset($_SESSION['id_cliente'])) {
+        header('Location: perfil.php');
+        exit;
+    }
+}

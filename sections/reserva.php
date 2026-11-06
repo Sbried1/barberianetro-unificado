@@ -221,6 +221,7 @@ $celdasSiguiente = generarCeldasMes($anioSiguienteNum, $mesSiguienteNum, $hoy, $
     <link rel="stylesheet" href="../css/body.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/reserva.css">
+    <link rel="stylesheet" href="../css/spinner.css">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -322,7 +323,10 @@ $celdasSiguiente = generarCeldasMes($anioSiguienteNum, $mesSiguienteNum, $hoy, $
                     <input type="hidden" name="fecha" id="input-fecha">
                     <input type="hidden" name="hora" id="input-hora">
 
-                    <button type="submit" class="boton-reservar"><i class="ph ph-calendar-check"></i> Reservar turno</button>
+                    <button type="submit" class="boton-reservar" id="boton_continuar">
+                        <span class="btn_texto">Reservar turno</span>
+                        <span class="spinner"></span>
+                    </button>
                     <p class="reserva-nota"><i class="ph ph-lock-simple"></i> Tus datos están protegidos y no serán compartidos.</p>
                 </div>
                 <div class="reserva-columna">
@@ -540,7 +544,11 @@ $celdasSiguiente = generarCeldasMes($anioSiguienteNum, $mesSiguienteNum, $hoy, $
             if (!fechaSeleccionada || !horaSeleccionada) {
                 e.preventDefault();
                 alert('Elegí una fecha y un horario.');
+                return;
             }
+            const boton = this.querySelector('button[type="submit"]');
+            boton.classList.add("loading");
+            boton.disabled = true;
         });
     </script>
 </body>

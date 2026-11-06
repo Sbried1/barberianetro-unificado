@@ -247,7 +247,15 @@
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "vta_servicio_agregar" + (yaAgregado ? " agregado" : "");
-            btn.textContent = yaAgregado ? "✓" : "+";
+            btn.textContent = yaAgregado ? "" : "";
+            const icono = document.createElement("i");
+            if(yaAgregado){
+                icono.className = "ph ph-check"
+            }else{
+                icono.className = "ph ph-x"
+            }
+            btn.appendChild(icono);
+
             btn.title = yaAgregado ? "Ya agregado" : "Agregar";
             if (!precioValido) {
                 btn.textContent = "—";

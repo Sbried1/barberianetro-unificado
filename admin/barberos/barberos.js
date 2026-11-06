@@ -140,9 +140,23 @@
 
         const colAcciones = document.createElement("div");
         colAcciones.className = "barb_acciones";
-        colAcciones.appendChild(crearBotonAccion("btn_ver_barbero", "👁", "Ver", function () { abrirVerBarbero(barbero); }));
-        colAcciones.appendChild(crearBotonAccion("btn_editar_barbero", "✎", "Editar", function () { abrirEditarBarbero(barbero); }));
-        colAcciones.appendChild(crearBotonAccion("btn_eliminar_barbero", "🗑", "Eliminar", function () { eliminarBarbero(barbero); }));
+        const boton_ver = crearBotonAccion("btn_ver_barbero", "", "Ver", function () { abrirVerBarbero(barbero); });
+        const boton_editar = crearBotonAccion("btn_editar_barbero", "", "Editar", function () { abrirEditarBarbero(barbero); });
+        const boton_eliminar = crearBotonAccion("btn_eliminar_barbero", "", "Eliminar", function () { eliminarBarbero(barbero); });
+
+        const icono_ver = document.createElement("i");
+        const icono_editar = document.createElement("i");
+        const icono_cancelar = document.createElement("i");
+        const icono_eliminar = document.createElement("i");
+        icono_ver.className = "ph ph-eye";
+        icono_editar.className = "ph ph-pencil-simple";
+        icono_eliminar.className = "ph ph-trash";
+        boton_ver.appendChild(icono_ver);
+        boton_editar.appendChild(icono_editar);
+        boton_eliminar.appendChild(icono_eliminar);
+        colAcciones.appendChild(boton_editar);
+        colAcciones.appendChild(boton_eliminar);
+        colAcciones.appendChild(boton_ver);
 
         fila.append(colNombre, colEspecialidad, colDesde, colEstado, colAcciones);
 

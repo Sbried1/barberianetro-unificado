@@ -276,16 +276,41 @@
         const colAcciones = document.createElement("div");
         colAcciones.className = "resv_acciones";
 
-        colAcciones.appendChild(crearBotonAccion("btn_ver_reserva", "👁", "Ver", function () { abrirVerReserva(reserva); }));
-
+        const boton_ver = crearBotonAccion("btn_ver_reserva", "", "Ver", function () { abrirVerReserva(reserva); });
+        const icono_ver = document.createElement("i");
+        icono_ver.className = "ph ph-eye";
+        boton_ver.appendChild(icono_ver);
+        colAcciones.appendChild(boton_ver);
+        
         if (reserva.estado === "pendiente") {
-            colAcciones.appendChild(crearBotonAccion("btn_confirmar_reserva", "✓", "Confirmar reserva (no la completa)", function () { cambiarEstadoReserva(reserva, "confirmar"); }));
+            const boton_confirmar = crearBotonAccion(
+                "btn_confirmar_reserva", 
+                "", 
+                "Confirmar reserva (no la completa)", 
+                function () { cambiarEstadoReserva(reserva, "confirmar"); }
+            );
+                const icono_check = document.createElement("i");
+                icono_check.className = "ph ph-check";
+                boton_confirmar.appendChild(icono_check);
+                colAcciones.appendChild(boton_confirmar);
         }
 
         if (esReservaActiva(reserva)) {
-            colAcciones.appendChild(crearBotonAccion("btn_editar_reserva", "✎", "Editar", function () { abrirEditarReserva(reserva); }));
-            colAcciones.appendChild(crearBotonAccion("btn_cancelar_reserva", "⊘", "Cancelar reserva", function () { cambiarEstadoReserva(reserva, "cancelar"); }));
-            colAcciones.appendChild(crearBotonAccion("btn_eliminar_reserva", "🗑", "Eliminar", function () { eliminarReserva(reserva); }));
+            const boton_editar = crearBotonAccion("btn_editar_reserva", "", "Editar", function () { abrirEditarReserva(reserva); });
+            const boton_cancelar = crearBotonAccion("btn_cancelar_reserva", "", "Cancelar reserva", function () { cambiarEstadoReserva(reserva, "cancelar"); });
+            const boton_eliminar = crearBotonAccion("btn_eliminar_reserva", "", "Eliminar", function () { eliminarReserva(reserva); });
+            const icono_editar = document.createElement("i");
+            const icono_cancelar = document.createElement("i");
+            const icono_eliminar = document.createElement("i");
+            icono_editar.className = "ph ph-pencil-simple";
+            icono_cancelar.className = "ph ph-prohibit";
+            icono_eliminar.className = "ph ph-trash";
+            boton_editar.appendChild(icono_editar);
+            boton_cancelar.appendChild(icono_cancelar);
+            boton_eliminar.appendChild(icono_eliminar);
+            colAcciones.appendChild(boton_editar);
+            colAcciones.appendChild(boton_cancelar);
+            colAcciones.appendChild(boton_eliminar);
         }
 
         fila.append(colId, colCliente, colServicio, colBarbero, colFecha, colHora, colEstado, colAcciones);

@@ -38,6 +38,8 @@ $resultado_clientes_lista = mysqli_query($conexion, $sql_clientes_lista);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Estilos_index/global.css">
     <link rel="stylesheet" href="clientes_panel.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <title>Barberia - Clientes</title>
 </head>
 <body>
@@ -128,7 +130,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <button class="btn_add_servicio" id="btn_abrir_cliente">
-                    <img src="../img/mas.png" alt="">
+                    <i class="ph ph-plus"></i>
                     <span>Agregar cliente</span>
                 </button>
             </div>
@@ -192,7 +194,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <!-- ESTADISTICAS -->
             <div class="cuadro_stats">
                 <div class="stat_card">
-                    <div class="stat_icono morado">👥</div>
+                    <div class="stat_icono morado"><i class="ph ph-users"></i></div>
                     <div class="stat_texto">
                         <p>Clientes registrados</p>
                         <span><?php echo (int) $total_clientes["total"]; ?></span>
@@ -200,7 +202,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="stat_card">
-                    <div class="stat_icono verde">📅</div>
+                    <div class="stat_icono verde"><i class="ph ph-calendar-dot"></i></div>
                     <div class="stat_texto">
                         <p>Con reservas</p>
                         <span><?php echo (int) $total_con_reservas["total"]; ?></span>
@@ -256,7 +258,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                 data-nombre="<?php echo esc($cliente['nombre']); ?>"
                                 data-apellido="<?php echo esc($cliente['apellido']); ?>"
                                 data-email="<?php echo esc($cliente['email']); ?>">
-                                <img src="../img/ojo.png" alt="Ver">
+                                <i class="ph ph-eye"></i>
                             </button>
 
                             <button
@@ -267,7 +269,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                 data-nombre="<?php echo esc($cliente['nombre']); ?>"
                                 data-apellido="<?php echo esc($cliente['apellido']); ?>"
                                 data-email="<?php echo esc($cliente['email']); ?>">
-                                <img src="../img/lapiz.png" alt="Editar">
+                                <i class="ph ph-pencil-simple"></i>
                             </button>
 
                             <form
@@ -280,7 +282,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                 <button
                                     type="submit"
                                     class="btn_accion_cliente btn_eliminar_cliente">
-                                    <img src="../img/basura.png" alt="Eliminar">
+                                    <i class="ph ph-trash"></i>
                                 </button>
                             </form>
 
@@ -330,11 +332,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                     <div class="botones_modal_cli">
                         <button type="submit" class="btn_guardar_cli">
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
                         </button>
                         <button type="button" class="btn_cancelar_cli" id="cancelar_cliente">
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
                         </button>
                     </div>
@@ -377,11 +379,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                     <div class="botones_modal_cli">
                         <button type="submit" class="btn_guardar_cli">
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
                         </button>
                         <button type="button" class="btn_cancelar_cli" id="cancelar_editar_cliente">
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
                         </button>
                     </div>

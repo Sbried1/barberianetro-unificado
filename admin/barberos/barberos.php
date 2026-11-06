@@ -75,6 +75,8 @@ $json_barberos = json_encode(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Estilos_index/global.css">
     <link rel="stylesheet" href="barberos_panel.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <title>Barberia - Barberos</title>
 </head>
 <body>
@@ -164,7 +166,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <button class="btn_add_servicio" id="btn_abrir_barbero">
-                    <img src="../img/mas.png" alt="">
+                    <i class="ph ph-plus"></i>
                     <span>Nuevo barbero</span>
                 </button>
             </div>
@@ -257,7 +259,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <!-- ESTADISTICAS -->
             <div class="barb_stats">
                 <div class="barb_stat_card">
-                    <div class="barb_stat_icono morado">👥</div>
+                    <div class="barb_stat_icono morado"><i class="ph ph-users"></i></div>
                     <div class="barb_stat_texto">
                         <p>Total barberos</p>
                         <span><?php echo (int) $total_barberos; ?></span>
@@ -265,7 +267,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="barb_stat_card">
-                    <div class="barb_stat_icono verde">✔</div>
+                    <div class="barb_stat_icono verde"><i class="ph ph-check"></i></div>
                     <div class="barb_stat_texto">
                         <p>Disponibles</p>
                         <span><?php echo (int) $total_disponibles; ?></span>
@@ -273,7 +275,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="barb_stat_card">
-                    <div class="barb_stat_icono ambar">⏱</div>
+                    <div class="barb_stat_icono ambar"><i class="ph ph-prohibit"></i></div>
                     <div class="barb_stat_texto">
                         <p>No disponibles</p>
                         <span><?php echo (int) $total_no_disponibles; ?></span>
@@ -303,7 +305,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <button type="button" id="barb_limpiar_filtros" class="barb_btn_limpiar">
-                    <span>↺</span> Limpiar
+                    <span><i class="ph ph-broom"></i></span> Limpiar
                 </button>
             </div>
 
@@ -325,7 +327,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     <p class="barb_vacio_titulo" id="barb_vacio_titulo">No hay barberos registrados</p>
                     <p class="barb_vacio_texto" id="barb_vacio_texto">Aún no se han creado barberos.</p>
                     <button type="button" class="btn_add_servicio" id="btn_abrir_barbero_vacio">
-                        <img src="../img/mas.png" alt="">
+                        <i class="ph ph-plus"></i>
                         <span>Nuevo barbero</span>
                     </button>
                 </div>
@@ -383,7 +385,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     <input type="file" name="imagen" id="barb_imagen_input" class="barb_input_file" accept="image/jpeg,image/png,image/webp">
                     <div class="barb_drop_zona" id="barb_drop_zona">
                         <div class="barb_drop_vacio" id="barb_drop_vacio">
-                            <span class="barb_drop_icono">🖼️</span>
+                            <span class="barb_drop_icono"><i class="ph ph-image"></i></span>
                             <p class="barb_drop_texto">Arrastrá una imagen acá o <span class="barb_drop_link">elegí un archivo</span></p>
                             <p class="barb_drop_ayuda">JPG, PNG o WEBP · máx. 2 MB</p>
                         </div>
@@ -405,11 +407,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                     <div class="botones_modal_cli">
                         <button type="submit" class="btn_guardar_cli">
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
                         </button>
                         <button type="button" class="btn_cancelar_cli" id="cancelar_barbero">
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
                         </button>
                     </div>
@@ -460,7 +462,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     <input type="file" name="imagen" id="editar_barb_imagen_input" class="barb_input_file" accept="image/jpeg,image/png,image/webp">
                     <div class="barb_drop_zona" id="editar_barb_drop_zona">
                         <div class="barb_drop_vacio" id="editar_barb_drop_vacio">
-                            <span class="barb_drop_icono">🖼️</span>
+                            <span class="barb_drop_icono"><i class="ph ph-image"></i></span>
                             <p class="barb_drop_texto">Arrastrá una imagen acá o <span class="barb_drop_link">elegí un archivo</span></p>
                             <p class="barb_drop_ayuda">JPG, PNG o WEBP · máx. 2 MB</p>
                         </div>
@@ -482,11 +484,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                     <div class="botones_modal_cli">
                         <button type="submit" class="btn_guardar_cli">
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
                         </button>
                         <button type="button" class="btn_cancelar_cli" id="cancelar_editar_barbero">
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
                         </button>
                     </div>

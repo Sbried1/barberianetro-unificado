@@ -39,7 +39,8 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Estilos_index/global.css">
-    
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <link rel="stylesheet" href="servicios_panel.css">
     <title>Barberia</title>
 </head>
@@ -71,19 +72,6 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
                          maxlength="100"
                          
                          >
-
-
-
-                        <div class="btns_cat_aniadir_eliminar">
-                            <button class="btn_add_cat_ok" type="submit" style="display:flex;">
-                                <img src="../img/tick.png" alt="">
-                                Guardar
-                            </button>
-                            <button class="btn_add_cat_delete" id="cerrar_modal2" type="button" style="display:flex;">
-                                <img src="../img/cruzroja.png" alt="">
-                                <p>Cancelar</p>
-                            </button>
-                        </div>
 
                         <p class="ayuda_categoria_texto">
                             Nota: las categorías se generan automáticamente a partir de los
@@ -363,7 +351,7 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
                                 type="submit" 
                                 style="display:flex;"
                             >
-                                <img src="../img/tick.png" alt="">
+                                <i class="ph ph-check"></i>
                                 Guardar
                             </button>
 
@@ -373,7 +361,7 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
                                 type="button" 
                                 style="display:flex;"
                             >
-                                <img src="../img/cruzroja.png" alt="">
+                                <i class="ph ph-x"></i>
                                 Cancelar
                             </button>
 
@@ -385,6 +373,7 @@ $resultado_servicios_lista = mysqli_query($conexion, $sql_servicios_lista);
     </div>
 
 </div>
+
 <body>
     <header>
         <div class="nav">
@@ -472,15 +461,8 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                 <div id="btn_derecha">
 
-                    <button id="btn_abrir_ventana_categoria" class="btn_add_servicio">
-                    
-                        <img src="../img/2_puntos.png" alt="">
-
-                        <span>Categorias</span>
-                    </button>
-
                     <button class="btn_add_servicio" id="btn_abrir_servicio">
-                        <img src="../img/mas.png" alt="">
+                        <i class="ph ph-plus"></i>
                         <span>Agregar servicio</span>
                     </button>
 
@@ -527,7 +509,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 <div class="alerta_error_categoria" style="background: var(--verde-bg); border-color: rgba(74, 222, 128, 0.35); color: var(--verde);">
 
                     <p>
-                        ✅ <?php echo $mensajes_ok_servicio[$codigo_ok_servicio]; ?>
+                        <i class="ph ph-check"></i> <?php echo $mensajes_ok_servicio[$codigo_ok_servicio]; ?>
                     </p>
 
                     <button class="cerrar_alerta" style="background: var(--verde);">
@@ -541,7 +523,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <!-- ESTADISTICAS -->
             <div class="cuadro_stats">
                 <div class="stat_card">
-                    <div class="stat_icono morado">🛠</div>
+                    <div class="stat_icono morado"><i class="ph ph-pencil-simple-line"></i></div>
                     <div class="stat_texto">
                         <p>Servicios registrados</p>
                         <span><?php echo (int) $total_servicios["total"]; ?></span>
@@ -549,7 +531,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="stat_card">
-                    <div class="stat_icono verde">🏷</div>
+                    <div class="stat_icono verde"><i class="ph ph-tag"></i></div>
                     <div class="stat_texto">
                         <p>Categorías</p>
                         <span><?php echo (int) $total_categorias["total"]; ?></span>
@@ -628,7 +610,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                 data-precio="<?php echo htmlspecialchars($servicio['precio'] ?? ''); ?>"
                                 data-duracion="<?php echo htmlspecialchars($servicio['duracion'] ?? ''); ?>"
                                 data-descripcion="<?php echo htmlspecialchars($servicio['descripcion'] ?? ''); ?>">
-                                <img src="../img/ojo.png">
+                                <i class="ph ph-eye"></i>
                             </button>
 
                             <button
@@ -642,7 +624,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                 data-duracion="<?php echo htmlspecialchars($servicio['duracion'] ?? ''); ?>"
                                 data-descripcion="<?php echo htmlspecialchars($servicio['descripcion'] ?? ''); ?>">
 
-                                <img src="../img/lapizz.png">
+                                <i class="ph ph-pencil-simple"></i>
 
                             </button>
 
@@ -661,7 +643,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                                     type="submit"
                                     class="btn_opciones_servicio_eliminar">
 
-                                    <img src="../img/basura.png">
+                                    <i class="ph ph-trash"></i>
 
                                 </button>
 
@@ -798,7 +780,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                             class="btn_add_ser_ok"
                             type="submit">
 
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
 
                         </button>
@@ -808,7 +790,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                             type="button"
                             id="cancelar_edicion_servicio">
 
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
 
                         </button>
@@ -1208,36 +1190,6 @@ btnCerrarVerServicio.addEventListener("click", function () {
     const formCategoria =
         document.getElementById("form_categoria");
 
-
-    botonCategoria.addEventListener("click", function () {
-
-        // Misma regla en la otra dirección: si estaba abierto el modal
-        // de "Agregar servicio", se cierra antes de abrir Categorías.
-        modalServicio.style.display = "none";
-
-        modalCategoria.style.display = "flex";
-
-    });
-
-
-    cerrarCategoria.addEventListener("click", function () {
-
-        modalCategoria.style.display = "none";
-
-        formCategoria.style.display = "none";
-
-        const alertas =
-            document.querySelectorAll(".alerta_error_categoria");
-
-        alertas.forEach(function (alerta) {
-
-            alerta.style.display = "none";
-
-        });
-
-    });
-
-
     cerrarFormulario.addEventListener("click", function () {
 
         formCategoria.style.display = "none";
@@ -1250,7 +1202,6 @@ btnCerrarVerServicio.addEventListener("click", function () {
         formCategoria.style.display = "flex";
 
     });
-
 
     window.addEventListener("click", function (e) {
 

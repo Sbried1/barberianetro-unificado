@@ -256,6 +256,8 @@ function formato_dinero($valor) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Estilos_index/global.css">
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <title>Barberia - Dashboard</title>
 </head>
 <body>
@@ -344,8 +346,8 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     <p>Resumen general de la barbería · <?php echo htmlspecialchars(ucfirst($fecha_legible)); ?></p>
                 </div>
                 <div class="dash_accesos">
-                    <a href="reservas/reservas.php" class="dash_btn_accion">+ Nueva reserva</a>
-                    <a href="venta/ventas.php" class="dash_btn_accion dash_btn_accion_primario">+ Nueva venta</a>
+                    <a href="reservas/reservas.php" class="dash_btn_accion"><i class="ph ph-plus"></i> Nueva reserva</a>
+                    <a href="venta/ventas.php" class="dash_btn_accion dash_btn_accion_primario"><i class="ph ph-plus"></i> Nueva venta</a>
                 </div>
             </div>
 
@@ -353,7 +355,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <div class="dash_stats">
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono morado">$</div>
+                    <div class="dash_stat_icono morado"><i class="ph ph-currency-dollar"></i></div>
                     <div class="dash_stat_texto">
                         <p>Ventas hoy</p>
                         <span><?php echo formato_dinero($ventas_hoy["monto"]); ?></span>
@@ -362,7 +364,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono verde">↑</div>
+                    <div class="dash_stat_icono verde"><i class="ph ph-money-wavy"></i></div>
                     <div class="dash_stat_texto">
                         <p>Ventas del mes</p>
                         <span><?php echo formato_dinero($ventas_mes["monto"]); ?></span>
@@ -371,7 +373,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono ambar">≡</div>
+                    <div class="dash_stat_icono ambar"><i class="ph ph-list"></i></div>
                     <div class="dash_stat_texto">
                         <p>Ticket promedio</p>
                         <span><?php echo formato_dinero($ticket_promedio); ?></span>
@@ -380,7 +382,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono azul">✂</div>
+                    <div class="dash_stat_icono azul"><i class="ph ph-scissors"></i></div>
                     <div class="dash_stat_texto">
                         <p>Servicios vendidos</p>
                         <span><?php echo (int) $servicios_vendidos_mes; ?></span>
@@ -389,7 +391,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono morado">📅</div>
+                    <div class="dash_stat_icono morado"><i class="ph ph-calendar-blank"></i></div>
                     <div class="dash_stat_texto">
                         <p>Reservas hoy</p>
                         <span><?php echo (int) $reservas_hoy; ?></span>
@@ -398,7 +400,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono ambar">!</div>
+                    <div class="dash_stat_icono ambar"><i class="ph ph-exclamation-mark"></i></div>
                     <div class="dash_stat_texto">
                         <p>Reservas próximas</p>
                         <span><?php echo (int) $reservas_proximas_kpi; ?></span>
@@ -407,7 +409,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono azul">👥</div>
+                    <div class="dash_stat_icono azul"><i class="ph ph-users"></i></div>
                     <div class="dash_stat_texto">
                         <p>Clientes registrados</p>
                         <span><?php echo (int) $clientes_registrados; ?></span>
@@ -416,7 +418,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="dash_stat_card">
-                    <div class="dash_stat_icono verde">✔</div>
+                    <div class="dash_stat_icono verde"><i class="ph ph-check"></i></div>
                     <div class="dash_stat_texto">
                         <p>Barberos disponibles</p>
                         <span><?php echo (int) $barberos_disponibles; ?> de <?php echo (int) $barberos_total; ?></span>

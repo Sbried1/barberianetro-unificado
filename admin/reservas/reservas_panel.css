@@ -353,9 +353,13 @@
    ACCIONES DE FILA (ver / editar / eliminar)
    ===================================================================== */
 .resv_acciones {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    grid-template-columns: auto;
+    gap: 3px;
     justify-content: center;
 }
 

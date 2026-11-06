@@ -135,6 +135,8 @@ $json_reglas_reserva = json_encode([
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Estilos_index/global.css">
     <link rel="stylesheet" href="reservas_panel.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <title>Barberia - Reservas</title>
 </head>
 <body>
@@ -224,7 +226,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <button class="btn_add_servicio" id="btn_abrir_reserva">
-                    <img src="../img/mas.png" alt="">
+                    <i class="ph ph-plus"></i>
                     <span>Nueva reserva</span>
                 </button>
             </div>
@@ -385,7 +387,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <!-- ESTADISTICAS -->
             <div class="resv_stats">
                 <div class="resv_stat_card">
-                    <div class="resv_stat_icono ambar">⏱</div>
+                    <div class="resv_stat_icono ambar"><i class="ph ph-clock"></i></div>
                     <div class="resv_stat_texto">
                         <p>Pendientes</p>
                         <span><?php echo (int) $totales_estado["pendiente"]; ?></span>
@@ -393,7 +395,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="resv_stat_card">
-                    <div class="resv_stat_icono verde">✓</div>
+                    <div class="resv_stat_icono verde"><i class="ph ph-check"></i></div>
                     <div class="resv_stat_texto">
                         <p>Confirmadas</p>
                         <span><?php echo (int) $totales_estado["confirmada"]; ?></span>
@@ -401,7 +403,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="resv_stat_card">
-                    <div class="resv_stat_icono morado">📅</div>
+                    <div class="resv_stat_icono morado"><i class="ph ph-calendar-check"></i></div>
                     <div class="resv_stat_texto">
                         <p>Completadas</p>
                         <span><?php echo (int) $totales_estado["completada"]; ?></span>
@@ -409,7 +411,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="resv_stat_card">
-                    <div class="resv_stat_icono rojo">✕</div>
+                    <div class="resv_stat_icono rojo"><i class="ph ph-x"></i></div>
                     <div class="resv_stat_texto">
                         <p>Canceladas</p>
                         <span><?php echo (int) $totales_estado["cancelada"]; ?></span>
@@ -422,10 +424,10 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                 <div class="resv_tabs">
                     <button type="button" class="resv_tab activo" data-vista="lista" id="tab_lista">
-                        <span>☰</span> Lista
+                        <span><i class="ph ph-list"></i></span> Lista
                     </button>
                     <button type="button" class="resv_tab" data-vista="calendario" id="tab_calendario">
-                        <span>📅</span> Calendario
+                        <span><i class="ph ph-calendar-blank"></i></span> Calendario
                     </button>
                 </div>
 
@@ -446,11 +448,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                     <div id="lista_reservas_body"></div>
 
                     <div class="resv_vacio" id="resv_lista_vacia">
-                        <div class="resv_vacio_icono">📅</div>
+                        <div class="resv_vacio_icono"><i class="ph ph-calendar-blank"></i></div>
                         <p class="resv_vacio_titulo" id="resv_vacio_titulo">No hay reservas registradas</p>
                         <p class="resv_vacio_texto" id="resv_vacio_texto">Aún no se han creado reservas.</p>
                         <button type="button" class="btn_add_servicio" id="btn_abrir_reserva_vacio">
-                            <img src="../img/mas.png" alt="">
+                            <i class="ph ph-plus"></i>
                             <span>Nueva reserva</span>
                         </button>
                     </div>
@@ -623,11 +625,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                     <div class="botones_modal_cli">
                         <button type="submit" class="btn_guardar_cli">
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
                         </button>
                         <button type="button" class="btn_cancelar_cli" id="cancelar_reserva">
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
                         </button>
                     </div>
@@ -710,11 +712,11 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                     <div class="botones_modal_cli">
                         <button type="submit" class="btn_guardar_cli">
-                            <img src="../img/tick.png" alt="">
+                            <i class="ph ph-check"></i>
                             Guardar
                         </button>
                         <button type="button" class="btn_cancelar_cli" id="cancelar_editar_reserva">
-                            <img src="../img/cruzroja.png" alt="">
+                            <i class="ph ph-x"></i>
                             Cancelar
                         </button>
                     </div>

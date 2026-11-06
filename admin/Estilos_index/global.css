@@ -124,7 +124,6 @@ header {
     height: 28px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
 }
 
 #Netro {

@@ -228,6 +228,8 @@ $json_clientes = json_encode($lista_clientes, $flags_json) ?: "[]";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Estilos_index/global.css">
     <link rel="stylesheet" href="ventas_panel.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <title>Barberia - Ventas</title>
 </head>
 <body>
@@ -412,7 +414,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
             <!-- ESTADISTICAS -->
             <div class="vta_stats">
                 <div class="vta_stat_card">
-                    <div class="vta_stat_icono morado">$</div>
+                    <div class="vta_stat_icono morado"><i class="ph ph-currency-dollar"></i></div>
                     <div class="vta_stat_texto">
                         <p>Ventas hoy</p>
                         <span>$<?php echo number_format((float) $stats_hoy["monto"], 0, ",", "."); ?></span>
@@ -421,7 +423,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="vta_stat_card">
-                    <div class="vta_stat_icono verde">↑</div>
+                    <div class="vta_stat_icono verde"><i class="ph ph-money-wavy"></i></div>
                     <div class="vta_stat_texto">
                         <p>Ventas del mes</p>
                         <span>$<?php echo number_format((float) $stats_mes["monto"], 0, ",", "."); ?></span>
@@ -430,7 +432,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="vta_stat_card">
-                    <div class="vta_stat_icono ambar">≡</div>
+                    <div class="vta_stat_icono ambar"><i class="ph ph-chart-line"></i></div>
                     <div class="vta_stat_texto">
                         <p>Ticket promedio</p>
                         <span>$<?php echo number_format($ticket_promedio, 0, ",", "."); ?></span>
@@ -439,7 +441,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                 </div>
 
                 <div class="vta_stat_card">
-                    <div class="vta_stat_icono azul">🛍</div>
+                    <div class="vta_stat_icono azul"><i class="ph ph-shopping-cart"></i></div>
                     <div class="vta_stat_texto">
                         <p>Servicios vendidos</p>
                         <span><?php echo (int) $servicios_vendidos_mes; ?></span>
@@ -514,7 +516,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                             </div>
 
                             <div id="vta_carrito_vacio" class="vta_carrito_vacio">
-                                <div class="vta_carrito_vacio_icono">🛒</div>
+                                <div class="vta_carrito_vacio_icono"><i class="ph ph-shopping-cart"></i></div>
                                 <p>Aún no agregaste servicios</p>
                                 <small>Seleccioná servicios para comenzar</small>
                             </div>
@@ -539,10 +541,13 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
                         <div class="vta_form_botones">
                             <button type="submit" class="vta_btn_confirmar" id="vta_btn_confirmar">
-                                <img src="../img/tick.png" alt="">
+                                <i class="ph ph-check"></i>
                                 Registrar venta
                             </button>
-                            <button type="button" class="vta_btn_limpiar" id="vta_btn_limpiar">Limpiar</button>
+                            <button type="button" class="vta_btn_limpiar" id="vta_btn_limpiar">
+                                <i class="ph ph-broom"></i>
+                                Limpiar
+                            </button>
                         </div>
 
                     </form>
@@ -583,7 +588,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
                         <div id="vta_lista_body"></div>
 
                         <div class="vta_vacio" id="vta_vacio">
-                            <div class="vta_vacio_icono">🧾</div>
+                            <div class="vta_vacio_icono"><i class="ph ph-scroll"></i></div>
                             <p class="vta_vacio_titulo" id="vta_vacio_titulo">No hay ventas registradas</p>
                             <p class="vta_vacio_texto" id="vta_vacio_texto">Registrá tu primera venta desde el formulario de la izquierda.</p>
                         </div>

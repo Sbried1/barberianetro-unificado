@@ -39,7 +39,9 @@
 
 .dash_btn_accion {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
+    gap: 5px;
     padding: 9px 16px;
     border-radius: var(--radius-lg);
     font-size: 14px;

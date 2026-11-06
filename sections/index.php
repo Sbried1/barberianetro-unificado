@@ -118,10 +118,12 @@ if (!$resultado) {
                             <p class="tarjeta-barbero-nombre"><?= htmlspecialchars($nombreCompleto) ?></p>
                             <p class="tarjeta-barbero-puesto">Barbero</p>
                             <div class="separador"></div>
-                            <div class="especialidad">
-                                <i class="ph-fill ph-star especialidad_icon"></i>
-                                <p><?= e($especialidad) ?></p>
-                            </div>
+                            <?php if ($especialidad != ''):?>
+                                <div class="especialidad">
+                                    <i class="ph-fill ph-star especialidad_icon"></i>
+                                    <p><?= e($especialidad) ?></p>
+                                </div>
+                            <?php endif; ?>
                             <p class="tarjeta-barbero-datos"><?= $experiencia ?> <?= $experiencia === 1 ? 'Año' : 'Años' ?> de experiencia</p>
                             <?php if (!empty($barbero['en_netro_desde'])): ?>
                                 <p class="tarjeta-barbero-datos">En Netro desde <?= (int) $barbero['en_netro_desde'] ?></p>

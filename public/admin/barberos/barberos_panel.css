@@ -535,7 +535,7 @@
     border-radius: 12px;
     background: var(--bg-input);
     cursor: pointer;
-    margin-bottom: 8px;
+    margin-bottom: 1.35rem;
     padding: 16px;
     text-align: center;
     transition: 0.2s;

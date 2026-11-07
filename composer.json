@@ -1,0 +1,16 @@
+{
+    "name": "netro/barberia",
+    "description": "Barbería Netro: web de clientes y panel de administración.",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "config": {
+        "platform": {
+            "php": "8.0.30"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

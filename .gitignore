@@ -1,2 +1,11 @@
 *Zone.Identifier
+
+# Variables de entorno locales (contraseñas): nunca al repositorio.
+# .env.example sí se versiona.
 .env
+.env.*
+!.env.example
+
+# Respaldos y volcados locales
+*.bak
+*.log

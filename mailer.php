@@ -2,6 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+require_once __DIR__ . '/config/env.php';
 require __DIR__ . '/libs/PHPMailer/Exception.php';
 require __DIR__ . '/libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/libs/PHPMailer/SMTP.php';
@@ -10,6 +11,7 @@ function enviarCorreo(string $destino, string $nombre, string $asunto, string $h
 {
     // Sin datos de correo configurados (.env) no se intenta enviar: evita
     // que la página quede esperando la conexión con el servidor SMTP.
+    netro_cargar_env();
     if (!getenv('SMTP_USER') || !getenv('SMTP_PASS')) {
         error_log('mailer: falta SMTP_USER o SMTP_PASS en el .env; no se envió el correo.');
         return false;

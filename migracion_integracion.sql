@@ -5,7 +5,7 @@
 -- Una instalación nueva no la necesita: barberia_db.sql ya trae todo.
 --
 -- ANTES de ejecutarla, hacé una copia de seguridad:
---   Docker:  docker compose exec mysql mysqldump -uroot -proot barberia_db > respaldo_barberia_db.sql
+--   Docker:  docker compose exec mysql sh -c 'mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"' > respaldo_barberia_db.sql
 --   XAMPP:   phpMyAdmin > barberia_db > Exportar
 --
 -- Cambios:

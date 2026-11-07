@@ -5,7 +5,7 @@
 -- una tabla nueva y no modifica ni borra ninguna fila existente. Se puede
 -- volver a ejecutar sin efectos (IF NOT EXISTS / INSERT IGNORE).
 --
---   docker compose exec -T mysql mysql -uroot -proot --default-character-set=utf8mb4 barberia_db < migracion_panel_admin.sql
+--   docker compose exec -T mysql sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" --default-character-set=utf8mb4 "$MYSQL_DATABASE"' < migracion_panel_admin.sql
 --
 -- Por qué: el horizonte máximo de reservas del panel es configurable y
 -- tiene que seguir vigente después de cerrar sesión o reiniciar Docker.

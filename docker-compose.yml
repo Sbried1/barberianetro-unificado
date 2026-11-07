@@ -1,16 +1,30 @@
 
+# Todos los valores sensibles salen del archivo .env (copiarlo desde
+# .env.example). Docker Compose lee ese .env automáticamente para
+# reemplazar las ${VARIABLES} de este archivo.
+
 services:
   web:
     build: .
     ports:
       - "8080:80"
     volumes:
+      # El proyecto completo se monta en /var/www/html, pero Apache solo
+      # sirve /var/www/html/public (ver Dockerfile). config/, vendor/,
+      # libs/ y el .env quedan fuera del alcance del navegador.
       - .:/var/www/html
-    # Datos del correo (SMTP_USER, SMTP_PASS, APP_URL) para "Olvidé mi
-    # contraseña". Si no existe el archivo .env, el sitio arranca igual.
-    env_file:
-      - path: .env
-        required: false
+      # El .env se tapa dentro de este contenedor: PHP recibe solo las
+      # variables de "environment" (nunca MYSQL_ROOT_PASSWORD ni las de MySQL).
+      - /dev/null:/var/www/html/.env:ro
+    # Solo lo que PHP necesita: DB_* (conexión) y SMTP_* / APP_URL (correo).
+    environment:
+      DB_HOST: ${DB_HOST:-mysql}
+      DB_NAME: ${DB_NAME:?Falta DB_NAME en el .env}
+      DB_USER: ${DB_USER:?Falta DB_USER en el .env}
+      DB_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en el .env}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      APP_URL: ${APP_URL:-}
     depends_on:
       mysql:
         condition: service_healthy
@@ -18,15 +32,17 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: barberia_db
-      MYSQL_USER: barberia
-      MYSQL_PASSWORD: barberia123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Falta MYSQL_ROOT_PASSWORD en el .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?Falta MYSQL_DATABASE en el .env}
+      MYSQL_USER: ${MYSQL_USER:?Falta MYSQL_USER en el .env}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Falta MYSQL_PASSWORD en el .env}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./barberia_db.sql:/docker-entrypoint-initdb.d/barberia_db.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      # $$ = la variable se resuelve DENTRO del contenedor (la contraseña no
+      # queda escrita en este archivo).
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
       interval: 5s
       timeout: 5s
       retries: 20

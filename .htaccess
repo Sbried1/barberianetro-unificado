@@ -1,6 +1,18 @@
-# Archivos que no se sirven por HTTP (mismas reglas que el Dockerfile,
-# para que en XAMPP quede igual de protegido).
-<FilesMatch "(?i)\.(sql|txt|md|log|bak|yml|yaml|env|ini|conf|sh)$">
+# Raíz del proyecto (XAMPP / Apache sin Docker).
+# Solo public/ es accesible desde el navegador: la raíz redirige a public/
+# y cualquier otra ruta (config/, vendor/, libs/, scripts/, .env, .sql...)
+# se rechaza. En Docker esto no hace falta: el DocumentRoot ya es public/.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Redirige a public/ conservando la subcarpeta (/Barberia/ -> /Barberia/public/).
+    RewriteCond %{REQUEST_URI} ^(.*)/$
+    RewriteRule ^$ %1/public/ [R=302,L]
+    RewriteRule ^(?!public/) - [F,L]
+</IfModule>
+
+# Respaldo si mod_rewrite no está activo.
+<FilesMatch "(?i)\.(sql|txt|md|log|bak|yml|yaml|env|ini|conf|sh|json|lock)$">
     Require all denied
 </FilesMatch>
 

@@ -46,7 +46,7 @@ $mensajes_error = [
                 <h2>Registrarse</h2>
             </div>
             <div class="body_login">
-                <form method="POST" action="registrar_cliente.php">
+                <form method="POST" action="registrar_cliente.php" onsubmit="checkCharacters(event)">
                     <?= csrf_campo() ?>
                     <?php if (isset($mensajes_error[$error])): ?>
                         <p class="mensaje-error"><?= e($mensajes_error[$error]) ?></p>
@@ -61,15 +61,40 @@ $mensajes_error = [
                         <p class="mensaje-error">Este correo ya esta en uso</p>
                     <?php endif; ?>
                     <p>Contraseña <span class="requerido">*</span></p>
-                    <input type="password" name="passw" class="entrada" minlength="8" required>
+                    <input type="password" name="passw" class="entrada" minlength="12" id="pass" required>
+                    <div class="requisitos">
+                        <div id="txt">
+                            <div id="caracteres">
+                                <p>Caracteres:</p>
+                                <p id="actuales">0</p>
+                                <p>/</p>
+                                <p id="requeridos">12</p>
+                            </div>
+                            <div id="especiales">
+                                <p>Al menos un caracter especial</p>
+                            </div>
+                            <div id="mayus-min">
+                                <p>Mayúsculas y minúsculas</p>
+                            </div>
+                            <div id="num">
+                                <p>Al menos un numero</p>
+                            </div>
+                        </div>
+                        <div id="checks">
+                            <i class="ph ph-x mal" id="primero"></i>
+                            <i class="ph ph-x mal" id="segundo"></i>
+                            <i class="ph ph-x mal" id="tercero"></i>
+                            <i class="ph ph-x mal" id="cuarto"></i>
+                        </div>
+                    </div>
                     <p>Confirmar contraseña <span class="requerido">*</span></p>
-                    <input type="password" name="confirm_passw" class="entrada <?php echo $error_password ? 'error' : ''; ?>" minlength="8" required>
-
+                    <input type="password" name="confirm_passw" id="conf_passwd" class="entrada <?php echo $error_password ? 'error' : ''; ?>" minlength="12" required>
+                    <p id="coincidencia">Las contraseñas no coinciden</p>
                     <?php if ($error_password): ?>
-                        <p class="mensaje-error">Las contraseñas no coinciden</p>
+                        <p class="mensaje-error"></p>
                     <?php endif; ?>
 
-                    <button type="submit" class="boton_login" id="boton_continuar">
+                    <button type="submit" class="boton_login" id="boton_continuar" onclick="checkCharacters(event)">
                         <span class="btn_texto">Registrarse</span>
                         <span class="spinner"></span>
                     </button>
@@ -82,6 +107,68 @@ $mensajes_error = [
     </main>
 </body>
 <script>
+    const pass = document.getElementById("pass");
+    const conf_pass = document.getElementById("conf_passwd");
+    const caracteres_check = document.getElementById("primero");
+    const especial_check = document.getElementById("segundo");
+    const mayusmin_check = document.getElementById("tercero");
+    const num_check = document.getElementById("cuarto");
+    const coincidencia = document.getElementById("coincidencia");
+    let passLength = 0;
+    let tieneMayuscula = false;
+    let tieneNumero = false;
+    let tieneEspecial = false;
+    let password_coinciden = false;
+
+    function chequear(cual){
+        cual.classList.remove("ph-x")
+        cual.classList.add("ph-check");
+        cual.classList.remove("mal");
+        cual.classList.add("bien");
+    }
+    function uncheck(cual){
+        cual.classList.add("ph-x")
+        cual.classList.remove("ph-check");
+        cual.classList.add("mal");
+        cual.classList.remove("bien");
+    }
+
+    pass.addEventListener("input", () => {
+        passLength = pass.value.length;
+        conf_passLength = conf_pass.value.length;
+        tieneMayuscula = /[A-Z]/.test(pass.value);
+        tieneNumero = /[0-9]/.test(pass.value);
+        tieneEspecial = /[^a-zA-Z0-9]/.test(pass.value);
+        document.getElementById("actuales").textContent = passLength;
+
+        if(passLength >= 12){chequear(caracteres_check);}else{uncheck(caracteres_check);}
+        if(tieneMayuscula){chequear(mayusmin_check);}else{uncheck(mayusmin_check);}
+        if(tieneNumero){chequear(num_check);}else{uncheck(num_check);}
+        if(tieneEspecial){chequear(especial_check);}else{uncheck(especial_check);}
+    });
+
+    function comprobarCoincidencia() {
+        if (pass.value === conf_pass.value && pass.value.length > 0) {
+            coincidencia.style.color = "#4FFF00";
+            coincidencia.textContent = "Las contraseñas coinciden";
+            password_coinciden = true;
+        } else {
+            coincidencia.style.color = "#ff0000";
+            coincidencia.textContent = "Las contraseñas no coinciden";
+            password_coinciden = false;
+        }
+    }
+
+    pass.addEventListener("input", comprobarCoincidencia);
+    conf_pass.addEventListener("input", comprobarCoincidencia);
+
+    function checkCharacters(){
+        if (passLength < 11 || !tieneMayuscula || !tieneNumero || !tieneEspecial || !password_coinciden){
+            event.preventDefault();
+            alert("La contraseña no cumple los requisitos")
+        }
+    }
+
     document.querySelector("form").addEventListener("submit", function () {
         const boton = this.querySelector('button[type="submit"]');
         boton.classList.add("loading");

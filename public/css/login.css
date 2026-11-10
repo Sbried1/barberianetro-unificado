@@ -168,6 +168,75 @@ body{
 .boton_restablecer_passwd{
     margin-bottom: 1rem;
 }
+#caracteres{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.requisitos{
+    display: flex;
+    flex-direction: row;
+    align-self:flex-start;
+    background: #0c121c;
+    border: 1px solid #3e4e69;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+}
+#checks{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: auto;
+    box-sizing: border-box;
+}
+#txt{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.requisitos p{
+    color: rgb(198, 207, 226);
+}
+#especiales{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+#mayus-min{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.mal{
+    width: 20px;
+    height: 20px;
+    background: #381313d5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    border-radius: 25%;
+}
+.bien{
+    width: 20px;
+    height: 20px;
+    background: #163813d5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(9, 255, 0);
+    border-radius: 25%;
+}
+#coincidencia{
+    color: red;
+}
 
 
 /* Hover solo con mouse (en táctil queda "pegado" tras tocar) */

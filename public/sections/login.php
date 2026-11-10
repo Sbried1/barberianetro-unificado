@@ -5,6 +5,7 @@ session_check();
 $error = $_GET["error"] ?? "";
 $error_credenciales = ($error === "credenciales");
 $error_sesion = ($error === "sesion");
+$error_bloqueado = ($error === "bloqueado");
 ?>
 
 
@@ -54,6 +55,11 @@ $error_sesion = ($error === "sesion");
                     <?php endif ?>
                     <?php if ($error_sesion): ?>
                         <p class="mensaje-error">El formulario venció. Volvé a intentarlo.</p>
+                    <?php endif ?>
+                    <?php if ($error_bloqueado): ?>
+                        <p class="mensaje-error">
+                            Demasiados intentos. Vuelve a intentarlo en 1 minuto.
+                        </p>
                     <?php endif ?>
                     <button type="submit" class="boton_login" id="boton_continuar">
                         <span class="btn_texto">Iniciar sesión</span>

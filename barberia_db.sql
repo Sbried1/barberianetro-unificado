@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql:3306
--- Tiempo de generación: 06-11-2026 a las 00:55:08
+-- Tiempo de generación: 10-11-2026 a las 06:41:15
 -- Versión del servidor: 8.0.46
 -- Versión de PHP: 8.3.26
 
@@ -39,14 +39,6 @@ CREATE TABLE `barbero` (
   `anio_inicio` year NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `barbero`
---
-
-INSERT INTO `barbero` (`id_barbero`, `contrasena`, `url_imagen`, `nombre`, `apellido`, `especialidad`, `en_netro_desde`, `estado`, `anio_inicio`) VALUES
-(1, '$2y$10$bSoSRRrqLs.0T7qpT2ENLOggy/7wUDq7SCkM.gxDJQymcMeRxH9OS', NULL, 'Manuel', 'Castillo', NULL, 2026, 'Disponible', '2019'),
-(2, '$2y$10$mHKQWy3bD/L1AvSQ3sFGoOoQMXDEO0wJ.QbKUTUMnCErLpliVbVyq', NULL, 'Carlos', 'Fernandez', NULL, 2025, 'Disponible', '2024');
-
 -- --------------------------------------------------------
 
 --
@@ -58,15 +50,10 @@ CREATE TABLE `cliente` (
   `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `apellido` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `contrasena` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `contrasena` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `intentos_fallidos` int NOT NULL DEFAULT '0',
+  `bloqueado_hasta` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `cliente`
---
-
-INSERT INTO `cliente` (`id_cliente`, `email`, `nombre`, `apellido`, `contrasena`) VALUES
-(1, 'sbriedmo@gmail.com', 'Damián', 'Mendieta', '$2y$10$4PassV6pdzjazzm1GeiIcO3d5TKkSUJ91D5eE6SiFv1X4GFfxu0D6');
 
 -- --------------------------------------------------------
 
@@ -75,8 +62,8 @@ INSERT INTO `cliente` (`id_cliente`, `email`, `nombre`, `apellido`, `contrasena`
 --
 
 CREATE TABLE `configuracion` (
-  `clave` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `valor` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `clave` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `valor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -99,13 +86,6 @@ CREATE TABLE `gerente` (
   `apellido` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `gerente`
---
-
-INSERT INTO `gerente` (`id_gerente`, `contrasena`, `nombre`, `apellido`, `email`) VALUES
-(1, '$2y$10$pPhMn1bTm6AEabnyC/MD7OkTM9joHdJntyurQyeonU4u.4nPJZA7W', 'prueba', 'prueba', 'sprueba@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -138,15 +118,6 @@ CREATE TABLE `reserva` (
   `estado` enum('pendiente','confirmada','completada','cancelada') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `reserva`
---
-
-INSERT INTO `reserva` (`id_reserva`, `id_cliente`, `id_barbero`, `id_gerente`, `fecha`, `hora`, `email`, `estado`) VALUES
-(1, 1, 1, NULL, '2026-11-19', '14:00:00', 'sbriedmo@gmail.com', 'pendiente'),
-(2, 1, 2, NULL, '2026-11-20', '10:00:00', 'sbriedmo@gmail.com', 'pendiente'),
-(3, 1, 2, NULL, '2026-11-07', '16:00:00', 'sbriedmo@gmail.com', 'cancelada');
-
 -- --------------------------------------------------------
 
 --
@@ -162,14 +133,6 @@ CREATE TABLE `servicio` (
   `precio` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `servicio`
---
-
-INSERT INTO `servicio` (`id_servicio`, `categoria`, `nombre`, `duracion`, `descripcion`, `precio`) VALUES
-(1, 'Pelo', 'Corte clásico', '45 min', 'Corte clásico con tijera y máquina.', '400'),
-(2, 'Barba', 'Arreglo de barba', '45 min', 'Arreglo de barba profesional y prolijo.', '300');
-
 -- --------------------------------------------------------
 
 --
@@ -181,16 +144,6 @@ CREATE TABLE `servicioreserva` (
   `id_servicio` int NOT NULL,
   `id_reserva` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `servicioreserva`
---
-
-INSERT INTO `servicioreserva` (`id_sr`, `id_servicio`, `id_reserva`) VALUES
-(1, 2, 1),
-(2, 2, 2),
-(3, 1, 2),
-(4, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -290,19 +243,19 @@ ALTER TABLE `venta`
 -- AUTO_INCREMENT de la tabla `barbero`
 --
 ALTER TABLE `barbero`
-  MODIFY `id_barbero` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_barbero` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cliente` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `gerente`
 --
 ALTER TABLE `gerente`
-  MODIFY `id_gerente` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_gerente` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `password_resets`
@@ -314,19 +267,19 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id_reserva` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_reserva` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `servicio`
 --
 ALTER TABLE `servicio`
-  MODIFY `id_servicio` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_servicio` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `servicioreserva`
 --
 ALTER TABLE `servicioreserva`
-  MODIFY `id_sr` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_sr` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`

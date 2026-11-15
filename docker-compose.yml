@@ -17,6 +17,7 @@ services:
       # variables de "environment" (nunca MYSQL_ROOT_PASSWORD ni las de MySQL).
       - /dev/null:/var/www/html/.env:ro
     # Solo lo que PHP necesita: DB_* (conexión) y SMTP_* / APP_URL (correo).
+      - ./logs:/var/log/php
     environment:
       DB_HOST: ${DB_HOST:-mysql}
       DB_NAME: ${DB_NAME:?Falta DB_NAME en el .env}

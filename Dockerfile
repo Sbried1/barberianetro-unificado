@@ -1,6 +1,12 @@
 
 FROM php:8.3-apache
 
+COPY config/php.ini /usr/local/etc/php/conf.d/custom.ini
+
+RUN mkdir -p /var/log/php \
+    && touch /var/log/php/error.log \
+    && chown -R www-data:www-data /var/log/php
+    
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Apache sirve solo la carpeta public/. config/, vendor/, libs/, scripts/,

@@ -150,13 +150,13 @@ html{
 }
 /* background-image (no el shorthand "background") para no pisar background-size: cover */
 #img1{
-    background-image: url(../resources/images/img-inicio-1.webp);
+    background-image: url(../resources/images/placeholder.png);
 }
 #img2{
-    background-image: url(../resources/images/img-inicio-1.webp);
+    background-image: url(../resources/images/placeholder.png);
 }
 #img3{
-    background-image: url(../resources/images/img-inicio-1.webp);
+    background-image: url(../resources/images/placeholder.png);
 }
 
 /* ============ UBICACIÓN ============ */
